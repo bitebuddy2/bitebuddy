@@ -5,7 +5,6 @@ import { client } from "@/sanity/client";
 import { recipeBySlugQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/image";
 
-// Sanity portable-text blocks -> plain text (simple helper)
 type StepBlock = { _type?: string; children?: { text?: string }[] } | string;
 function blockToText(b: StepBlock) {
   if (typeof b === "string") return b;
@@ -15,7 +14,7 @@ function blockToText(b: StepBlock) {
   return "";
 }
 
-// SEO: dynamic <title>, OG image, etc. based on recipe
+// Dynamic <title> / OG based on the recipe
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const data = await client.fetch(recipeBySlugQuery, { slug: params.slug });
   if (!data) return {};
@@ -63,28 +62,36 @@ export default async function RecipePage({ params }: { params: { slug: string } 
 
       <div className="mt-8 grid gap-8 md:grid-cols-2">
         {/* Ingredients */}
-        <section className="rounded-2xl border p-4">
-          <h2 className="mb-3 text-xl font-semibold tracking-tight">Ingredients</h2>
-          {Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 ? (
-            <ul className="space-y-2 text-sm">
-              {recipe.ingredients.map((ing: any, i: number) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-emerald-600" />
-                  <span>
-                    <strong>
-                      {ing?.quantity ? `${ing.quantity} ` : ""}
-                      {ing?.unit || ""}
-                    </strong>{" "}
-                    {ing?.item?.name || ing?.name || "Ingredient"}
-                    {ing?.note ? ` — ${ing.note}` : ""}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600">No ingredients listed.</p>
-          )}
-        </section>
+<section className="rounded-2xl border p-4">
+  <h2 className="mb-3 text-xl font-semibold tracking-tight">Ingredients</h2>
+
+  {Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 ? (
+    <ul className="space-y-2 text-sm">
+      {recipe.ingredients.map((ing: any, i: number) => {
+        const name =
+          ing?.item?.name ??
+          ing?.ingredient?.name ?? // fallback if schema ever used 'ingredient'
+          "Ingredient";
+
+        const qtyUnit = [ing?.quantity, ing?.unit].filter(Boolean).join(" ");
+
+        return (
+          <li key={i} className="flex items-start gap-2">
+            <span className="mt-1 h-2 w-2 rounded-full bg-emerald-600" />
+            <span>
+              {qtyUnit && <strong>{qtyUnit} </strong>}
+              {name}
+              {ing?.note ? ` — ${ing.note}` : ""}
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  ) : (
+    <p className="text-gray-600">No ingredients listed.</p>
+  )}
+</section>
+
 
         {/* Instructions */}
         <section className="rounded-2xl border p-4">
@@ -100,6 +107,66 @@ export default async function RecipePage({ params }: { params: { slug: string } 
           )}
         </section>
       </div>
+
+      {/* JSON-LD: Recipe */}
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Recipe",
+            name: recipe.title,
+            description: recipe.description || "UK copycat recipe",
+            image: recipe.heroImage
+              ? urlForImage(recipe.heroImage).width(1200).height(630).url()
+              : undefined,
+            recipeYield: recipe.servings ? String(recipe.servings) : undefined,
+            prepTime: recipe.prepTime ? `PT${recipe.prepTime}M` : undefined,
+            cookTime: recipe.cookTime ? `PT${recipe.cookTime}M` : undefined,
+            totalTime:
+              recipe.prepTime || recipe.cookTime
+                ? `PT${(recipe.prepTime || 0) + (recipe.cookTime || 0)}M`
+                : undefined,
+            recipeIngredient: Array.isArray(recipe.ingredients)
+  ? recipe.ingredients.map((ing: any) => {
+      const name =
+        ing?.item?.name ??
+        ing?.ingredient?.name ??
+        "Ingredient";
+      const qtyUnit = [ing?.quantity, ing?.unit].filter(Boolean).join(" ");
+      return [qtyUnit, name, ing?.note].filter(Boolean).join(" ");
+    })
+  : [],
+
+            recipeInstructions: Array.isArray(recipe.instructions)
+              ? recipe.instructions.map((s: any) => ({
+                  "@type": "HowToStep",
+                  text:
+                    (Array.isArray(s?.children)
+                      ? s.children.map((c: any) => c?.text).join("")
+                      : String(s)) || "",
+                }))
+              : [],
+            author: { "@type": "Organization", name: "Bite Buddy" },
+          }),
+        }}
+      />
+
+      {/* JSON-LD: Breadcrumbs */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Recipes", item: "/recipes" },
+              { "@type": "ListItem", position: 2, name: recipe.title, item: `/recipes/${params.slug}` },
+            ],
+          }),
+        }}
+      />
     </main>
   );
 }

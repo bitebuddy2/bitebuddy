@@ -29,15 +29,14 @@ export const metadata: Metadata = {
     url: SITE.url,
     title: `${SITE.name} — ${SITE.slogan}`,
     description: "Recreate your favourite UK restaurant & bakery dishes at home.",
+    images: ["/og.jpg"],               // ✅ default OG image
   },
   twitter: {
     card: "summary_large_image",
     site: SITE.twitter,
+    images: ["/og.jpg"],               // ✅ default Twitter image
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
