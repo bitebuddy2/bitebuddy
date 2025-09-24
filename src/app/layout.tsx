@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SITE } from "@/lib/seo"; // centralised SEO settings
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +16,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bite Buddy — UK Copycat Recipes",
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: `${SITE.name} — ${SITE.slogan}`,
+    template: `%s — ${SITE.name}`,
+  },
   description: "Recreate your favourite UK restaurant & bakery dishes at home.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    siteName: SITE.name,
+    type: "website",
+    url: SITE.url,
+    title: `${SITE.name} — ${SITE.slogan}`,
+    description: "Recreate your favourite UK restaurant & bakery dishes at home.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: SITE.twitter,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
