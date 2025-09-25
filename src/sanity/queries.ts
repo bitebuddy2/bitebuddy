@@ -1,43 +1,101 @@
-// List of recipes for the homepage / list pages
-export const allRecipesQuery = /* groq */ `
-*[_type == "recipe"]{
+import { groq } from "next-sanity";
+
+// ✅ Homepage / list pages (grid of recipes)
+export const allRecipesQuery = groq/* groq */ `
+*[_type == "recipe"] | order(_createdAt desc){
   "slug": slug.current,
   title,
-  heroImage
-} | order(_createdAt desc)
+  heroImage{
+    asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    alt
+  }
+}
 `;
 
-// All slugs for static params (detail pages)
-export const recipeSlugsQuery = /* groq */ `
+// ✅ All slugs for static params (Next.js generateStaticParams)
+export const recipeSlugsQuery = groq/* groq */ `
 *[_type == "recipe" && defined(slug.current)][]{
   "slug": slug.current
 }
 `;
 
-// Single recipe (detail page) — dereferences ingredient references
-export const recipeBySlugQuery = /* groq */ `
+// ✅ Single recipe detail page
+export const recipeBySlugQuery = groq/* groq */ `
 *[_type == "recipe" && slug.current == $slug][0]{
+  _id,
   title,
+  "slug": slug.current,
   description,
   servings,
-  prepTime,
-  cookTime,
-  heroImage,
-  ingredients[]{
-    quantity,
-    unit,
-    note,
-    "item": coalesce(
-      item->{
-        name,
-        allergens
-      },
-      ingredient->{
-        name,
-        allergens
-      }
-    )
+  prepMin,
+  cookMin,
+  heroImage{
+    asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    alt
   },
-  instructions
+
+  // New long-form fields
+  introText,
+  brandContext,
+
+  // Ingredients (grouped, with reference deref)
+  ingredients[]{
+    heading,
+    items[]{
+      quantity,
+      unit,
+      notes,
+      ingredientText,
+      ingredientRef->{
+        _id,
+        name,
+        allergens,
+        kcal100, protein100, fat100, carbs100,
+        density_g_per_ml, gramsPerPiece
+      }
+    }
+  },
+
+  // Method steps
+  steps[]{
+    step,
+    stepImage{
+      asset->{
+        _id,
+        url,
+        metadata { lqip, dimensions }
+      },
+      alt
+    }
+  },
+
+  // Extras
+  tips[],
+  faqs[]{ question, answer },
+  nutrition{ calories, protein, fat, carbs },
+
+  // Community
+  ratingCount,
+  ratingSum,
+
+  // SEO
+  seoTitle,
+  seoDescription,
+  canonicalUrl,
+
+  // Relations
+  collections[]->{
+    _id,
+    title,
+    "slug": slug.current
+  }
 }
 `;

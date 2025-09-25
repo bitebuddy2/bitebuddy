@@ -1,103 +1,265 @@
-import { defineType, defineField } from "sanity";
+import {defineType, defineField} from "sanity";
 
 export default defineType({
   name: "recipe",
   title: "Recipe",
   type: "document",
   fields: [
+    // Core
     defineField({
       name: "title",
       title: "Title",
       type: "string",
-      validation: (r) => r.required(),
+      validation: r => r.required().min(3)
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      options: { source: "title" },
-      validation: (r) => r.required(),
+      options: { source: "title", maxLength: 96 },
+      validation: r => r.required()
     }),
     defineField({
       name: "description",
-      title: "Description",
+      title: "Short Description",
+      description: "1–2 sentence teaser that can double as meta description if needed.",
       type: "text",
+      rows: 2,
+      validation: r => r.required().min(20)
     }),
     defineField({
       name: "heroImage",
       title: "Hero Image",
       type: "image",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          validation: r => r.required().min(5)
+        })
+      ],
+      validation: r => r.required()
     }),
+
+    // Timings & yield
     defineField({
       name: "servings",
       title: "Servings",
       type: "number",
+      validation: r => r.required().min(1).max(24)
     }),
     defineField({
-      name: "prepTime",
+      name: "prepMin",
       title: "Prep Time (minutes)",
       type: "number",
+      validation: r => r.required().min(0).max(24 * 60)
     }),
     defineField({
-      name: "cookTime",
+      name: "cookMin",
       title: "Cook Time (minutes)",
       type: "number",
+      validation: r => r.required().min(0).max(24 * 60)
     }),
+
+    // Expanded content for SEO & UX
+    defineField({
+      name: "introText",
+      title: "Intro Text",
+      description: "100–200 words: what the dish is, why it’s great, quick context.",
+      type: "text",
+      rows: 4
+    }),
+    defineField({
+      name: "brandContext",
+      title: "Brand / Copycat Context",
+      description: "1–3 short paragraphs about the restaurant/chain inspiration.",
+      type: "array",
+      of: [{ type: "block" }]
+    }),
+
+    // Ingredients & Steps
+    // If you have a separate Ingredient document type, you can switch 'ingredientRef'
+    // to a reference. This structure supports both plain text and referenced items.
     defineField({
       name: "ingredients",
       title: "Ingredients",
       type: "array",
       of: [
+        defineField({
+          name: "ingredientGroup",
+          title: "Ingredient Group",
+          type: "object",
+          fields: [
+            defineField({
+              name: "heading",
+              title: "Group Heading (optional)",
+              type: "string"
+            }),
+            defineField({
+              name: "items",
+              title: "Items",
+              type: "array",
+              of: [
+                {
+                  type: "object",
+                  fields: [
+                    // Use ONE of the two below depending on your data model:
+                    defineField({
+                      name: "ingredientText",
+                      title: "Ingredient (free text)",
+                      type: "string",
+                      hidden: ({ parent }) => !!parent?.ingredientRef
+                    }),
+                    defineField({
+                      name: "ingredientRef",
+                      title: "Ingredient (reference)",
+                      type: "reference",
+                      to: [{ type: "ingredient" }],
+                      hidden: ({ parent }) => !!parent?.ingredientText
+                    }),
+                    defineField({ name: "quantity", title: "Quantity", type: "string" }),
+                    defineField({ name: "unit", title: "Unit", type: "string" }),
+                    defineField({ name: "notes", title: "Notes", type: "string" })
+                  ]
+                }
+              ]
+            })
+          ]
+        })
+      ],
+      validation: r => r.required().min(1)
+    }),
+    defineField({
+      name: "steps",
+      title: "Method / Steps",
+      type: "array",
+      of: [
         {
           type: "object",
           fields: [
-            {
-              name: "item",
-              title: "Ingredient",
-              type: "reference",
-              to: [{ type: "ingredient" }],
-              validation: (r) => r.required(),
-            },
-            {
-              name: "quantity",
-              title: "Quantity",
-              type: "string", // keep as string so you can enter "½" or "1 ½"
-            },
-            {
-              name: "unit",
-              title: "Unit (optional)",
-              type: "string", // e.g. g, tsp, sheet
-            },
-            {
-              name: "note",
-              title: "Note (optional)",
-              type: "string", // e.g. finely chopped
-            },
-          ],
-          preview: {
-            select: {
-              title: "item.name",
-              quantity: "quantity",
-              unit: "unit",
-              note: "note",
-            },
-            prepare({ title, quantity, unit, note }) {
-              const qty = quantity || "";
-              const u = unit || "";
-              const n = note ? ` — ${note}` : "";
-              return {
-                title: `${qty} ${u} ${title || "Ingredient"}${n}`,
-              };
-            },
-          },
-        },
+            defineField({
+              name: "step",
+              title: "Step",
+              type: "array",
+              of: [{ type: "block" }]
+            }),
+            defineField({
+              name: "stepImage",
+              title: "Step Image (optional)",
+              type: "image",
+              options: { hotspot: true },
+              fields: [{ name: "alt", title: "Alt text", type: "string" }]
+            })
+          ]
+        }
       ],
+      validation: r => r.required().min(1)
+    }),
+
+    // Tips, FAQs, Nutrition
+    defineField({
+      name: "tips",
+      title: "Tips & Variations",
+      type: "array",
+      of: [{ type: "text" }]
     }),
     defineField({
-      name: "instructions",
-      title: "Instructions",
+      name: "faqs",
+      title: "FAQs",
       type: "array",
-      of: [{ type: "block" }],
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "question", title: "Question", type: "string", validation: r => r.required() }),
+            defineField({ name: "answer", title: "Answer", type: "text", rows: 3, validation: r => r.required() })
+          ],
+          preview: {
+            select: { title: "question", subtitle: "answer" }
+          }
+        }
+      ]
     }),
+    defineField({
+      name: "nutrition",
+      title: "Nutrition (per serving, approx.)",
+      type: "object",
+      fields: [
+        defineField({ name: "calories", title: "Calories (kcal)", type: "number" }),
+        defineField({ name: "protein", title: "Protein (g)", type: "number" }),
+        defineField({ name: "fat", title: "Fat (g)", type: "number" }),
+        defineField({ name: "carbs", title: "Carbs (g)", type: "number" })
+      ]
+    }),
+
+    // Ratings accumulators (for the star widget API)
+    defineField({
+      name: "ratingCount",
+      title: "Rating Count",
+      type: "number",
+      readOnly: true,
+      initialValue: 0
+    }),
+    defineField({
+      name: "ratingSum",
+      title: "Rating Sum",
+      description: "Sum of all rating values (average = ratingSum / ratingCount).",
+      type: "number",
+      readOnly: true,
+      initialValue: 0
+    }),
+
+    // SEO (optional but handy)
+    defineField({
+      name: "seoTitle",
+      title: "SEO Title",
+      type: "string",
+      validation: r => r.max(60)
+    }),
+    defineField({
+      name: "seoDescription",
+      title: "SEO Description",
+      type: "text",
+      rows: 2,
+      validation: r => r.max(160)
+    }),
+    defineField({
+      name: "canonicalUrl",
+      title: "Canonical URL (optional)",
+      type: "url"
+    }),
+
+    // Relations / Collections
+    defineField({
+      name: "collections",
+      title: "Collections",
+      description: "Group into hubs like 'Best Wagamama Recipes', 'Greggs Copycats', etc.",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "collection" }] }]
+    })
   ],
+  preview: {
+    select: {
+      title: "title",
+      media: "heroImage",
+      servings: "servings",
+      prep: "prepMin",
+      cook: "cookMin"
+    },
+    prepare({ title, media, servings, prep, cook }) {
+      const meta = [
+        servings ? `${servings} servings` : null,
+        (prep ?? null) !== null && (cook ?? null) !== null ? `⏱ ${prep + cook} min total` : null
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      return {
+        title: title || "Untitled recipe",
+        media,
+        subtitle: meta
+      };
+    }
+  }
 });
