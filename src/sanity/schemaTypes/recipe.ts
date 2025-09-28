@@ -103,6 +103,7 @@ export default defineType({
               type: "array",
               of: [
                 {
+                  name: "ingredientItem",
                   type: "object",
                   fields: [
                     // Use ONE of the two below depending on your data model:

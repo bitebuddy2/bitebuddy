@@ -39,11 +39,11 @@ function hasNutrition(n?: { calories?: number; protein?: number; fat?: number; c
 function ingredientLines(groups: IngredientGroup[] | undefined) {
   if (!groups) return [];
   const out: string[] = [];
-  for (const g of groups) {
-    for (const it of g.items || []) {
-      const name = it.ingredientText || it.ingredientRef?.name || "Ingredient";
-      const qtyUnit = [it.quantity, it.unit].filter(Boolean).join(" ");
-      const label = [qtyUnit, name, it.notes].filter(Boolean).join(" ");
+  for (const group of groups) {
+    for (const item of group.items || []) {
+      const name = item.ingredientText || item.ingredientRef?.name || "Ingredient";
+      const qtyUnit = [item.quantity, item.unit].filter(Boolean).join(" ");
+      const label = [qtyUnit, name, item.notes].filter(Boolean).join(" ");
       out.push(label);
     }
   }
@@ -80,6 +80,31 @@ export async function generateMetadata(
 
 export default async function RecipePage({ params }: { params: { slug: string } }) {
   const recipe = await client.fetch<Recipe | null>(recipeBySlugQuery, { slug: params.slug });
+
+  // TEMP DEBUG: Log what we actually received
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🔍 FRONTEND DEBUG - Recipe data received:');
+    console.log('  Title:', recipe?.title);
+    console.log('  Ingredients:', JSON.stringify(recipe?.ingredients, null, 2));
+
+    // Debug each ingredient item specifically
+    recipe?.ingredients?.forEach((group, gi) => {
+      console.log(`Group ${gi + 1}:`, group.heading || '(no heading)');
+      group.items?.forEach((item, ii) => {
+        const name = item.ingredientText || item.ingredientRef?.name || "Ingredient";
+        console.log(`  Item ${ii + 1}: ${item.quantity} ${item.unit} ${name}`);
+        if (name === "Ingredient") {
+          console.warn(`  ⚠️ Fallback used for item ${ii + 1}:`, {
+            ingredientText: item.ingredientText,
+            ingredientRef: item.ingredientRef,
+            hasRef: !!item.ingredientRef,
+            refName: item.ingredientRef?.name
+          });
+        }
+      });
+    });
+  }
+
   if (!recipe) notFound();
 
   const {
@@ -151,6 +176,17 @@ export default async function RecipePage({ params }: { params: { slug: string } 
                       const name = it.ingredientText || it.ingredientRef?.name || "Ingredient";
                       const qtyUnit = [it.quantity, it.unit].filter(Boolean).join(" ");
                       const label = [qtyUnit, name].filter(Boolean).join(" ");
+
+                      // Debug: warn in development if ingredient data is missing
+                      if (process.env.NODE_ENV === 'development' && name === "Ingredient") {
+                        console.warn(`Missing ingredient data for item ${ii + 1} in ${recipe.title}:`, {
+                          ingredientText: it.ingredientText,
+                          ingredientRef: it.ingredientRef,
+                          quantity: it.quantity,
+                          unit: it.unit
+                        });
+                      }
+
                       return (
                         <li key={ii} className="flex items-start gap-2">
                           <span className="mt-1 h-2 w-2 rounded-full bg-emerald-600" />
