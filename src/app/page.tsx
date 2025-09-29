@@ -1,14 +1,14 @@
 import Link from "next/link";
-import Image from "next/image";
 import TopSearch from "@/components/TopSearch";
 import IngredientFinder from "@/components/IngredientFinder";
+import RecipeCard from "@/components/RecipeCard";
 import { client } from "@/sanity/client";
-import { urlForImage } from "@/sanity/image";
-import { allRecipesQuery } from "@/sanity/queries";
+import { allRecipesForCardsQuery } from "@/sanity/queries";
+
+type CardRecipe = Parameters<typeof RecipeCard>[0]["r"];
 
 export default async function HomePage() {
-  const recipes: { slug: string; title: string; heroImage?: any }[] =
-    await client.fetch(allRecipesQuery);
+  const recipes: CardRecipe[] = await client.fetch(allRecipesForCardsQuery);
 
   return (
     <main>
@@ -50,34 +50,9 @@ export default async function HomePage() {
         {recipes.length === 0 ? (
           <p className="text-gray-500">No recipes yet — add one in the Studio.</p>
         ) : (
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {recipes.map((r) => (
-              <li
-                key={r.slug}
-                className="overflow-hidden rounded-lg border transition hover:shadow-md focus-within:shadow-md"
-              >
-                <Link href={`/recipes/${r.slug}`} className="block">
-                  {r.heroImage ? (
-                    <Image
-                      src={urlForImage(r.heroImage).width(800).height(500).url()}
-                      alt={r.title}
-                      width={800}
-                      height={500}
-                      className="aspect-[16/10] w-full object-cover"
-                    />
-                  ) : (
-                    <div className="aspect-[16/10] w-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-                      No image
-                    </div>
-                  )}
-                  <div className="p-4">
-                    <h2 className="text-lg font-semibold">{r.title}</h2>
-                    <span className="mt-1 inline-block text-xs text-emerald-700">
-                      Open →
-                    </span>
-                  </div>
-                </Link>
-              </li>
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {recipes.slice(0, 6).map((r) => (
+              <RecipeCard key={r.slug} r={r} />
             ))}
           </ul>
         )}

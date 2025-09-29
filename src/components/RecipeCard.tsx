@@ -18,6 +18,15 @@ type CardRecipe = {
     asset?: { url: string; metadata?: { lqip?: string } };
     alt?: string;
   };
+  brand?: {
+    _id: string;
+    title: string;
+    slug: string;
+    logo?: {
+      asset?: { url: string; metadata?: { lqip?: string } };
+      alt?: string;
+    };
+  };
 };
 
 function pill(label: string) {
@@ -68,14 +77,26 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
         </div>
 
         {/* Brand tag (under image) */}
-        <div className="flex items-center gap-2 px-4 pt-3 text-sm">
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-gray-900 text-white">
-            <ChainLogo className="h-3.5 w-3.5" />
-          </span>
-          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-gray-700">
-            Kitchen by Bite Buddy
-          </span>
-        </div>
+        {r.brand && (
+          <div className="flex items-center gap-2 px-4 pt-3 text-sm">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-gray-900 text-white overflow-hidden">
+              {r.brand.logo?.asset?.url ? (
+                <Image
+                  src={r.brand.logo.asset.url}
+                  alt={r.brand.logo.alt || r.brand.title}
+                  width={24}
+                  height={24}
+                  className="object-cover"
+                />
+              ) : (
+                <ChainLogo className="h-3.5 w-3.5" />
+              )}
+            </span>
+            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-gray-700">
+              {r.brand.title}
+            </span>
+          </div>
+        )}
 
         {/* Title & blurb */}
         <div className="px-4 pb-4 pt-2">

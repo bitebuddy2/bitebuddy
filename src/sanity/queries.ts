@@ -91,11 +91,12 @@ export const recipeBySlugQuery = groq/* groq */ `
   seoDescription,
   canonicalUrl,
 
-  // Relations
-  collections[]->{
+  // Brand
+  brand->{
     _id,
     title,
-    "slug": slug.current
+    "slug": slug.current,
+    logo
   }
 }
 `;
@@ -114,6 +115,15 @@ export const allRecipesForCardsQuery = groq/* groq */ `
   heroImage{
     asset->{ url, metadata { lqip, dimensions } },
     alt
+  },
+  brand->{
+    _id,
+    title,
+    "slug": slug.current,
+    logo{
+      asset->{ url, metadata { lqip } },
+      alt
+    }
   }
 }
 `;

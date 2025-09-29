@@ -296,13 +296,13 @@ export default defineType({
       type: "url"
     }),
 
-    // Relations / Collections
+    // Brand / Chain
     defineField({
-      name: "collections",
-      title: "Collections",
-      description: "Group into hubs like 'Best Wagamama Recipes', 'Greggs Copycats', etc.",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "collection" }] }]
+      name: "brand",
+      title: "Brand",
+      description: "The restaurant chain or brand this recipe is inspired by (e.g., Wagamama, Greggs, McDonald's).",
+      type: "reference",
+      to: [{ type: "brand" }]
     })
   ],
   preview: {
