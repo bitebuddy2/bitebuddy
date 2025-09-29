@@ -241,3 +241,16 @@ export const recipesByIngredientNamesQuery = groq/* groq */ `
   ])
 } | order(totalMatches desc, _createdAt desc)[totalMatches > 0]
 `;
+
+// ✅ Get all brands for filtering
+export const allBrandsQuery = groq/* groq */ `
+*[_type == "brand"] | order(title asc){
+  _id,
+  title,
+  "slug": slug.current,
+  logo{
+    asset->{ url, metadata{ lqip } },
+    alt
+  }
+}
+`;
