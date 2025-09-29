@@ -99,3 +99,21 @@ export const recipeBySlugQuery = groq/* groq */ `
   }
 }
 `;
+
+export const allRecipesForCardsQuery = groq/* groq */ `
+*[_type == "recipe"] | order(_createdAt desc){
+  "slug": slug.current,
+  title,
+  description,
+  introText,
+  servings,
+  prepMin,
+  cookMin,
+  kcal, // optional if you store per-serving kcal
+  isSignature, // optional boolean in your schema
+  heroImage{
+    asset->{ url, metadata { lqip, dimensions } },
+    alt
+  }
+}
+`;

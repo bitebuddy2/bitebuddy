@@ -121,7 +121,38 @@ export default defineType({
                       hidden: ({ parent }) => !!parent?.ingredientText
                     }),
                     defineField({ name: "quantity", title: "Quantity", type: "string" }),
-                    defineField({ name: "unit", title: "Unit", type: "string" }),
+                    defineField({
+                      name: "unit",
+                      title: "Unit",
+                      type: "string",
+                      options: {
+                        list: [
+                          { title: "g", value: "g" },
+                          { title: "kg", value: "kg" },
+                          { title: "oz", value: "oz" },
+                          { title: "lb", value: "lb" },
+                          { title: "ml", value: "ml" },
+                          { title: "l", value: "l" },
+                          { title: "tsp", value: "tsp" },
+                          { title: "tbsp", value: "tbsp" },
+                          { title: "cup", value: "cup" },
+                          { title: "piece", value: "piece" },
+                          { title: "slice", value: "slice" },
+                          { title: "clove", value: "clove" },
+                          { title: "leaf", value: "leaf" },
+                          { title: "sprig", value: "sprig" },
+                          { title: "bunch", value: "bunch" },
+                          { title: "pinch", value: "pinch" },
+                          { title: "dash", value: "dash" },
+                          { title: "can", value: "can" },
+                          { title: "jar", value: "jar" },
+                          { title: "packet", value: "packet" },
+                          { title: "sheet", value: "sheet" },
+                          { title: "stick", value: "stick" }
+                        ],
+                        layout: "dropdown"
+                      }
+                    }),
                     defineField({ name: "notes", title: "Notes", type: "string" })
                   ],
                   preview: {
