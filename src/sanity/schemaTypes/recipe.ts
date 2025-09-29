@@ -123,11 +123,44 @@ export default defineType({
                     defineField({ name: "quantity", title: "Quantity", type: "string" }),
                     defineField({ name: "unit", title: "Unit", type: "string" }),
                     defineField({ name: "notes", title: "Notes", type: "string" })
-                  ]
+                  ],
+                  preview: {
+                    select: {
+                      ingredientText: "ingredientText",
+                      ingredientName: "ingredientRef.name",
+                      quantity: "quantity",
+                      unit: "unit",
+                      notes: "notes"
+                    },
+                    prepare({ ingredientText, ingredientName, quantity, unit, notes }) {
+                      const ingredient = ingredientName || ingredientText || "Unknown ingredient";
+                      const amount = [quantity, unit].filter(Boolean).join(" ");
+                      const title = amount ? `${amount} ${ingredient}` : ingredient;
+                      return {
+                        title,
+                        subtitle: notes || undefined
+                      };
+                    }
+                  }
                 }
               ]
             })
-          ]
+          ],
+          preview: {
+            select: {
+              heading: "heading",
+              items: "items"
+            },
+            prepare({ heading, items }) {
+              const count = items?.length || 0;
+              const title = heading || "Ingredients";
+              const subtitle = count === 1 ? "1 ingredient" : `${count} ingredients`;
+              return {
+                title,
+                subtitle
+              };
+            }
+          }
         })
       ],
       validation: r => r.required().min(1)
