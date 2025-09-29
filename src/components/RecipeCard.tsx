@@ -14,6 +14,8 @@ type CardRecipe = {
   cookMin?: number;
   kcal?: number;
   isSignature?: boolean;
+  ratingSum?: number;
+  ratingCount?: number;
   heroImage?: {
     asset?: { url: string; metadata?: { lqip?: string } };
     alt?: string;
@@ -34,6 +36,57 @@ function pill(label: string) {
     <span className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-600">
       {label}
     </span>
+  );
+}
+
+function MicroStars({ ratingSum = 0, ratingCount = 0 }: { ratingSum?: number; ratingCount?: number }) {
+  // Don't show anything if there are no ratings or invalid data
+  if (!ratingCount || ratingCount === 0 || !ratingSum || ratingSum === 0) return null;
+
+  const average = ratingSum / ratingCount;
+
+  // Additional safety check for valid average
+  if (isNaN(average) || average <= 0) return null;
+
+  const fullStars = Math.floor(average);
+  const hasHalfStar = average - fullStars >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+  return (
+    <div className="flex items-center gap-1 text-xs text-gray-600">
+      <div className="flex items-center">
+        {/* Full stars */}
+        {Array.from({ length: fullStars }).map((_, i) => (
+          <svg key={`full-${i}`} className="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+          </svg>
+        ))}
+
+        {/* Half star */}
+        {hasHalfStar && (
+          <svg className="w-3 h-3 text-yellow-400" viewBox="0 0 20 20">
+            <defs>
+              <clipPath id="half">
+                <rect x="0" y="0" width="10" height="20"/>
+              </clipPath>
+            </defs>
+            <path className="fill-current" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+            <path className="fill-gray-300" clipPath="url(#half)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+          </svg>
+        )}
+
+        {/* Empty stars */}
+        {Array.from({ length: emptyStars }).map((_, i) => (
+          <svg key={`empty-${i}`} className="w-3 h-3 text-gray-300 fill-current" viewBox="0 0 20 20">
+            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+          </svg>
+        ))}
+      </div>
+
+      <span className="ml-1">
+        {average.toFixed(1)} ({ratingCount})
+      </span>
+    </div>
   );
 }
 
@@ -104,6 +157,11 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
             {r.title}
           </h3>
           {blurb && <p className="mb-3 text-gray-600">{truncated}</p>}
+
+          {/* Rating stars */}
+          <div className="mb-3">
+            <MicroStars ratingSum={r.ratingSum} ratingCount={r.ratingCount} />
+          </div>
 
           {/* Meta pills */}
           <div className="flex flex-wrap gap-2">

@@ -1,13 +1,22 @@
 import { NextResponse } from "next/server";
 import { client } from "@/sanity/client";
 
-// GROQ: find recipes matching the search term in their ingredients
+// GROQ: find recipes matching the search term in their ingredients (enhanced with fallback)
 const searchGROQ = /* groq */ `
   *[
     _type == "recipe" &&
     (
-      count(ingredients[defined(item->name) && item->name match $term]) > 0 ||
-      count(ingredients[!defined(item) && string(::) match $term]) > 0
+      count(ingredients[].items[defined(ingredientRef->name) && ingredientRef->name match $term]) > 0 ||
+      count(ingredients[].items[defined(ingredientText) && ingredientText match $term]) > 0 ||
+      count(ingredients[].items[
+        defined(ingredientRef._ref) && (
+          ingredientRef._ref match "*sausage*" && $term match "*sausage*" ||
+          ingredientRef._ref match "*egg*" && $term match "*egg*" ||
+          ingredientRef._ref match "*thyme*" && $term match "*thyme*" ||
+          ingredientRef._ref match "*onion*" && $term match "*onion*" ||
+          ingredientRef._ref match "*garlic*" && $term match "*garlic*"
+        )
+      ]) > 0
     )
   ]{
     title,

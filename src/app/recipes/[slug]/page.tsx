@@ -1,3 +1,4 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -7,6 +8,8 @@ import type { Metadata } from "next";
 import { client } from "@/sanity/client";
 import { recipeBySlugQuery, recipeSlugsQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/image";
+import StarRating from "@/components/StarRating";
+import ShareRow from "@/components/ShareRow";
 
 // 👇 use ONE of these imports depending on which fix you chose:
 // Option A: relative import (quick fix)
@@ -50,29 +53,65 @@ function ingredientLines(groups: IngredientGroup[] | undefined) {
   return out;
 }
 
+function toPlainIngredients(groups: IngredientGroup[] = []): string[] {
+  return groups
+    .flatMap(group => group.items || [])
+    .map((item) => {
+      const amt = [item.quantity, item.unit].filter(Boolean).join(" ");
+      const name = item.ingredientText || item.ingredientRef?.name || "";
+      return [amt, name].filter(Boolean).join(" ");
+    })
+    .filter(Boolean);
+}
+
+function totalTimeISO(prep?: number, cook?: number) {
+  const total = (prep || 0) + (cook || 0);
+  return total ? `PT${total}M` : undefined;
+}
+
 /* --------------- Static params / metadata --------------- */
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export async function generateStaticParams() {
   const slugs = await client.fetch<RecipeSlug[]>(recipeSlugsQuery);
   return slugs.map(({ slug }) => ({ slug }));
 }
 
-export async function generateMetadata(
-  { params }: { params: { slug: string } }
-): Promise<Metadata> {
-  const data = await client.fetch<Recipe | null>(recipeBySlugQuery, { slug: params.slug });
-  if (!data) return {};
-  const title = `${data.title} — Bite Buddy`;
-  const description = data.seoDescription || data.description || "UK copycat recipe";
-  const ogImg =
-    data.heroImage?.asset?.url ??
-    (data.heroImage ? urlForImage(data.heroImage).width(1200).height(630).url() : undefined);
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const recipe = await client.fetch<Recipe | null>(recipeBySlugQuery, { slug: params.slug });
+
+  if (!recipe) {
+    return {
+      title: "Recipe not found | Bite Buddy",
+      robots: { index: false },
+    };
+  }
+
+  const title = `${recipe.title} | Bite Buddy`;
+  const description =
+    recipe.seoDescription || recipe.description || recipe.introText || "UK copycat recipes made easy.";
+  const image = recipe.heroImage?.asset?.url;
+  const url = `${SITE_URL}/recipes/${recipe.slug}`;
 
   return {
     title,
     description,
-    openGraph: { title, description, images: ogImg ? [{ url: ogImg }] : undefined, type: "article" },
-    twitter: { card: "summary_large_image", title, description, images: ogImg ? [ogImg] : undefined }
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Bite Buddy",
+      type: "article",
+      images: image ? [{ url: image }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: image ? [image] : undefined,
+    },
   };
 }
 
@@ -118,6 +157,38 @@ export default async function RecipePage({ params }: { params: { slug: string } 
     heroImage?.asset?.url ??
     (heroImage ? urlForImage(heroImage).width(1200).height(700).url() : undefined);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    name: recipe.title,
+    description: recipe.description || recipe.introText,
+    datePublished: recipe._createdAt,
+    dateModified: recipe._updatedAt,
+    recipeCuisine: "British",
+    recipeCategory: "Main course",
+    recipeYield: recipe.servings ? String(recipe.servings) : undefined,
+    prepTime: recipe.prepMin ? `PT${recipe.prepMin}M` : undefined,
+    cookTime: recipe.cookMin ? `PT${recipe.cookMin}M` : undefined,
+    totalTime: totalTimeISO(recipe.prepMin, recipe.cookMin),
+    image: recipe.heroImage?.asset?.url ? [recipe.heroImage.asset.url] : undefined,
+    author: { "@type": "Organization", name: "Bite Buddy" },
+    publisher: { "@type": "Organization", name: "Bite Buddy" },
+    recipeIngredient: toPlainIngredients(recipe.ingredients),
+    recipeInstructions: (recipe.steps || []).map((s, idx: number) => ({
+      "@type": "HowToStep",
+      position: idx + 1,
+      text: portableToPlainText(s.step),
+    })),
+    aggregateRating:
+      typeof recipe.ratingSum === "number" && typeof recipe.ratingCount === "number" && recipe.ratingCount > 0
+        ? {
+            "@type": "AggregateRating",
+            ratingValue: (recipe.ratingSum / recipe.ratingCount).toFixed(1),
+            ratingCount: recipe.ratingCount,
+          }
+        : undefined,
+  };
+
   return (
     <main className="mx-auto max-w-4xl px-4 py-8">
       <Link href="/recipes" className="text-sm text-emerald-700 underline">
@@ -132,6 +203,19 @@ export default async function RecipePage({ params }: { params: { slug: string } 
         {prepMin != null ? <span>Prep: {prepMin} mins</span> : null}
         {cookMin != null ? <span>Cook: {cookMin} mins</span> : null}
         {totalMin ? <span>Total: {totalMin} mins</span> : null}
+      </div>
+
+      <div className="mt-4">
+        <ShareRow title={recipe.title} url={`${SITE_URL}/recipes/${recipe.slug}`} />
+      </div>
+
+      <div className="mt-4">
+        <StarRating
+          recipeId={recipe._id}
+          ratingSum={recipe.ratingSum || 0}
+          ratingCount={recipe.ratingCount || 0}
+          slug={recipe.slug}
+        />
       </div>
 
       {heroUrl ? (
@@ -153,7 +237,7 @@ export default async function RecipePage({ params }: { params: { slug: string } 
 
       {brandContext && brandContext.length > 0 ? (
         <section className="mt-6">
-          <h3 className="mb-2 text-lg font-semibold tracking-tight">About the original</h3>
+          <h2 className="mb-2 text-xl font-semibold tracking-tight">About the original</h2>
           <div className="prose prose-neutral">
             <PortableText value={brandContext} />
           </div>
@@ -293,26 +377,7 @@ export default async function RecipePage({ params }: { params: { slug: string } 
       {/* JSON-LD: Recipe */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Recipe",
-            name: title,
-            description: description || "UK copycat recipe",
-            image: heroUrl ? [heroUrl] : undefined,
-            recipeYield: servings ? `${servings} servings` : undefined,
-            prepTime: prepMin != null ? `PT${prepMin}M` : undefined,
-            cookTime: cookMin != null ? `PT${cookMin}M` : undefined,
-            totalTime: (prepMin || cookMin) ? `PT${totalMin}M` : undefined,
-            recipeIngredient: ingredientLines(ingredients),
-            recipeInstructions: (steps || []).map((s, idx: number) => ({
-              "@type": "HowToStep",
-              position: idx + 1,
-              text: portableToPlainText(s.step),
-            })),
-            author: { "@type": "Organization", name: "Bite Buddy" },
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       {/* JSON-LD: Breadcrumbs */}
