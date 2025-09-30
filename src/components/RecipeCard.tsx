@@ -153,7 +153,7 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
 
         {/* Title & blurb */}
         <div className="px-4 pb-4 pt-2">
-          <h3 className="mb-1 text-xl font-semibold tracking-tight group-hover:underline">
+          <h3 className="mb-1 text-xl font-semibold tracking-tight group-hover:underline text-black">
             {r.title}
           </h3>
           {blurb && <p className="mb-3 text-gray-600">{truncated}</p>}

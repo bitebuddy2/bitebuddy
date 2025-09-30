@@ -401,8 +401,8 @@ export default function IngredientFinder() {
             className="flex-shrink-0"
           />
           <div className="text-center sm:text-left">
-            <h2 className="text-lg sm:text-xl font-bold mb-1">Bite Buddy - The Smartest AI Recipe Generator</h2>
-            <p className="text-xs sm:text-sm text-gray-600">
+            <h2 className="text-lg sm:text-xl font-bold mb-1 text-black">Bite Buddy - The Smartest AI Recipe Generator</h2>
+            <p className="text-xs sm:text-sm text-black sm:text-gray-600">
               Turn your ingredients into restaurant-style recipes in seconds with our AI recipe maker
             </p>
           </div>
@@ -414,7 +414,7 @@ export default function IngredientFinder() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Enter a recipe idea or ingredients"
-            className="h-11 w-full flex-1 rounded-lg border px-3 text-sm"
+            className="h-11 w-full flex-1 rounded-lg border border-gray-300 sm:border-gray-300 px-3 text-sm focus:border-black sm:focus:border-emerald-400 focus:outline-none"
           />
           <div className="flex gap-2">
             <button
