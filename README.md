@@ -5,12 +5,14 @@ A smart recipe management and nutrition tracking application built with Next.js 
 ## Features
 
 - 🍳 **Recipe Management**: Create, edit, and organize recipes with detailed ingredients and instructions
+- 🤖 **AI Recipe Generator**: Generate UK copycat recipes using OpenAI with automatic ingredient creation and nutrition data
 - 📊 **Automatic Nutrition Calculation**: Smart nutrition tracking with unit conversion and per-serving calculations
 - 🔄 **Real-time Updates**: Automatic nutrition recalculation when recipes or ingredients change
-- 🥕 **Ingredient Database**: Comprehensive ingredient database with nutrition data per 100g
+- 🥕 **Ingredient Database**: Comprehensive ingredient database with AI-generated nutrition data per 100g
+- 🔍 **Smart Search**: Flexible ingredient-based search with multi-format input support
+- ⭐ **Recipe Ratings**: Interactive star rating system with aggregate scoring
 - 📱 **Responsive Design**: Mobile-first design that works on all devices
-- 🎯 **Search & Discovery**: Advanced recipe search and filtering capabilities
-- 🏷️ **Collections**: Organize recipes into curated collections
+- 🏷️ **Brand System**: Organize recipes by restaurant chains and brands
 
 ## Tech Stack
 
@@ -42,13 +44,19 @@ A smart recipe management and nutrition tracking application built with Next.js 
 
 3. **Set up environment variables**
 
-   Copy `.env.local.example` to `.env.local` and configure:
+   Create `.env.local` and configure:
    ```env
+   # Sanity CMS
    NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
    NEXT_PUBLIC_SANITY_DATASET=production
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
    SANITY_WRITE_TOKEN=your-write-token
+
+   # Webhooks
    NUTRITION_WEBHOOK_SECRET=your-webhook-secret
+
+   # AI Recipe Generator (Optional)
+   OPENAI_API_KEY=your-openai-api-key
    ```
 
 4. **Start the development server**

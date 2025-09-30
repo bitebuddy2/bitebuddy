@@ -13,7 +13,12 @@
       "Bash(NEXT_PUBLIC_SANITY_PROJECT_ID=6yu50an1 NEXT_PUBLIC_SANITY_DATASET=production npx tsx scripts/quick-test.ts)",
       "Bash(NEXT_PUBLIC_SANITY_PROJECT_ID=6yu50an1 NEXT_PUBLIC_SANITY_DATASET=production npx tsx scripts/final-test.ts)",
       "Bash(NEXT_PUBLIC_SANITY_PROJECT_ID=6yu50an1 NEXT_PUBLIC_SANITY_DATASET=production npx tsx scripts/debug-search-parsing.ts)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Read(//d/**)",
+      "Bash(NEXT_PUBLIC_SANITY_PROJECT_ID=6yu50an1 NEXT_PUBLIC_SANITY_DATASET=production npx tsx scripts/test-real-search-avoid.ts)",
+      "Bash(NEXT_PUBLIC_SANITY_PROJECT_ID=6yu50an1 NEXT_PUBLIC_SANITY_DATASET=production npx tsx scripts/test-improved-avoid.ts)",
+      "Bash(NEXT_PUBLIC_SANITY_PROJECT_ID=6yu50an1 NEXT_PUBLIC_SANITY_DATASET=production npx tsx scripts/test-comprehensive-avoid.ts)"
     ],
     "deny": [],
     "ask": []
