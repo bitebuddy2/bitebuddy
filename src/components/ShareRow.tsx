@@ -17,9 +17,18 @@ export default function ShareRow({ title, url }: ShareRowProps) {
     }
   }
 
+  function print() {
+    window.print();
+  }
+
   return (
-    <button onClick={share} className="rounded-full border px-3 py-1.5 text-sm hover:bg-gray-50">
-      Share
-    </button>
+    <div className="flex gap-2">
+      <button onClick={print} className="rounded-full border px-3 py-1.5 text-sm hover:bg-gray-50">
+        Print
+      </button>
+      <button onClick={share} className="rounded-full border px-3 py-1.5 text-sm hover:bg-gray-50">
+        Share
+      </button>
+    </div>
   );
 }
