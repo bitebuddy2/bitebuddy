@@ -15,7 +15,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4">
         <Link href="/" className="flex items-center">
           <Image
@@ -27,7 +27,7 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="flex items-center gap-4">
+        <nav className="hidden md:flex items-center gap-4">
           {nav.map((n) => (
             <Link
               key={n.href}
@@ -46,6 +46,14 @@ export default function Header() {
             Explore
           </Link>
         </nav>
+
+        {/* Mobile nav */}
+        <Link
+          href="/recipes"
+          className="md:hidden rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700"
+        >
+          Recipes
+        </Link>
       </div>
     </header>
   );

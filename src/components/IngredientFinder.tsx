@@ -390,49 +390,51 @@ export default function IngredientFinder() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-6">
-      <div className="rounded-2xl border p-4">
+      <div className="rounded-2xl border p-4 bg-white shadow-sm">
         {/* Logo, Title, and Description */}
-        <div className="flex items-center gap-3 mb-4 pb-3 border-b">
+        <div className="flex flex-col sm:flex-row items-center gap-3 mb-4 pb-3 border-b bg-white">
           <Image
             src="/AI.svg"
             alt="Bite Buddy"
-            width={100}
-            height={100}
+            width={80}
+            height={80}
             className="flex-shrink-0"
           />
-          <div>
-            <h2 className="text-xl font-bold mb-1">Bite Buddy - The Smartest AI Recipe Generator</h2>
-            <p className="text-sm text-gray-600">
+          <div className="text-center sm:text-left">
+            <h2 className="text-lg sm:text-xl font-bold mb-1">Bite Buddy - The Smartest AI Recipe Generator</h2>
+            <p className="text-xs sm:text-sm text-gray-600">
               Turn your ingredients into restaurant-style recipes in seconds with our AI recipe maker
             </p>
           </div>
         </div>
 
         {/* Primary idea/search input */}
-        <form onSubmit={onSearch} className="flex gap-2">
+        <form onSubmit={onSearch} className="flex flex-col sm:flex-row gap-2">
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Enter a recipe idea or ingredients — e.g. chicken, thyme"
+            placeholder="Enter a recipe idea or ingredients"
             className="h-11 w-full flex-1 rounded-lg border px-3 text-sm"
           />
-          <button
-            type="submit"
-            className="h-11 rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white hover:bg-emerald-700"
-            disabled={isPending}
-            title="Search your recipes first"
-          >
-            {isPending ? "Searching…" : "Find"}
-          </button>
-          <button
-            type="button"
-            onClick={onGenerateAI}
-            disabled={isGenerating || !q.trim()}
-            className="h-11 rounded-lg border px-4 text-sm font-semibold hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Use AI to create a new recipe idea from your input"
-          >
-            {isGenerating ? "Generating..." : "Create with AI"}
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              className="h-11 flex-1 sm:flex-none rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white hover:bg-emerald-700"
+              disabled={isPending}
+              title="Search your recipes first"
+            >
+              {isPending ? "Searching…" : "Find"}
+            </button>
+            <button
+              type="button"
+              onClick={onGenerateAI}
+              disabled={isGenerating || !q.trim()}
+              className="h-11 flex-1 sm:flex-none rounded-lg border px-4 text-sm font-semibold hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              title="Use AI to create a new recipe idea from your input"
+            >
+              {isGenerating ? "Generating..." : "Create AI"}
+            </button>
+          </div>
         </form>
 
         <p className="mt-2 text-xs text-gray-500">
