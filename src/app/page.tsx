@@ -1,14 +1,12 @@
-import Link from "next/link";
+import LatestRecipes from "@/components/LatestRecipes";
 import TopSearch from "@/components/TopSearch";
 import IngredientFinder from "@/components/IngredientFinder";
-import RecipeCard from "@/components/RecipeCard";
 import { client } from "@/sanity/client";
 import { allRecipesForCardsQuery } from "@/sanity/queries";
-
-type CardRecipe = Parameters<typeof RecipeCard>[0]["r"];
+import Link from "next/link";
 
 export default async function HomePage() {
-  const recipes: CardRecipe[] = await client.fetch(allRecipesForCardsQuery);
+  const recipes = await client.fetch(allRecipesForCardsQuery);
 
   return (
     <main>
@@ -39,24 +37,7 @@ export default async function HomePage() {
       <IngredientFinder />
 
       {/* LATEST RECIPES */}
-      <section className="mx-auto max-w-6xl px-4 py-8">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-semibold">Latest Recipes</h2>
-          <Link href="/recipes" className="text-sm text-emerald-700 hover:underline">
-            View all
-          </Link>
-        </div>
-
-        {recipes.length === 0 ? (
-          <p className="text-gray-500">No recipes yet — add one in the Studio.</p>
-        ) : (
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {recipes.slice(0, 6).map((r) => (
-              <RecipeCard key={r.slug} r={r} />
-            ))}
-          </ul>
-        )}
-      </section>
+      <LatestRecipes recipes={recipes} />
     </main>
   );
 }
