@@ -102,7 +102,7 @@ export const recipeBySlugQuery = groq/* groq */ `
 `;
 
 export const allRecipesForCardsQuery = groq/* groq */ `
-*[_type == "recipe"] | order(_createdAt desc){
+*[_type == "recipe"] | order(_updatedAt desc){
   "slug": slug.current,
   title,
   description,
