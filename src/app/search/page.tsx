@@ -56,10 +56,11 @@ function parseNames(q?: string): string[] {
 }
 
 export const revalidate = 30;
-type PageProps = { searchParams?: { q?: string } };
+type PageProps = { searchParams: Promise<{ q?: string }> };
 
 export default async function SearchPage({ searchParams }: PageProps) {
-  const names = parseNames(searchParams?.q);
+  const { q } = await searchParams;
+  const names = parseNames(q);
   const hasQuery = names.length > 0;
 
   const recipes = hasQuery
@@ -88,7 +89,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
         </div>
       </header>
 
-      <SearchBar defaultQuery={searchParams?.q ?? ""} />
+      <SearchBar defaultQuery={q ?? ""} />
 
       {hasQuery && (
         <p className="mt-4 text-sm text-gray-600">

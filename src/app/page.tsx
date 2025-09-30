@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import TopSearch from "@/components/TopSearch";
 import IngredientFinder from "@/components/IngredientFinder";
 import RecipeCard from "@/components/RecipeCard";
@@ -23,7 +22,7 @@ export default async function HomePage() {
             UK Copycat Recipes, Made Easy
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-gray-700">
-            Simple, fast, and tasty—recreate Greggs, Nando's, Wagamama and more.
+            Simple, fast, and tasty—recreate Greggs, Nando&apos;s, Wagamama and more.
           </p>
           <div className="mt-5 flex justify-center">
             <Link

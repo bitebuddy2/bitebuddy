@@ -78,8 +78,9 @@ export async function generateStaticParams() {
   return slugs.map(({ slug }) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const recipe = await client.fetch<Recipe | null>(recipeBySlugQuery, { slug: params.slug });
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const recipe = await client.fetch<Recipe | null>(recipeBySlugQuery, { slug });
 
   if (!recipe) {
     return {
@@ -117,8 +118,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 /* ---------------------- Page ---------------------- */
 
-export default async function RecipePage({ params }: { params: { slug: string } }) {
-  const recipe = await client.fetch<Recipe | null>(recipeBySlugQuery, { slug: params.slug });
+export default async function RecipePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const recipe = await client.fetch<Recipe | null>(recipeBySlugQuery, { slug });
 
   // TEMP DEBUG: Log what we actually received
   if (process.env.NODE_ENV === 'development') {
@@ -162,8 +164,8 @@ export default async function RecipePage({ params }: { params: { slug: string } 
     "@type": "Recipe",
     name: recipe.title,
     description: recipe.description || recipe.introText,
-    datePublished: recipe._createdAt,
-    dateModified: recipe._updatedAt,
+    datePublished: (recipe as any)._createdAt,
+    dateModified: (recipe as any)._updatedAt,
     recipeCuisine: "British",
     recipeCategory: "Main course",
     recipeYield: recipe.servings ? String(recipe.servings) : undefined,
@@ -389,7 +391,7 @@ export default async function RecipePage({ params }: { params: { slug: string } 
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Recipes", item: "/recipes" },
-              { "@type": "ListItem", position: 2, name: title, item: `/recipes/${params.slug}` },
+              { "@type": "ListItem", position: 2, name: title, item: `/recipes/${slug}` },
             ],
           }),
         }}
