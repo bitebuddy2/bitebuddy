@@ -8,7 +8,7 @@ type CardRecipe = Parameters<typeof RecipeCard>[0]["r"];
 
 export default function LatestRecipes({ recipes }: { recipes: CardRecipe[] }) {
   const [showAll, setShowAll] = useState(false);
-  const displayedRecipes = showAll ? recipes : recipes.slice(0, 6);
+  const displayedRecipes = showAll ? recipes : recipes.slice(0, 3);
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-8">
@@ -29,13 +29,13 @@ export default function LatestRecipes({ recipes }: { recipes: CardRecipe[] }) {
             ))}
           </ul>
 
-          {recipes.length > 6 && (
+          {recipes.length > 3 && (
             <div className="mt-6 flex justify-center">
               <button
                 onClick={() => setShowAll(!showAll)}
                 className="rounded-full border border-emerald-600 bg-white px-6 py-2.5 text-sm font-semibold text-emerald-600 hover:bg-emerald-50 transition"
               >
-                {showAll ? "Show Less" : `Show More (${recipes.length - 6} more)`}
+                {showAll ? "Show Less" : `Show More (${recipes.length - 3} more)`}
               </button>
             </div>
           )}
