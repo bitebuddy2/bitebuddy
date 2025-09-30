@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const nav = [
@@ -16,8 +17,14 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur">
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="text-xl font-extrabold tracking-tight">
-          Bite Buddy
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/Word Logo.svg"
+            alt="Bite Buddy"
+            width={120}
+            height={32}
+            priority
+          />
         </Link>
 
         <nav className="flex items-center gap-4">

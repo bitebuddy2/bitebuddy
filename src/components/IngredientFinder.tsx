@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { urlForImage } from "@/sanity/image";
 import ShareRow from "./ShareRow";
 import RecipeCard from "./RecipeCard";
 import { client } from "@/sanity/client";
@@ -392,6 +391,23 @@ export default function IngredientFinder() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-6">
       <div className="rounded-2xl border p-4">
+        {/* Logo, Title, and Description */}
+        <div className="flex items-center gap-3 mb-4 pb-3 border-b">
+          <Image
+            src="/AI.svg"
+            alt="Bite Buddy"
+            width={100}
+            height={100}
+            className="flex-shrink-0"
+          />
+          <div>
+            <h2 className="text-xl font-bold mb-1">Bite Buddy - The Smartest AI Recipe Generator</h2>
+            <p className="text-sm text-gray-600">
+              Turn your ingredients into restaurant-style recipes in seconds with our AI recipe maker
+            </p>
+          </div>
+        </div>
+
         {/* Primary idea/search input */}
         <form onSubmit={onSearch} className="flex gap-2">
           <input
