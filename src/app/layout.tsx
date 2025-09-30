@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     site: SITE.twitter,
     images: ["/og.jpg"],               // ✅ default Twitter image
   },
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({
