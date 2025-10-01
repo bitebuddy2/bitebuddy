@@ -292,6 +292,8 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
                                     url={link.url}
                                     retailer={link.retailer}
                                     ingredient={name}
+                                    recipe={recipe.slug}
+                                    brand={recipe.brand?.title}
                                     label={link.label || `Buy at ${link.retailer}`}
                                   />
                                 ))}

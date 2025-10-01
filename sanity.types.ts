@@ -23,6 +23,15 @@ export type CollectionRef = {
   slug: string; // slug.current
 };
 
+/** ===== Brand ===== */
+export type BrandRef = {
+  _id: string;
+  title: string;
+  name?: string;
+  slug: string;
+  logo?: ImageWithAlt;
+};
+
 /** ===== Retailer Link ===== */
 export type RetailerLink = {
   retailer: string;
@@ -111,6 +120,7 @@ export type Recipe = {
 
   // relations
   collections?: CollectionRef[];
+  brand?: BrandRef;
 };
 
 /** ===== Lightweight cards (allRecipesQuery) ===== */

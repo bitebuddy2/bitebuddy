@@ -23,12 +23,19 @@ export function trackGoal(goalName: string, value = 0) {
 
 /**
  * Track affiliate link clicks for conversion tracking
- * @param ingredient - The ingredient name being purchased
- * @param retailer - The retailer name (e.g., "Tesco", "Sainsbury's")
  */
-export function trackAffiliateClick(ingredient: string, retailer: string) {
+export function trackAffiliateClick(params: {
+  recipe: string;
+  ingredient: string;
+  retailer: string;
+  dest_domain: string;
+  brand?: string;
+}) {
   trackEvent('affiliate_click', {
-    ingredient: ingredient,
-    retailer: retailer
+    recipe: params.recipe,
+    ingredient: params.ingredient,
+    retailer: params.retailer,
+    dest_domain: params.dest_domain,
+    brand: params.brand,
   });
 }
