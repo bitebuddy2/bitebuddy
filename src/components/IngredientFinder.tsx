@@ -774,9 +774,20 @@ export default function IngredientFinder() {
                   <RecipeCard r={recipe} />
                   {/* Show matched ingredients below the card */}
                   {recipe.matched && recipe.matched.length > 0 && (
-                    <p className="mt-2 text-xs text-gray-500">
-                      Matches: {recipe.matched.map((m: any) => m.name || m).filter(Boolean).join(", ")}
-                    </p>
+                    <div className="mt-2 text-xs text-gray-500">
+                      <p>
+                        Matches: {recipe.matched.map((m: any) => m.name || m).filter(Boolean).join(", ")}
+                      </p>
+                      <p className="text-red-600">
+                        Missing: {searchedIngredients.filter(searched =>
+                          !recipe.matched?.some((m: any) => {
+                            const matchName = (m.name || m).toLowerCase();
+                            const searchedLower = searched.toLowerCase();
+                            return matchName.includes(searchedLower) || searchedLower.includes(matchName);
+                          })
+                        ).join(", ")}
+                      </p>
+                    </div>
                   )}
                 </div>
               ))}

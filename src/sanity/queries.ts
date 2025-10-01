@@ -244,7 +244,7 @@ export const recipesByIngredientNamesQuery = groq/* groq */ `
       ingredientRef._ref match "*garlic*" && "garlic" in $names
     ))
   ])
-} | order(totalMatches desc, _createdAt desc)[totalMatches > 0]
+} | order(totalMatches desc, _createdAt desc)[totalMatches >= 2]
 `;
 
 // ✅ Get all brands for filtering
