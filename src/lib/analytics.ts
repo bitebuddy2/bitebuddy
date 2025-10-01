@@ -20,3 +20,15 @@ export function trackGoal(goalName: string, value = 0) {
     currency: 'GBP'
   });
 }
+
+/**
+ * Track affiliate link clicks for conversion tracking
+ * @param ingredient - The ingredient name being purchased
+ * @param retailer - The retailer name (e.g., "Tesco", "Sainsbury's")
+ */
+export function trackAffiliateClick(ingredient: string, retailer: string) {
+  trackEvent('affiliate_click', {
+    ingredient: ingredient,
+    retailer: retailer
+  });
+}
