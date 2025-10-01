@@ -72,7 +72,7 @@ function totalTimeISO(prep?: number, cook?: number) {
 
 /* --------------- Static params / metadata --------------- */
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bitebuddy.co.uk";
 
 export async function generateStaticParams() {
   const slugs = await client.fetch<RecipeSlug[]>(recipeSlugsQuery);
