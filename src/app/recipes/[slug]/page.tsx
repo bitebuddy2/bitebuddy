@@ -10,6 +10,7 @@ import { recipeBySlugQuery, recipeSlugsQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/image";
 import StarRating from "@/components/StarRating";
 import ShareRow from "@/components/ShareRow";
+import AffiliateButton from "@/components/AffiliateButton";
 
 // 👇 use ONE of these imports depending on which fix you chose:
 // Option A: relative import (quick fix)
@@ -275,11 +276,28 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
                       return (
                         <li key={ii} className="flex items-start gap-2">
-                          <span className="mt-1 h-2 w-2 rounded-full bg-emerald-600" />
-                          <span>
-                            <strong>{label}</strong>
-                            {it.notes ? ` — ${it.notes}` : ""}
-                          </span>
+                          <span className="mt-1 h-2 w-2 rounded-full bg-emerald-600 flex-shrink-0" />
+                          <div className="flex-1">
+                            <div>
+                              <strong>{label}</strong>
+                              {it.notes ? ` — ${it.notes}` : ""}
+                            </div>
+
+                            {/* Affiliate retailer buttons */}
+                            {it.ingredientRef?.retailerLinks && it.ingredientRef.retailerLinks.length > 0 && (
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                {it.ingredientRef.retailerLinks.map((link: any, linkIdx: number) => (
+                                  <AffiliateButton
+                                    key={linkIdx}
+                                    url={link.url}
+                                    retailer={link.retailer}
+                                    ingredient={name}
+                                    label={link.label || `Buy at ${link.retailer}`}
+                                  />
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         </li>
                       );
                     })}

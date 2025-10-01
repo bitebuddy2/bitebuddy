@@ -59,7 +59,12 @@ export const recipeBySlugQuery = groq/* groq */ `
         name,
         allergens,
         kcal100, protein100, fat100, carbs100,
-        density_g_per_ml, gramsPerPiece
+        density_g_per_ml, gramsPerPiece,
+        retailerLinks[]{
+          retailer,
+          url,
+          label
+        }
       }
     }
   },

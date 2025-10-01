@@ -29,7 +29,27 @@ export default defineType({
     }),
 
     // Allergens etc. (already in your plan)
-    defineField({ name: "allergens", title: "Allergens", type: "array", of: [{ type: "string" }] })
+    defineField({ name: "allergens", title: "Allergens", type: "array", of: [{ type: "string" }] }),
+
+    // Affiliate retailer links
+    defineField({
+      name: "retailerLinks",
+      title: "Retailer Links",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "retailer", title: "Retailer Name", type: "string", validation: r => r.required() }),
+            defineField({ name: "url", title: "Affiliate URL", type: "url", validation: r => r.required() }),
+            defineField({ name: "label", title: "Button Label (optional)", type: "string", placeholder: "Buy at Tesco" })
+          ],
+          preview: {
+            select: { title: "retailer", subtitle: "url" }
+          }
+        }
+      ]
+    })
   ],
   preview: { select: { title: "name" } }
 });
