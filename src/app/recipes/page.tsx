@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import RecipeCard from "@/components/RecipeCard";
 import { client } from "../../sanity/client";
@@ -17,7 +17,7 @@ type Brand = {
   };
 };
 
-export default function RecipesIndexPage() {
+function RecipesContent() {
   const searchParams = useSearchParams();
   const [recipes, setRecipes] = useState<CardRecipe[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -149,5 +149,22 @@ export default function RecipesIndexPage() {
         </>
       )}
     </main>
+  );
+}
+
+export default function RecipesIndexPage() {
+  return (
+    <Suspense fallback={
+      <main className="mx-auto max-w-6xl p-4">
+        <div className="flex items-center justify-center h-64">
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-gray-600">Loading recipes...</span>
+          </div>
+        </div>
+      </main>
+    }>
+      <RecipesContent />
+    </Suspense>
   );
 }
