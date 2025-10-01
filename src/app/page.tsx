@@ -1,12 +1,16 @@
 import LatestRecipes from "@/components/LatestRecipes";
 import TopSearch from "@/components/TopSearch";
 import IngredientFinder from "@/components/IngredientFinder";
+import BrandBar from "@/components/BrandBar";
 import { client } from "@/sanity/client";
-import { allRecipesForCardsQuery } from "@/sanity/queries";
+import { allRecipesForCardsQuery, allBrandsQuery } from "@/sanity/queries";
 import Link from "next/link";
 
 export default async function HomePage() {
-  const recipes = await client.fetch(allRecipesForCardsQuery);
+  const [recipes, brands] = await Promise.all([
+    client.fetch(allRecipesForCardsQuery),
+    client.fetch(allBrandsQuery)
+  ]);
 
   return (
     <main>
@@ -35,6 +39,9 @@ export default async function HomePage() {
 
       {/* INGREDIENT FINDER */}
       <IngredientFinder />
+
+      {/* BRAND BAR */}
+      <BrandBar brands={brands} />
 
       {/* LATEST RECIPES */}
       <LatestRecipes recipes={recipes} />

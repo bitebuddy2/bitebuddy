@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import RecipeCard from "@/components/RecipeCard";
 import { client } from "../../sanity/client";
 import { allRecipesForCardsQuery, allBrandsQuery } from "../../sanity/queries";
@@ -17,6 +18,7 @@ type Brand = {
 };
 
 export default function RecipesIndexPage() {
+  const searchParams = useSearchParams();
   const [recipes, setRecipes] = useState<CardRecipe[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("all");
@@ -40,6 +42,14 @@ export default function RecipesIndexPage() {
 
     fetchData();
   }, []);
+
+  // Set selected brand from URL parameter
+  useEffect(() => {
+    const brandParam = searchParams.get('brand');
+    if (brandParam) {
+      setSelectedBrand(brandParam);
+    }
+  }, [searchParams]);
 
   const filteredRecipes = selectedBrand === "all"
     ? recipes
