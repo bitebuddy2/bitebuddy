@@ -286,7 +286,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
                             {/* Affiliate retailer buttons */}
                             {it.ingredientRef?.retailerLinks && it.ingredientRef.retailerLinks.length > 0 && (
                               <div className="mt-2 flex flex-wrap gap-2">
-                                {it.ingredientRef.retailerLinks.map((link: any, linkIdx: number) => (
+                                {it.ingredientRef.retailerLinks.map((link, linkIdx: number) => (
                                   <AffiliateButton
                                     key={linkIdx}
                                     url={link.url}

@@ -23,6 +23,13 @@ export type CollectionRef = {
   slug: string; // slug.current
 };
 
+/** ===== Retailer Link ===== */
+export type RetailerLink = {
+  retailer: string;
+  url: string;
+  label?: string;
+};
+
 /** ===== Ingredient (dereferenced) ===== */
 export type IngredientRef = {
   _id: string;
@@ -34,6 +41,7 @@ export type IngredientRef = {
   carbs100?: number;
   density_g_per_ml?: number;
   gramsPerPiece?: number;
+  retailerLinks?: RetailerLink[];
 };
 
 /** ===== Recipe ingredients ===== */
