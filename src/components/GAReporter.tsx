@@ -17,8 +17,9 @@ function GAReporterContent() {
       : pathname || "/";
 
     // Send a page_view for SPA navigation
-    // @ts-ignore
-    window.gtag?.("config", id, { page_path });
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("config", id, { page_path });
+    }
   }, [pathname, searchParams]);
 
   return null;
