@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GAReporter from "@/components/GAReporter";
+import CookieConsent from "@/components/CookieConsent";
 import { SITE } from "@/lib/seo"; // centralised SEO settings
 
 const geistSans = Geist({
@@ -52,6 +53,22 @@ export default function RootLayout({
       <head>
         {gaId && (
           <>
+            {/* Consent Mode - must load before gtag */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('consent', 'default', {
+                    'ad_storage': 'denied',
+                    'analytics_storage': 'denied',
+                    'functionality_storage': 'denied',
+                    'security_storage': 'granted'
+                  });
+                `,
+              }}
+            />
+            {/* Google Analytics */}
             <script
               async
               src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
@@ -73,6 +90,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-900 bg-white`}
       >
         <GAReporter />
+        <CookieConsent />
         <Header />
         {children}
         <Footer />
