@@ -4,8 +4,23 @@ import Link from "next/link";
 import { trackAffiliateClick } from "@/lib/analytics";
 
 export default function ProductsPage() {
-  function handleAffiliateClick(ingredient: string, retailer: string) {
-    trackAffiliateClick(ingredient, retailer);
+  function handleAffiliateClick(ingredient: string, retailer: string, url: string = "#") {
+    // Extract domain from URL
+    let dest_domain = "";
+    try {
+      const urlObj = new URL(url);
+      dest_domain = urlObj.hostname.replace(/^www\./, "");
+    } catch {
+      dest_domain = "demo";
+    }
+
+    trackAffiliateClick({
+      recipe: "demo-products-page",
+      ingredient,
+      retailer,
+      dest_domain,
+      brand: undefined,
+    });
   }
   return (
     <main className="mx-auto max-w-6xl px-4 py-12">
