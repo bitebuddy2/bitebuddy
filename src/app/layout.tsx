@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import GAReporter from "@/components/GAReporter";
 import { SITE } from "@/lib/seo"; // centralised SEO settings
 
 const geistSans = Geist({
@@ -71,6 +72,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-900 bg-white`}
       >
+        <GAReporter />
         <Header />
         {children}
         <Footer />
