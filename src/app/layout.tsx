@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GAReporter from "@/components/GAReporter";
 import CookieConsent from "@/components/CookieConsent";
+import SignupBanner from "@/components/SignupBanner";
 import { SITE } from "@/lib/seo"; // centralised SEO settings
 
 const geistSans = Geist({
@@ -87,10 +88,11 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-900 bg-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-900 bg-white pb-20`}
       >
         <GAReporter />
         <CookieConsent />
+        <SignupBanner />
         <Header />
         {children}
         <Footer />
