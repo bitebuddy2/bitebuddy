@@ -10,6 +10,7 @@ import { recipeBySlugQuery, recipeSlugsQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/image";
 import StarRating from "@/components/StarRating";
 import ShareRow from "@/components/ShareRow";
+import SaveButton from "@/components/SaveButton";
 import AffiliateButton from "@/components/AffiliateButton";
 
 // 👇 use ONE of these imports depending on which fix you chose:
@@ -208,8 +209,9 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         {totalMin ? <span>Total: {totalMin} mins</span> : null}
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 flex flex-wrap items-center gap-3">
         <ShareRow title={recipe.title} url={`${SITE_URL}/recipes/${recipe.slug}`} />
+        <SaveButton recipeSlug={recipe.slug} />
       </div>
 
       <div className="mt-4">

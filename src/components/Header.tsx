@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 const nav = [
   { href: "/", label: "Home" },
@@ -14,6 +16,17 @@ const nav = [
 
 export default function Header() {
   const pathname = usePathname();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
@@ -40,21 +53,47 @@ export default function Header() {
               {n.label}
             </Link>
           ))}
+          {user ? (
+            <Link
+              href="/account"
+              className="rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700"
+            >
+              My Account
+            </Link>
+          ) : (
+            <Link
+              href="/account"
+              className="rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700"
+            >
+              Sign In
+            </Link>
+          )}
+        </nav>
+
+        {/* Mobile nav */}
+        <div className="md:hidden flex items-center gap-2">
+          {user ? (
+            <Link
+              href="/account"
+              className="rounded-full border border-emerald-600 text-emerald-600 px-3 py-1.5 text-sm font-semibold hover:bg-emerald-50"
+            >
+              Account
+            </Link>
+          ) : (
+            <Link
+              href="/account"
+              className="rounded-full border border-emerald-600 text-emerald-600 px-3 py-1.5 text-sm font-semibold hover:bg-emerald-50"
+            >
+              Sign In
+            </Link>
+          )}
           <Link
             href="/recipes"
             className="rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700"
           >
-            Explore
+            Recipes
           </Link>
-        </nav>
-
-        {/* Mobile nav */}
-        <Link
-          href="/recipes"
-          className="md:hidden rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700"
-        >
-          Recipes
-        </Link>
+        </div>
       </div>
     </header>
   );

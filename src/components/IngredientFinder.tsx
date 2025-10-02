@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ShareRow from "./ShareRow";
 import RecipeCard from "./RecipeCard";
 import { client } from "@/sanity/client";
 import { recipesByIngredientNamesQuery } from "@/sanity/queries";
+import { supabase } from "@/lib/supabase";
 
 type Recipe = {
   slug: string;
@@ -241,6 +242,8 @@ export default function IngredientFinder() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedRecipe, setGeneratedRecipe] = useState<GeneratedRecipe | null>(null);
   const [searchedIngredients, setSearchedIngredients] = useState<string[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   // preferences (used by AI generation)
   const [method, setMethod] = useState<(typeof METHODS)[number]>("Any");
@@ -248,6 +251,19 @@ export default function IngredientFinder() {
   const [spice, setSpice] = useState<(typeof SPICE)[number]>("None");
   const [diet, setDiet] = useState<(typeof DIETS)[number]>("None");
   const [avoid, setAvoid] = useState("");
+
+  // Load last generated recipe from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("lastGeneratedRecipe");
+    if (saved) {
+      try {
+        const recipe = JSON.parse(saved);
+        setGeneratedRecipe(recipe);
+      } catch (error) {
+        console.error("Failed to load last recipe:", error);
+      }
+    }
+  }, []);
 
   async function onSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -287,6 +303,44 @@ export default function IngredientFinder() {
         setResults([]);
       }
     });
+  }
+
+  async function saveAIRecipe() {
+    if (!generatedRecipe) return;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      window.location.href = "/account";
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const { error } = await supabase.from("saved_ai_recipes").insert({
+        user_id: user.id,
+        title: generatedRecipe.title,
+        description: generatedRecipe.description || "",
+        intro_text: generatedRecipe.introText || "",
+        servings: generatedRecipe.servings,
+        prep_min: generatedRecipe.prepMin,
+        cook_min: generatedRecipe.cookMin,
+        ingredients: generatedRecipe.ingredients,
+        steps: generatedRecipe.steps,
+        tips: generatedRecipe.tips || [],
+        faqs: generatedRecipe.faqs || [],
+        nutrition: generatedRecipe.nutrition || null,
+        data: generatedRecipe, // Store full recipe object in data column
+      });
+
+      if (error) throw error;
+
+      setIsSaved(true);
+    } catch (error: any) {
+      console.error("Save error:", error);
+      alert(`Failed to save recipe: ${error.message || error}`);
+    } finally {
+      setIsSaving(false);
+    }
   }
 
   async function onGenerateAI() {
@@ -369,6 +423,10 @@ export default function IngredientFinder() {
         // Success! Display the recipe locally
         setGeneratedRecipe(data.recipe);
         setResults([]); // Clear search results to show generated recipe
+        setIsSaved(false); // Reset save state for new recipe
+
+        // Save to localStorage as the last generated recipe
+        localStorage.setItem("lastGeneratedRecipe", JSON.stringify(data.recipe));
       } else {
         // Check if it's an impossible combination error
         const errorMsg = data.error || "Unknown error";
@@ -597,10 +655,34 @@ export default function IngredientFinder() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">{generatedRecipe.title}</h3>
               </div>
-              <ShareRow
-                title={generatedRecipe.title}
-                url={`${window.location.origin}/recipes?preview=${encodeURIComponent(JSON.stringify(generatedRecipe))}`}
-              />
+              <div className="flex items-center gap-3">
+                <ShareRow
+                  title={generatedRecipe.title}
+                  url={`${window.location.origin}/recipes?preview=${encodeURIComponent(JSON.stringify(generatedRecipe))}`}
+                />
+                <button
+                  onClick={saveAIRecipe}
+                  disabled={isSaving || isSaved}
+                  className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                  title={isSaved ? "Recipe saved to your account" : "Save recipe to your account"}
+                >
+                  {isSaving ? (
+                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  ) : isSaved ? (
+                    <svg className="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                    </svg>
+                  )}
+                  {isSaved ? "Saved" : "Save"}
+                </button>
+              </div>
             </div>
 
             {generatedRecipe.description && (
