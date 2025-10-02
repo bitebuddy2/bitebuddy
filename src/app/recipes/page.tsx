@@ -71,41 +71,44 @@ function RecipesContent() {
   }
 
   return (
-    <main className="mx-auto max-w-6xl p-4">
-      <header className="mb-6 flex items-end justify-between gap-4">
-        <div>
-          <h1 className="text-4xl font-bold tracking-tight">All Recipes</h1>
-          <p className="mt-1 text-gray-600">
-            Simple, fast, and tasty—recreate UK favourites at home.
-          </p>
-        </div>
-
-        {/* Brand Filter Dropdown */}
-        <div className="flex flex-col items-end">
-          <label htmlFor="brand-filter" className="text-sm font-medium text-gray-700 mb-1">
-            Filter by Brand
-          </label>
-          <select
-            id="brand-filter"
-            value={selectedBrand}
-            onChange={(e) => setSelectedBrand(e.target.value)}
-            className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none min-w-[160px]"
-          >
-            <option value="all">All Brands ({recipes.length})</option>
-            {brands.map((brand) => {
-              const count = recipes.filter(r => r.brand?._id === brand._id).length;
-              return (
-                <option key={brand._id} value={brand._id}>
-                  {brand.title} ({count})
-                </option>
-              );
-            })}
-            {recipesWithoutBrand.length > 0 && (
-              <option value="no-brand">No Brand ({recipesWithoutBrand.length})</option>
-            )}
-          </select>
-        </div>
+    <main className="mx-auto max-w-6xl">
+      {/* Standalone Banner */}
+      <header className="p-4 mb-4 md:mb-6">
+        <h1 className="text-4xl font-bold tracking-tight">All Recipes</h1>
+        <p className="mt-1 text-gray-600">
+          Simple, fast, and tasty—recreate UK favourites at home.
+        </p>
       </header>
+
+      {/* Filter and Recipes Section */}
+      <div className="p-4 pt-0">
+        {/* Brand Filter Dropdown */}
+        <div className="mb-6 flex justify-end">
+          <div className="flex flex-col items-end">
+            <label htmlFor="brand-filter" className="text-sm font-medium text-gray-700 mb-1">
+              Filter by Brand
+            </label>
+            <select
+              id="brand-filter"
+              value={selectedBrand}
+              onChange={(e) => setSelectedBrand(e.target.value)}
+              className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none min-w-[160px]"
+            >
+              <option value="all">All Brands ({recipes.length})</option>
+              {brands.map((brand) => {
+                const count = recipes.filter(r => r.brand?._id === brand._id).length;
+                return (
+                  <option key={brand._id} value={brand._id}>
+                    {brand.title} ({count})
+                  </option>
+                );
+              })}
+              {recipesWithoutBrand.length > 0 && (
+                <option value="no-brand">No Brand ({recipesWithoutBrand.length})</option>
+              )}
+            </select>
+          </div>
+        </div>
 
       {(!recipes || recipes.length === 0) ? (
         <p className="text-gray-500">
@@ -148,6 +151,7 @@ function RecipesContent() {
           )}
         </>
       )}
+      </div>
     </main>
   );
 }
