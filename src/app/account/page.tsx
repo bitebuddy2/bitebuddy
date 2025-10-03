@@ -22,7 +22,12 @@ export default function AccountPage() {
           <div className="mt-8 space-y-3">
             <button
               className="w-full flex items-center justify-center gap-3 rounded-lg bg-black px-4 py-3 text-white font-medium hover:bg-gray-900 transition-colors"
-              onClick={() => supabase.auth.signInWithOAuth({ provider: "google" })}
+              onClick={() => supabase.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                  redirectTo: `${window.location.origin}/account`
+                }
+              })}
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -37,7 +42,12 @@ export default function AccountPage() {
               onClick={async () => {
                 const email = prompt("Enter your email");
                 if (!email) return;
-                await supabase.auth.signInWithOtp({ email });
+                await supabase.auth.signInWithOtp({
+                  email,
+                  options: {
+                    emailRedirectTo: `${window.location.origin}/account`
+                  }
+                });
                 alert("Check your email for a login link.");
               }}
             >
