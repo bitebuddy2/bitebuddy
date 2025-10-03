@@ -245,7 +245,11 @@ export default function MealPlannerCalendar() {
                       <td key={`${dateStr}-${mealType}`} className="border border-gray-200 p-1 align-top">
                         {recipe ? (
                           <div className="relative group">
-                            <div className="rounded-lg bg-emerald-50 p-2 text-xs">
+                            <a
+                              href={recipe.type === "published" ? `/recipes/${recipe.slug}` : `/account?tab=recipes&ai=${recipe.id}`}
+                              className="block rounded-lg bg-emerald-50 p-2 text-xs hover:bg-emerald-100 transition-colors cursor-pointer"
+                              title={`View ${recipe.title}`}
+                            >
                               {recipe.heroImage?.asset?.url && (
                                 <Image
                                   src={recipe.heroImage.asset.url}
@@ -259,10 +263,13 @@ export default function MealPlannerCalendar() {
                               {recipe.type === "ai" && (
                                 <div className="text-xs text-emerald-600 mt-1">🤖 AI</div>
                               )}
-                            </div>
+                            </a>
                             <button
-                              onClick={() => removeRecipe(dateStr, mealType)}
-                              className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-opacity"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                removeRecipe(dateStr, mealType);
+                              }}
+                              className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-opacity z-10"
                             >
                               ×
                             </button>

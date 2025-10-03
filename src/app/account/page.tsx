@@ -3,10 +3,12 @@ import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { client } from "@/sanity/client";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import MealPlannerCalendar from "@/components/MealPlannerCalendar";
 
 export default function AccountPage() {
   const [user, setUser] = useState<any>(null);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
@@ -60,11 +62,13 @@ export default function AccountPage() {
     );
   }
 
-  return <Dashboard user={user} />;
+  return <Dashboard user={user} searchParams={searchParams} />;
 }
 
-function Dashboard({ user }: { user: any }) {
-  const [activeTab, setActiveTab] = useState<"recipes" | "planner">("recipes");
+function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
+  const tabParam = searchParams.get("tab");
+  const aiRecipeId = searchParams.get("ai");
+  const [activeTab, setActiveTab] = useState<"recipes" | "planner">(tabParam === "planner" ? "planner" : "recipes");
 
   return (
     <div className="min-h-screen bg-white">
@@ -112,7 +116,7 @@ function Dashboard({ user }: { user: any }) {
         {activeTab === "recipes" ? (
           <div className="max-w-4xl">
             <SavedPublished />
-            <SavedAI />
+            <SavedAI aiRecipeId={aiRecipeId} />
           </div>
         ) : (
           <MealPlannerCalendar />
@@ -208,7 +212,7 @@ function SavedPublished() {
   );
 }
 
-function SavedAI() {
+function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
   const [items, setItems] = useState<any[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
@@ -218,8 +222,16 @@ function SavedAI() {
       .then(({ data }) => {
         setItems(data ?? []);
         setLoading(false);
+
+        // Auto-open recipe if ID is in URL
+        if (aiRecipeId && data) {
+          const recipe = data.find((r: any) => r.id === aiRecipeId);
+          if (recipe) {
+            setSelectedRecipe(recipe);
+          }
+        }
       });
-  }, []);
+  }, [aiRecipeId]);
 
   async function deleteRecipe(id: string) {
     await supabase.from("saved_ai_recipes").delete().eq("id", id);
