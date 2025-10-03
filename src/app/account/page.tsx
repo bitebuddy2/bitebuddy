@@ -236,6 +236,14 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
           const recipe = data.find((r: any) => r.id === aiRecipeId);
           if (recipe) {
             setSelectedRecipe(recipe);
+
+            // Scroll to AI recipes section after a brief delay
+            setTimeout(() => {
+              const element = document.getElementById('ai-recipes-section');
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 100);
           }
         }
       });
@@ -249,7 +257,7 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
 
   if (selectedRecipe) {
     return (
-      <section>
+      <section id="ai-recipes-section">
         <div className="mb-4 flex items-center justify-between">
           <button
             onClick={() => setSelectedRecipe(null)}
@@ -408,7 +416,7 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
   }
 
   return (
-    <section>
+    <section id="ai-recipes-section">
       <h2 className="text-xl font-semibold mb-4 text-gray-900">AI-Generated Recipes</h2>
       <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
         {loading ? (
