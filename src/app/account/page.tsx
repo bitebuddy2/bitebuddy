@@ -1,12 +1,12 @@
 "use client";
 import { supabase } from "@/lib/supabase";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { client } from "@/sanity/client";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import MealPlannerCalendar from "@/components/MealPlannerCalendar";
 
-export default function AccountPage() {
+function AccountContent() {
   const [user, setUser] = useState<any>(null);
   const searchParams = useSearchParams();
 
@@ -63,6 +63,14 @@ export default function AccountPage() {
   }
 
   return <Dashboard user={user} searchParams={searchParams} />;
+}
+
+export default function AccountPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center"><p>Loading...</p></div>}>
+      <AccountContent />
+    </Suspense>
+  );
 }
 
 function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
