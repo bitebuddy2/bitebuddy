@@ -2,6 +2,7 @@ import LatestRecipes from "@/components/LatestRecipes";
 import TopSearch from "@/components/TopSearch";
 import IngredientFinder from "@/components/IngredientFinder";
 import BrandBar from "@/components/BrandBar";
+import AdPlaceholder from "@/components/AdPlaceholder";
 import { client } from "@/sanity/client";
 import { allRecipesForCardsQuery, allBrandsQuery } from "@/sanity/queries";
 import Link from "next/link";
@@ -39,6 +40,11 @@ export default async function HomePage() {
 
       {/* INGREDIENT FINDER */}
       <IngredientFinder />
+
+      {/* Ad between sections */}
+      <div className="mx-auto max-w-6xl px-4 py-6">
+        <AdPlaceholder size="leaderboard" />
+      </div>
 
       {/* BRAND BAR */}
       <BrandBar brands={brands} />

@@ -12,6 +12,7 @@ import StarRating from "@/components/StarRating";
 import ShareRow from "@/components/ShareRow";
 import SaveButton from "@/components/SaveButton";
 import AffiliateButton from "@/components/AffiliateButton";
+import AdPlaceholder from "@/components/AdPlaceholder";
 
 // 👇 use ONE of these imports depending on which fix you chose:
 // Option A: relative import (quick fix)
@@ -251,6 +252,11 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
       <hr className="mt-8 border-gray-200" />
 
+      {/* Ad before recipe content */}
+      <div className="mt-8 mb-6">
+        <AdPlaceholder size="leaderboard" />
+      </div>
+
       <div className="mt-8 grid gap-8 md:grid-cols-2">
         <section className="rounded-2xl border p-4">
           <h2 className="mb-3 text-xl font-semibold tracking-tight">Ingredients</h2>
@@ -397,6 +403,11 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
           </table>
         </section>
       )}
+
+      {/* Ad at end of recipe */}
+      <div className="mt-8">
+        <AdPlaceholder size="rectangle" />
+      </div>
 
       {/* JSON-LD: Recipe */}
       <script

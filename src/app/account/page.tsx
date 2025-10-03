@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { client } from "@/sanity/client";
 import Image from "next/image";
+import MealPlannerCalendar from "@/components/MealPlannerCalendar";
 
 export default function AccountPage() {
   const [user, setUser] = useState<any>(null);
@@ -63,12 +64,14 @@ export default function AccountPage() {
 }
 
 function Dashboard({ user }: { user: any }) {
+  const [activeTab, setActiveTab] = useState<"recipes" | "planner">("recipes");
+
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto max-w-4xl px-4 py-8">
+      <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">My Recipes</h1>
+            <h1 className="text-3xl font-bold text-gray-900">My Account</h1>
             <p className="mt-1 text-sm text-gray-600">Signed in as {user.email}</p>
           </div>
           <button
@@ -78,8 +81,42 @@ function Dashboard({ user }: { user: any }) {
             Sign Out
           </button>
         </div>
-        <SavedPublished />
-        <SavedAI />
+
+        {/* Tabs */}
+        <div className="border-b border-gray-200 mb-6">
+          <nav className="-mb-px flex space-x-8">
+            <button
+              onClick={() => setActiveTab("recipes")}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === "recipes"
+                  ? "border-emerald-600 text-emerald-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              Saved Recipes
+            </button>
+            <button
+              onClick={() => setActiveTab("planner")}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === "planner"
+                  ? "border-emerald-600 text-emerald-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              Meal Planner
+            </button>
+          </nav>
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === "recipes" ? (
+          <div className="max-w-4xl">
+            <SavedPublished />
+            <SavedAI />
+          </div>
+        ) : (
+          <MealPlannerCalendar />
+        )}
       </div>
     </div>
   );

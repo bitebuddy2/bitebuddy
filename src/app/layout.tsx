@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import GAReporter from "@/components/GAReporter";
 import CookieConsent from "@/components/CookieConsent";
 import SignupBanner from "@/components/SignupBanner";
+import AdPlaceholder from "@/components/AdPlaceholder";
 import { SITE } from "@/lib/seo"; // centralised SEO settings
 
 const geistSans = Geist({
@@ -95,6 +96,9 @@ export default function RootLayout({
         <SignupBanner />
         <Header />
         {children}
+        <div className="mx-auto max-w-6xl px-4 py-6">
+          <AdPlaceholder size="leaderboard" />
+        </div>
         <Footer />
       </body>
     </html>

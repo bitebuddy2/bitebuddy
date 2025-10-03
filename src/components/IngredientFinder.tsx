@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ShareRow from "./ShareRow";
 import RecipeCard from "./RecipeCard";
+import AdPlaceholder from "./AdPlaceholder";
 import { client } from "@/sanity/client";
 import { recipesByIngredientNamesQuery } from "@/sanity/queries";
 import { supabase } from "@/lib/supabase";
@@ -487,7 +488,8 @@ export default function IngredientFinder() {
               type="button"
               onClick={onGenerateAI}
               disabled={isGenerating || !q.trim()}
-              className="h-11 flex-1 sm:flex-none rounded-lg border px-4 text-sm font-semibold hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              className="h-11 flex-1 sm:flex-none rounded-lg px-4 text-sm font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              style={{ backgroundColor: '#FF5757' }}
               title="Use AI to create a new recipe idea from your input"
             >
               {isGenerating ? "Generating..." : "Create AI"}
@@ -829,6 +831,11 @@ export default function IngredientFinder() {
                 ← Generate another recipe
               </button>
             </div>
+
+            {/* Ad at end of AI recipe */}
+            <div className="mt-6">
+              <AdPlaceholder size="banner" />
+            </div>
           </div>
         )}
 
@@ -851,27 +858,35 @@ export default function IngredientFinder() {
               )}
             </div>
             <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {results.slice(0, 9).map((recipe) => (
-                <div key={recipe.slug}>
-                  <RecipeCard r={recipe} />
-                  {/* Show matched ingredients below the card */}
-                  {recipe.matched && recipe.matched.length > 0 && (
-                    <div className="mt-2 text-xs text-gray-500">
-                      <p>
-                        Matches: {recipe.matched.map((m: any) => m.name || m).filter(Boolean).join(", ")}
-                      </p>
-                      <p className="text-red-600">
-                        Missing: {searchedIngredients.filter(searched =>
-                          !recipe.matched?.some((m: any) => {
-                            const matchName = (m.name || m).toLowerCase();
-                            const searchedLower = searched.toLowerCase();
-                            return matchName.includes(searchedLower) || searchedLower.includes(matchName);
-                          })
-                        ).join(", ")}
-                      </p>
+              {results.slice(0, 9).map((recipe, index) => (
+                <>
+                  <div key={recipe.slug}>
+                    <RecipeCard r={recipe} />
+                    {/* Show matched ingredients below the card */}
+                    {recipe.matched && recipe.matched.length > 0 && (
+                      <div className="mt-2 text-xs text-gray-500">
+                        <p>
+                          Matches: {recipe.matched.map((m: any) => m.name || m).filter(Boolean).join(", ")}
+                        </p>
+                        <p className="text-red-600">
+                          Missing: {searchedIngredients.filter(searched =>
+                            !recipe.matched?.some((m: any) => {
+                              const matchName = (m.name || m).toLowerCase();
+                              const searchedLower = searched.toLowerCase();
+                              return matchName.includes(searchedLower) || searchedLower.includes(matchName);
+                            })
+                          ).join(", ")}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  {/* Ad after every 6 recipes */}
+                  {(index + 1) % 6 === 0 && index !== results.slice(0, 9).length - 1 && (
+                    <div key={`ad-${index}`} className="sm:col-span-2 lg:col-span-3">
+                      <AdPlaceholder size="banner" className="my-2" />
                     </div>
                   )}
-                </div>
+                </>
               ))}
             </ul>
 

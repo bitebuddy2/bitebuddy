@@ -11,7 +11,6 @@ const nav = [
   { href: "/recipes", label: "Recipes" },
   { href: "/products", label: "Products" },
   { href: "/search", label: "Ingredient Search" },
-  { href: "/studio", label: "Studio" },
 ];
 
 export default function Header() {
