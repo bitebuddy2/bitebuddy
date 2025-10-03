@@ -3,14 +3,6 @@ import OpenAI from "openai";
 import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
-// ---- OpenAI
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
-
 // keep this in sync with your schema dropdown
 const ALLOWED_UNITS = [
   "g","kg","oz","lb","ml","l","tsp","tbsp","cup",
@@ -49,6 +41,13 @@ const RecipePreviewSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
+
   try {
     const { prompt, userId } = await req.json();
     if (!prompt || typeof prompt !== "string") {
