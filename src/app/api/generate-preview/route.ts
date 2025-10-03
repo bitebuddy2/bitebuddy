@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { z } from "zod";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 // ---- OpenAI
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
@@ -44,14 +50,54 @@ const RecipePreviewSchema = z.object({
 
 export async function POST(req: Request) {
   try {
-    const { prompt } = await req.json();
+    const { prompt, userId } = await req.json();
     if (!prompt || typeof prompt !== "string") {
       return NextResponse.json({ error: "Missing 'prompt' string" }, { status: 400 });
+    }
+
+    if (!userId) {
+      return NextResponse.json({ error: "User ID required" }, { status: 401 });
     }
 
     // Guardrails to control cost
     if (prompt.length > 500) {
       return NextResponse.json({ error: "Prompt too long (max 500 chars)" }, { status: 400 });
+    }
+
+    // Check subscription status
+    const { data: subscription } = await supabaseAdmin
+      .from("user_subscriptions")
+      .select("status")
+      .eq("user_id", userId)
+      .single();
+
+    const isPremium = subscription?.status === "active" || subscription?.status === "trialing";
+
+    // Check rate limit for free users
+    if (!isPremium) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const { data: todayGenerations, error } = await supabaseAdmin
+        .from("ai_generation_log")
+        .select("id")
+        .eq("user_id", userId)
+        .gte("created_at", today.toISOString());
+
+      if (error) {
+        console.error("Error checking rate limit:", error);
+      }
+
+      if (todayGenerations && todayGenerations.length >= 1) {
+        return NextResponse.json(
+          {
+            error: "Daily limit reached",
+            message: "Free users can generate 1 recipe per day. Upgrade to Premium for unlimited generations.",
+            needsUpgrade: true
+          },
+          { status: 429 }
+        );
+      }
     }
 
     const system = [
@@ -84,6 +130,11 @@ export async function POST(req: Request) {
 
     const raw = completion.choices?.[0]?.message?.content || "{}";
     let parsed = RecipePreviewSchema.parse(JSON.parse(raw));
+
+    // Log the generation
+    await supabaseAdmin.from("ai_generation_log").insert({
+      user_id: userId
+    });
 
     // Return the recipe data without saving to Sanity
     return NextResponse.json({

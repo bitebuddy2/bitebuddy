@@ -9,6 +9,8 @@ import AdPlaceholder from "./AdPlaceholder";
 import { client } from "@/sanity/client";
 import { recipesByIngredientNamesQuery } from "@/sanity/queries";
 import { supabase } from "@/lib/supabase";
+import { useSubscription } from "@/hooks/useSubscription";
+import UpgradeModal from "./UpgradeModal";
 
 type Recipe = {
   slug: string;
@@ -245,6 +247,9 @@ export default function IngredientFinder() {
   const [searchedIngredients, setSearchedIngredients] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [userId, setUserId] = useState<string>("");
+  const { isPremium } = useSubscription();
 
   // preferences (used by AI generation)
   const [method, setMethod] = useState<(typeof METHODS)[number]>("Any");
@@ -252,6 +257,13 @@ export default function IngredientFinder() {
   const [spice, setSpice] = useState<(typeof SPICE)[number]>("None");
   const [diet, setDiet] = useState<(typeof DIETS)[number]>("None");
   const [avoid, setAvoid] = useState("");
+
+  // Get user ID
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) setUserId(data.user.id);
+    });
+  }, []);
 
   // Load last generated recipe from localStorage on mount
   useEffect(() => {
@@ -350,6 +362,12 @@ export default function IngredientFinder() {
       return;
     }
 
+    // Check if user is logged in
+    if (!userId) {
+      window.location.href = "/account";
+      return;
+    }
+
     setIsGenerating(true);
     setGeneratedRecipe(null); // Clear previous recipe
     setResults([]); // Clear search results to hide "No matches found" message
@@ -415,7 +433,7 @@ export default function IngredientFinder() {
       const response = await fetch("/api/generate-preview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, userId }),
       });
 
       const data = await response.json();
@@ -428,6 +446,9 @@ export default function IngredientFinder() {
 
         // Save to localStorage as the last generated recipe
         localStorage.setItem("lastGeneratedRecipe", JSON.stringify(data.recipe));
+      } else if (response.status === 429 && data.needsUpgrade) {
+        // Rate limit hit - show upgrade modal
+        setShowUpgradeModal(true);
       } else {
         // Check if it's an impossible combination error
         const errorMsg = data.error || "Unknown error";
@@ -902,6 +923,15 @@ export default function IngredientFinder() {
           </section>
         )}
       </div>
+
+      {/* Upgrade Modal */}
+      {showUpgradeModal && userId && (
+        <UpgradeModal
+          isOpen={showUpgradeModal}
+          onClose={() => setShowUpgradeModal(false)}
+          userId={userId}
+        />
+      )}
     </section>
   );
 }

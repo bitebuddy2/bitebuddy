@@ -5,6 +5,8 @@ import { client } from "@/sanity/client";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import MealPlannerCalendar from "@/components/MealPlannerCalendar";
+import { useSubscription } from "@/hooks/useSubscription";
+import UpgradeModal from "@/components/UpgradeModal";
 
 function AccountContent() {
   const [user, setUser] = useState<any>(null);
@@ -77,21 +79,69 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
   const tabParam = searchParams.get("tab");
   const aiRecipeId = searchParams.get("ai");
   const [activeTab, setActiveTab] = useState<"recipes" | "planner">(tabParam === "planner" ? "planner" : "recipes");
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [isManagingSubscription, setIsManagingSubscription] = useState(false);
+  const { isPremium, subscription } = useSubscription();
+
+  const handleManageSubscription = async () => {
+    setIsManagingSubscription(true);
+    try {
+      const response = await fetch("/api/create-portal-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id }),
+      });
+
+      const { url } = await response.json();
+      if (url) {
+        window.location.href = url;
+      }
+    } catch (error) {
+      console.error("Error opening customer portal:", error);
+      alert("Failed to open subscription management. Please try again.");
+      setIsManagingSubscription(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">My Account</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-gray-900">My Account</h1>
+              {isPremium && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 py-1 text-sm font-semibold text-white">
+                  ⭐ Premium
+                </span>
+              )}
+            </div>
             <p className="mt-1 text-sm text-gray-600">Signed in as {user.email}</p>
           </div>
-          <button
-            onClick={() => supabase.auth.signOut().then(() => window.location.reload())}
-            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >
-            Sign Out
-          </button>
+          <div className="flex items-center gap-3">
+            {isPremium ? (
+              <button
+                onClick={handleManageSubscription}
+                disabled={isManagingSubscription}
+                className="rounded-lg border border-emerald-600 px-4 py-2 text-sm font-medium text-emerald-600 hover:bg-emerald-50 disabled:opacity-50"
+              >
+                {isManagingSubscription ? "Loading..." : "Manage Subscription"}
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowUpgradeModal(true)}
+                className="rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:from-emerald-600 hover:to-emerald-700"
+              >
+                ⭐ Upgrade to Premium
+              </button>
+            )}
+            <button
+              onClick={() => supabase.auth.signOut().then(() => window.location.reload())}
+              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              Sign Out
+            </button>
+          </div>
         </div>
 
         {/* Tabs */}
@@ -128,6 +178,15 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
           </div>
         ) : (
           <MealPlannerCalendar />
+        )}
+
+        {/* Upgrade Modal */}
+        {showUpgradeModal && user && (
+          <UpgradeModal
+            isOpen={showUpgradeModal}
+            onClose={() => setShowUpgradeModal(false)}
+            userId={user.id}
+          />
         )}
       </div>
     </div>

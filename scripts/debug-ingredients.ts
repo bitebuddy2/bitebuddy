@@ -19,15 +19,31 @@ if (!token) {
 const client = createClient({ projectId, dataset, token, apiVersion, useCdn: false });
 
 async function debugIngredients() {
-  console.log("🔍 Investigating ingredient data...\n");
+  console.log("🔍 Checking for invalid ingredient list items...\n");
 
-  // 1. Check all ingredient documents
-  const ingredients = await client.fetch(`*[_type == "ingredient"]{_id, name, synonyms}`);
-  console.log(`📋 Found ${ingredients.length} ingredient documents:`);
-  ingredients.forEach((ing: any, i: number) => {
-    console.log(`  ${i + 1}. ${ing.name || "[NO NAME]"} (${ing._id})`);
-  });
-  console.log();
+  // Fetch raw ingredients array structure
+  const recipes = await client.fetch(`*[_type == "recipe"][0...5]{ _id, title, ingredients }`);
+
+  for (const recipe of recipes) {
+    console.log(`\n${recipe.title}:`);
+    if (!recipe.ingredients) {
+      console.log("  No ingredients");
+      continue;
+    }
+
+    recipe.ingredients.forEach((item: any, i: number) => {
+      console.log(`  [${i}] Type: ${item._type || 'MISSING'}, Keys: ${Object.keys(item).join(', ')}`);
+      if (typeof item === 'string') {
+        console.log(`    ❌ INVALID: String value "${item}"`);
+      } else if (Array.isArray(item)) {
+        console.log(`    ❌ INVALID: Array value`);
+      } else if (!item._type) {
+        console.log(`    ❌ INVALID: Missing _type`);
+      }
+    });
+  }
+
+  console.log("\n\n🔍 OLD DEBUG CODE:\n");
 
   // 2. Check all recipes and their ingredient usage
   const recipes = await client.fetch(`

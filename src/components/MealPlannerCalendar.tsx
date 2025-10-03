@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import Image from "next/image";
+import { useSubscription } from "@/hooks/useSubscription";
+import UpgradeModal from "./UpgradeModal";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
@@ -32,13 +34,24 @@ export default function MealPlannerCalendar() {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<{ date: string; mealType: MealType } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [userId, setUserId] = useState<string>("");
+  const { isPremium, loading: subLoading } = useSubscription();
 
   const mealTypes: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
 
-  // Generate 14 days from start date
+  // Get user ID
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) setUserId(data.user.id);
+    });
+  }, []);
+
+  // Generate days from start date - 3 for free, 14 for premium
   const getDays = () => {
     const days = [];
-    for (let i = 0; i < 14; i++) {
+    const maxDays = isPremium ? 14 : 3;
+    for (let i = 0; i < maxDays; i++) {
       const date = new Date(startDate);
       date.setDate(date.getDate() + i);
       days.push(date);
@@ -53,7 +66,8 @@ export default function MealPlannerCalendar() {
 
       // Fetch meal plan entries
       const endDate = new Date(startDate);
-      endDate.setDate(endDate.getDate() + 14);
+      const maxDays = isPremium ? 14 : 3;
+      endDate.setDate(endDate.getDate() + maxDays);
 
       const { data: planData } = await supabase
         .from("meal_plan")
@@ -109,7 +123,7 @@ export default function MealPlannerCalendar() {
     }
 
     fetchData();
-  }, [startDate]);
+  }, [startDate, isPremium]);
 
   // Assign recipe to a meal slot
   async function assignRecipe() {
@@ -172,21 +186,35 @@ export default function MealPlannerCalendar() {
 
   const days = getDays();
 
+  const maxDays = isPremium ? 14 : 3;
+
   return (
     <div className="space-y-6">
       {/* Header with navigation */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">14-Day Meal Planner</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">
+            {isPremium ? "14-Day" : "3-Day"} Meal Planner
+          </h2>
+          {!isPremium && (
+            <button
+              onClick={() => setShowUpgradeModal(true)}
+              className="text-sm text-emerald-600 hover:text-emerald-700 font-medium mt-1"
+            >
+              ⭐ Upgrade to unlock 14-day planner
+            </button>
+          )}
+        </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => {
               const newDate = new Date(startDate);
-              newDate.setDate(newDate.getDate() - 14);
+              newDate.setDate(newDate.getDate() - maxDays);
               setStartDate(newDate);
             }}
             className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
-            ← Previous 14 days
+            ← Previous {maxDays} days
           </button>
           <button
             onClick={() => setStartDate(new Date())}
@@ -197,12 +225,12 @@ export default function MealPlannerCalendar() {
           <button
             onClick={() => {
               const newDate = new Date(startDate);
-              newDate.setDate(newDate.getDate() + 14);
+              newDate.setDate(newDate.getDate() + maxDays);
               setStartDate(newDate);
             }}
             className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
-            Next 14 days →
+            Next {maxDays} days →
           </button>
         </div>
       </div>
@@ -370,6 +398,15 @@ export default function MealPlannerCalendar() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Upgrade Modal */}
+      {showUpgradeModal && userId && (
+        <UpgradeModal
+          isOpen={showUpgradeModal}
+          onClose={() => setShowUpgradeModal(false)}
+          userId={userId}
+        />
       )}
     </div>
   );
