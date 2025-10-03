@@ -64,16 +64,22 @@ export async function POST(req: NextRequest) {
           .single();
 
         if (userSub) {
+          const updateData: any = {
+            status: subscription.status,
+            cancel_at_period_end: subscription.cancel_at_period_end || false,
+            updated_at: new Date().toISOString(),
+          };
+
+          // Only add current_period_end if it exists
+          if (subscription.current_period_end) {
+            updateData.current_period_end = new Date(
+              subscription.current_period_end * 1000
+            ).toISOString();
+          }
+
           await supabaseAdmin
             .from("user_subscriptions")
-            .update({
-              status: subscription.status,
-              cancel_at_period_end: subscription.cancel_at_period_end,
-              current_period_end: new Date(
-                subscription.current_period_end * 1000
-              ).toISOString(),
-              updated_at: new Date().toISOString(),
-            })
+            .update(updateData)
             .eq("stripe_customer_id", customerId);
         }
         break;
