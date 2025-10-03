@@ -115,7 +115,12 @@ export default function MealPlannerCalendar() {
   async function assignRecipe() {
     if (!selectedRecipe || !selectedSlot) return;
 
+    // Get current user
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
     const entry = {
+      user_id: user.id,
       date: selectedSlot.date,
       meal_type: selectedSlot.mealType,
       recipe_type: selectedRecipe.type,
@@ -127,7 +132,13 @@ export default function MealPlannerCalendar() {
       onConflict: "user_id,date,meal_type",
     }).select();
 
-    if (!error && data) {
+    if (error) {
+      console.error("Error assigning recipe:", error);
+      alert("Failed to assign recipe. Please try again.");
+      return;
+    }
+
+    if (data) {
       setMealPlan({ ...mealPlan, [`${selectedSlot.date}-${selectedSlot.mealType}`]: data[0] });
       setSelectedSlot(null);
       setSelectedRecipe(null);
