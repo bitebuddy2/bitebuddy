@@ -54,7 +54,7 @@ export default function Header() {
               {n.label}
             </Link>
           ))}
-          {!isPremium && user && (
+          {!isPremium && (
             <Link
               href="/premium"
               className="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1.5 text-sm font-semibold text-white hover:from-amber-600 hover:to-orange-600 flex items-center gap-1"
@@ -81,7 +81,7 @@ export default function Header() {
 
         {/* Mobile nav */}
         <div className="md:hidden flex items-center gap-2">
-          {!isPremium && user && (
+          {!isPremium && (
             <Link
               href="/premium"
               className="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2 py-1.5 text-xs font-semibold text-white"
