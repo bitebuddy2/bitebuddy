@@ -336,7 +336,7 @@ export default function IngredientFinder() {
 
             const missing = names.filter(searchedIng => {
               const searchedLower = searchedIng.toLowerCase();
-              return !recipeIngredients.some(recipeIng =>
+              return !recipeIngredients.some((recipeIng: string) =>
                 recipeIng.includes(searchedLower) || searchedLower.includes(recipeIng)
               );
             });

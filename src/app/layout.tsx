@@ -8,6 +8,7 @@ import CookieConsent from "@/components/CookieConsent";
 import SignupBanner from "@/components/SignupBanner";
 import AdPlaceholder from "@/components/AdPlaceholder";
 import { SITE } from "@/lib/seo"; // centralised SEO settings
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -94,6 +95,7 @@ export default function RootLayout({
         <GAReporter />
         <CookieConsent />
         <SignupBanner />
+        <SpeedInsights />
         <Header />
         {children}
         <div className="mx-auto max-w-6xl px-4 py-6">
