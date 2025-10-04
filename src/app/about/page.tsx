@@ -20,7 +20,7 @@ export default function AboutPage() {
 
         <div className="order-1 md:order-2">
           <Image
-            src="/image.jpg"
+            src="/my image.jpg"
             alt="Jonathan - Founder of BiteBuddy"
             width={400}
             height={400}
