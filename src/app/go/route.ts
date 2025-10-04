@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 const ALLOWED_DOMAINS = [
   "amazon.co.uk",
   "www.amazon.co.uk",
+  "amzn.to", // Amazon short links
   "tesco.com",
   "www.tesco.com",
   "ocado.com",
