@@ -254,6 +254,7 @@ export default function IngredientFinder() {
   const [isSavingLast, setIsSavingLast] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [userId, setUserId] = useState<string>("");
+  const [nearMatchRecipe, setNearMatchRecipe] = useState<{ recipe: Recipe; missing: string[] } | null>(null);
   const { isPremium } = useSubscription();
 
   // preferences (used by AI generation)
@@ -316,9 +317,44 @@ export default function IngredientFinder() {
         });
 
         setResults(filteredRecipes);
+
+        // Check for near-match recipes (missing 3 or fewer ingredients)
+        if (filteredRecipes.length === 0 && recipes && recipes.length > 0) {
+          // Find the best near-match
+          let bestMatch: { recipe: Recipe; missing: string[] } | null = null;
+          let fewestMissing = 4; // We only care about 3 or fewer
+
+          for (const recipe of recipes) {
+            const recipeIngredients = recipe.allIngredients?.map(ing => {
+              if (ing.text && ing.text !== 'null') return ing.text.toLowerCase();
+              if (ing.ref && ing.ref !== 'null') return ing.ref.toLowerCase();
+              if (ing.refId && ing.refId !== 'null') {
+                return ing.refId.replace('ingredient.', '').replace(/-/g, ' ').toLowerCase();
+              }
+              return '';
+            }).filter(Boolean) || [];
+
+            const missing = names.filter(searchedIng => {
+              const searchedLower = searchedIng.toLowerCase();
+              return !recipeIngredients.some(recipeIng =>
+                recipeIng.includes(searchedLower) || searchedLower.includes(recipeIng)
+              );
+            });
+
+            if (missing.length < fewestMissing && missing.length > 0 && missing.length <= 3) {
+              fewestMissing = missing.length;
+              bestMatch = { recipe, missing };
+            }
+          }
+
+          setNearMatchRecipe(bestMatch);
+        } else {
+          setNearMatchRecipe(null);
+        }
       } catch (error) {
         console.error('Search error:', error);
         setResults([]);
+        setNearMatchRecipe(null);
       }
     });
   }
@@ -690,8 +726,40 @@ export default function IngredientFinder() {
           </div>
         )}
 
+        {/* Near-match suggestion */}
+        {!isPending && nearMatchRecipe && !generatedRecipe && (
+          <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <div className="flex items-start space-x-3">
+              <svg className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"/>
+              </svg>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-amber-900 mb-1">
+                  So close! You're only missing {nearMatchRecipe.missing.length} ingredient{nearMatchRecipe.missing.length > 1 ? 's' : ''}
+                </p>
+                <p className="text-sm text-amber-800 mb-2">
+                  Recipe: <strong>{nearMatchRecipe.recipe.title}</strong>
+                </p>
+                <p className="text-xs text-amber-700 mb-3">
+                  Missing: {nearMatchRecipe.missing.join(', ')}
+                </p>
+                <button
+                  onClick={() => {
+                    const substitutionPrompt = `Create a version of "${nearMatchRecipe.recipe.title}" but I'm missing these ingredients: ${nearMatchRecipe.missing.join(', ')}. Suggest substitutions or alternatives I can use instead.`;
+                    setQ(substitutionPrompt);
+                    onGenerateAI();
+                  }}
+                  className="text-sm font-medium text-amber-900 underline hover:text-amber-950"
+                >
+                  Generate AI recipe with substitutions →
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Empty state */}
-        {!isPending && results.length === 0 && searchedIngredients.length > 0 && !generatedRecipe && (
+        {!isPending && results.length === 0 && searchedIngredients.length > 0 && !generatedRecipe && !nearMatchRecipe && (
           <div className="mt-4 p-4 bg-gray-50 rounded-lg">
             <p className="text-sm text-gray-600 mb-2">
               No recipes matched those ingredients with your current preferences.
