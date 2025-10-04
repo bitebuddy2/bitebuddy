@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       apiVersion: "2025-09-30.clover",
     });
 
-    const { userId, plan } = await req.json();
+    const { userId, plan, promoCode } = await req.json();
 
     if (!userId) {
       return NextResponse.json({ error: "User ID required" }, { status: 400 });
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
+    const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
       mode: "subscription",
       line_items: [
@@ -48,7 +48,15 @@ export async function POST(req: NextRequest) {
       metadata: {
         user_id: userId,
       },
-    });
+      allow_promotion_codes: !promoCode, // Enable promotion code field if no code provided
+    };
+
+    // Add promotion code if provided
+    if (promoCode) {
+      sessionConfig.discounts = [{ promotion_code: promoCode }];
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return NextResponse.json({ sessionId: session.id, url: session.url });
   } catch (err: any) {

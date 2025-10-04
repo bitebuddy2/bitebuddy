@@ -14,6 +14,7 @@ interface UpgradeModalProps {
 export default function UpgradeModal({ isOpen, onClose, userId }: UpgradeModalProps) {
   const [loading, setLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">("monthly");
+  const [promoCode, setPromoCode] = useState("");
 
   const handleUpgrade = async () => {
     setLoading(true);
@@ -21,7 +22,7 @@ export default function UpgradeModal({ isOpen, onClose, userId }: UpgradeModalPr
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, plan: selectedPlan }),
+        body: JSON.stringify({ userId, plan: selectedPlan, promoCode: promoCode.trim() }),
       });
 
       const data = await response.json();
@@ -120,6 +121,21 @@ export default function UpgradeModal({ isOpen, onClose, userId }: UpgradeModalPr
           </div>
 
           <p className="text-sm text-gray-600 text-center mb-6">Cancel anytime. No commitments.</p>
+
+          {/* Promo Code Input */}
+          <div className="mb-6">
+            <label htmlFor="promo-code" className="block text-sm font-medium text-gray-700 mb-2">
+              Have a discount code?
+            </label>
+            <input
+              id="promo-code"
+              type="text"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              placeholder="Enter code"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+            />
+          </div>
 
           {/* Features List */}
           <div className="space-y-4 mb-6">
