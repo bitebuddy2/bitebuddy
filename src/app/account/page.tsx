@@ -93,9 +93,17 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
         body: JSON.stringify({ userId: user.id }),
       });
 
-      const { url } = await response.json();
-      if (url) {
-        window.location.href = url;
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Portal session error:", data);
+        alert(`Failed to open subscription management: ${data.error || 'Please try again.'}`);
+        setIsManagingSubscription(false);
+        return;
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
       }
     } catch (error) {
       console.error("Error opening customer portal:", error);
