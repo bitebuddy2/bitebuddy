@@ -24,6 +24,11 @@ export async function POST(req: NextRequest) {
       ? process.env.STRIPE_PRICE_ID_YEARLY
       : process.env.STRIPE_PRICE_ID_MONTHLY;
 
+    console.log("Plan:", plan);
+    console.log("Price ID:", priceId);
+    console.log("STRIPE_PRICE_ID_MONTHLY:", process.env.STRIPE_PRICE_ID_MONTHLY);
+    console.log("STRIPE_PRICE_ID_YEARLY:", process.env.STRIPE_PRICE_ID_YEARLY);
+
     if (!priceId) {
       return NextResponse.json({ error: "Invalid plan selected" }, { status: 400 });
     }
