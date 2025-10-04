@@ -89,7 +89,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-900 bg-white pb-20`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-900 bg-green-50 pb-20`}
       >
         <GAReporter />
         <CookieConsent />
