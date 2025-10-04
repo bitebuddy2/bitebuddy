@@ -82,6 +82,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [isManagingSubscription, setIsManagingSubscription] = useState(false);
   const { isPremium, subscription } = useSubscription();
+  const hasStripeCustomer = subscription?.stripe_customer_id;
 
   const handleManageSubscription = async () => {
     setIsManagingSubscription(true);
@@ -119,7 +120,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
             <p className="mt-1 text-sm text-gray-600">Signed in as {user.email}</p>
           </div>
           <div className="flex items-center gap-3">
-            {isPremium ? (
+            {isPremium && hasStripeCustomer ? (
               <button
                 onClick={handleManageSubscription}
                 disabled={isManagingSubscription}
@@ -127,14 +128,14 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
               >
                 {isManagingSubscription ? "Loading..." : "Manage Subscription"}
               </button>
-            ) : (
+            ) : !isPremium ? (
               <button
                 onClick={() => setShowUpgradeModal(true)}
                 className="rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:from-emerald-600 hover:to-emerald-700"
               >
                 ⭐ Upgrade to Premium
               </button>
-            )}
+            ) : null}
             <button
               onClick={() => supabase.auth.signOut().then(() => window.location.reload())}
               className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
