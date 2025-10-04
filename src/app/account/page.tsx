@@ -7,6 +7,8 @@ import { useSearchParams } from "next/navigation";
 import MealPlannerCalendar from "@/components/MealPlannerCalendar";
 import { useSubscription } from "@/hooks/useSubscription";
 import UpgradeModal from "@/components/UpgradeModal";
+import ShareRow from "@/components/ShareRow";
+import Link from "next/link";
 
 function AccountContent() {
   const [user, setUser] = useState<any>(null);
@@ -336,12 +338,18 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
             </svg>
             Back to AI Recipes
           </button>
-          <button
-            onClick={() => deleteRecipe(selectedRecipe.id)}
-            className="text-sm text-red-600 hover:text-red-700"
-          >
-            Delete
-          </button>
+          <div className="flex items-center gap-3">
+            <ShareRow
+              title={selectedRecipe.title}
+              url={`${window.location.origin}/ai-recipe/${selectedRecipe.id}`}
+            />
+            <button
+              onClick={() => deleteRecipe(selectedRecipe.id)}
+              className="text-sm text-red-600 hover:text-red-700"
+            >
+              Delete
+            </button>
+          </div>
         </div>
 
         <div className="bg-white rounded-lg border border-gray-200 p-6">
@@ -496,21 +504,38 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
             {items.map((r) => (
               <div
                 key={r.id}
-                onClick={() => setSelectedRecipe(r)}
-                className="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer hover:shadow-md transition-shadow"
+                className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 hover:text-emerald-600">{r.title}</h3>
-                    {r.description && (
-                      <p className="text-sm text-gray-600 mt-1 line-clamp-2">{r.description}</p>
-                    )}
-                    <p className="text-xs text-gray-500 mt-2">
-                      {new Date(r.created_at).toLocaleDateString()}
-                    </p>
+                    <Link href={`/ai-recipe/${r.id}`} className="block">
+                      <h3 className="font-semibold text-gray-900 hover:text-emerald-600">{r.title}</h3>
+                      {r.description && (
+                        <p className="text-sm text-gray-600 mt-1 line-clamp-2">{r.description}</p>
+                      )}
+                      <p className="text-xs text-gray-500 mt-2">
+                        {new Date(r.created_at).toLocaleDateString()}
+                      </p>
+                    </Link>
+                    <div className="mt-2 flex items-center gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSelectedRecipe(r);
+                        }}
+                        className="text-xs text-emerald-600 hover:text-emerald-700"
+                      >
+                        View Details
+                      </button>
+                      <span className="text-gray-300">•</span>
+                      <ShareRow
+                        title={r.title}
+                        url={`${window.location.origin}/ai-recipe/${r.id}`}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

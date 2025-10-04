@@ -247,7 +247,7 @@ export default function IngredientFinder() {
   const [showGeneratedRecipe, setShowGeneratedRecipe] = useState(true);
   const [searchedIngredients, setSearchedIngredients] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+  const [savedRecipeId, setSavedRecipeId] = useState<string | null>(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [userId, setUserId] = useState<string>("");
   const { isPremium } = useSubscription();
@@ -266,19 +266,7 @@ export default function IngredientFinder() {
     });
   }, []);
 
-  // Load last generated recipe from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("lastGeneratedRecipe");
-    if (saved) {
-      try {
-        const recipe = JSON.parse(saved);
-        setGeneratedRecipe(recipe);
-        setShowGeneratedRecipe(false); // Don't show on page load
-      } catch (error) {
-        console.error("Failed to load last recipe:", error);
-      }
-    }
-  }, []);
+  // Note: Removed localStorage loading - recipes are now saved to database
 
   async function onSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -331,7 +319,7 @@ export default function IngredientFinder() {
 
     setIsSaving(true);
     try {
-      const { error } = await supabase.from("saved_ai_recipes").insert({
+      const { data: savedRecipe, error } = await supabase.from("saved_ai_recipes").insert({
         user_id: user.id,
         title: generatedRecipe.title,
         description: generatedRecipe.description || "",
@@ -344,12 +332,15 @@ export default function IngredientFinder() {
         tips: generatedRecipe.tips || [],
         faqs: generatedRecipe.faqs || [],
         nutrition: generatedRecipe.nutrition || null,
-        data: generatedRecipe, // Store full recipe object in data column
-      });
+        brand_name: generatedRecipe.brandName || null,
+        data: generatedRecipe,
+      }).select().single();
 
       if (error) throw error;
 
-      setIsSaved(true);
+      if (savedRecipe) {
+        setSavedRecipeId(savedRecipe.id);
+      }
     } catch (error: any) {
       console.error("Save error:", error);
       alert(`Failed to save recipe: ${error.message || error}`);
@@ -441,14 +432,11 @@ export default function IngredientFinder() {
       const data = await response.json();
 
       if (response.ok && data.ok) {
-        // Success! Display the recipe locally
+        // Display the recipe locally (not saved yet)
         setGeneratedRecipe(data.recipe);
-        setShowGeneratedRecipe(true); // Show the newly generated recipe
-        setResults([]); // Clear search results to show generated recipe
-        setIsSaved(false); // Reset save state for new recipe
-
-        // Save to localStorage as the last generated recipe
-        localStorage.setItem("lastGeneratedRecipe", JSON.stringify(data.recipe));
+        setShowGeneratedRecipe(true);
+        setResults([]);
+        setSavedRecipeId(null); // Reset saved state
       } else if (response.status === 429 && data.needsUpgrade) {
         // Rate limit hit - show upgrade modal
         setShowUpgradeModal(true);
@@ -677,21 +665,6 @@ export default function IngredientFinder() {
           </div>
         )}
 
-        {/* Show last generated recipe button */}
-        {generatedRecipe && !showGeneratedRecipe && (
-          <div className="mt-6">
-            <button
-              onClick={() => setShowGeneratedRecipe(true)}
-              className="w-full rounded-lg border-2 border-dashed border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-700 hover:bg-emerald-100 transition-colors flex items-center justify-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-              <span className="font-medium">Show Last Generated Recipe</span>
-            </button>
-          </div>
-        )}
 
         {/* AI Generated Recipe */}
         {generatedRecipe && showGeneratedRecipe && (
@@ -701,36 +674,41 @@ export default function IngredientFinder() {
                 <div className="inline-flex items-center space-x-2 text-sm text-emerald-700 bg-emerald-50 rounded-full px-3 py-1 mb-2">
                   <span>🤖</span>
                   <span>AI Generated Recipe</span>
+                  {savedRecipeId && <span className="text-emerald-600">✓ Saved</span>}
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">{generatedRecipe.title}</h3>
               </div>
               <div className="flex items-center gap-3">
-                <ShareRow
-                  title={generatedRecipe.title}
-                  url={`${window.location.origin}/recipes?preview=${encodeURIComponent(JSON.stringify(generatedRecipe))}`}
-                />
-                <button
-                  onClick={saveAIRecipe}
-                  disabled={isSaving || isSaved}
-                  className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
-                  title={isSaved ? "Recipe saved to your account" : "Save recipe to your account"}
-                >
-                  {isSaving ? (
-                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  ) : isSaved ? (
-                    <svg className="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                    </svg>
-                  )}
-                  {isSaved ? "Saved" : "Save"}
-                </button>
+                {savedRecipeId ? (
+                  <ShareRow
+                    title={generatedRecipe.title}
+                    url={`${window.location.origin}/ai-recipe/${savedRecipeId}`}
+                  />
+                ) : (
+                  <button
+                    onClick={saveAIRecipe}
+                    disabled={isSaving}
+                    className="flex items-center gap-2 rounded-lg border border-emerald-600 bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+                    title="Save recipe to your account to enable sharing"
+                  >
+                    {isSaving ? (
+                      <>
+                        <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                        </svg>
+                        Save Recipe
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
             </div>
 
