@@ -55,6 +55,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 border-t pt-6 text-center text-sm text-gray-600">
+          <p className="mb-2">Affiliate Disclosure: BiteBuddy may earn a small commission from qualifying purchases made through our links. This comes at no extra cost to you and helps keep our recipes free and ad-light.</p>
           <p>© {new Date().getFullYear()} Bite Buddy — UK Copycat Recipes</p>
         </div>
       </div>
