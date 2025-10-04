@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { useSubscription } from "@/hooks/useSubscription";
 
 const nav = [
+  { href: "/about", label: "About Us" },
   { href: "/", label: "Home" },
   { href: "/recipes", label: "Recipes" },
   { href: "/products", label: "Products" },

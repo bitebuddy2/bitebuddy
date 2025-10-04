@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { trackAffiliateClick } from "@/lib/analytics";
 
 export default function ProductsPage() {
@@ -34,8 +35,14 @@ export default function ProductsPage() {
       <section className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {/* Placeholder product cards - can be populated from Sanity later */}
         <div className="rounded-lg border bg-white p-6 shadow-sm">
-          <div className="mb-4 h-48 rounded bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-400 text-sm">Product Image</span>
+          <div className="mb-4 h-48 rounded bg-gray-100 flex items-center justify-center overflow-hidden">
+            <Image
+              src="/Coming soon.png"
+              alt="Kitchen Essentials - Coming Soon"
+              width={400}
+              height={192}
+              className="object-contain w-full h-full"
+            />
           </div>
           <h3 className="text-lg font-semibold">Kitchen Essentials</h3>
           <p className="mt-2 text-sm text-gray-600">
@@ -50,8 +57,14 @@ export default function ProductsPage() {
         </div>
 
         <div className="rounded-lg border bg-white p-6 shadow-sm">
-          <div className="mb-4 h-48 rounded bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-400 text-sm">Product Image</span>
+          <div className="mb-4 h-48 rounded bg-gray-100 flex items-center justify-center overflow-hidden">
+            <Image
+              src="/Coming soon.png"
+              alt="Specialty Ingredients - Coming Soon"
+              width={400}
+              height={192}
+              className="object-contain w-full h-full"
+            />
           </div>
           <h3 className="text-lg font-semibold">Specialty Ingredients</h3>
           <p className="mt-2 text-sm text-gray-600">
@@ -66,8 +79,14 @@ export default function ProductsPage() {
         </div>
 
         <div className="rounded-lg border bg-white p-6 shadow-sm">
-          <div className="mb-4 h-48 rounded bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-400 text-sm">Product Image</span>
+          <div className="mb-4 h-48 rounded bg-gray-100 flex items-center justify-center overflow-hidden">
+            <Image
+              src="/Coming soon.png"
+              alt="Cookbooks - Coming Soon"
+              width={400}
+              height={192}
+              className="object-contain w-full h-full"
+            />
           </div>
           <h3 className="text-lg font-semibold">Cookbooks</h3>
           <p className="mt-2 text-sm text-gray-600">

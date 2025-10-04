@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "BiteBuddy privacy policy and data collection practices.",
+  title: "EU Privacy Policy",
+  description: "BiteBuddy EU privacy policy and GDPR compliance information.",
 };
 
 export default function PrivacyPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-12">
-      <h1 className="text-4xl font-bold tracking-tight mb-8">Privacy Policy</h1>
+      <h1 className="text-4xl font-bold tracking-tight mb-8">EU Privacy Policy</h1>
+      <p className="text-sm text-gray-500 mb-8">GDPR Compliant</p>
 
       <div className="prose prose-emerald max-w-none">
         <section className="mb-8">
