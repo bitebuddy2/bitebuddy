@@ -44,11 +44,12 @@ interface AIRecipe {
   created_at: string;
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const { data: recipe } = await supabase
     .from("saved_ai_recipes")
     .select("title, description")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (!recipe) {
@@ -63,11 +64,12 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-export default async function AIRecipePage({ params }: { params: { id: string } }) {
+export default async function AIRecipePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const { data: recipe, error } = await supabase
     .from("saved_ai_recipes")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (error || !recipe) {
