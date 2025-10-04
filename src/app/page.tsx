@@ -19,18 +19,18 @@ export default async function HomePage() {
       <TopSearch />
 
       {/* HERO */}
-      <section className="border-b bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.09),transparent_60%)]">
-        <div className="mx-auto max-w-6xl px-4 py-10 text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">
+      <section className="border-b bg-gradient-to-b from-emerald-50 to-transparent">
+        <div className="mx-auto max-w-6xl px-4 py-16 text-center">
+          <h1 className="text-5xl font-extrabold tracking-tight md:text-6xl bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent">
             UK Copycat Recipes, Made Easy
           </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-gray-700">
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-700 leading-relaxed">
             Simple, fast, and tasty—recreate Greggs, Nando&apos;s, Wagamama and more.
           </p>
-          <div className="mt-5 flex justify-center">
+          <div className="mt-6 flex justify-center gap-4">
             <Link
               href="/recipes"
-              className="rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
+              className="rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-700 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               Browse Recipes
             </Link>

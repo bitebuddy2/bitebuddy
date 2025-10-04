@@ -33,7 +33,7 @@ type CardRecipe = {
 
 function pill(label: string) {
   return (
-    <span className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-600">
+    <span className="inline-flex items-center rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-100">
       {label}
     </span>
   );
@@ -100,10 +100,10 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
     blurb.length > 220 ? blurb.slice(0, 217).trimEnd() + "…" : blurb;
 
   return (
-    <li className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+    <li className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
       <Link href={`/recipes/${r.slug}`} className="block focus:outline-none focus:ring-2 focus:ring-emerald-500/50">
         {/* Top image */}
-        <div className="relative aspect-[16/9] bg-gray-100">
+        <div className="relative aspect-[16/9] bg-gray-100 overflow-hidden">
           {imgUrl ? (
             <Image
               src={imgUrl}
@@ -112,7 +112,7 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               placeholder={lqip ? "blur" : "empty"}
               blurDataURL={lqip}
-              className="object-cover"
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
           ) : (
             <div className="absolute inset-0 grid place-items-center text-gray-400 text-sm">
@@ -152,11 +152,11 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
         )}
 
         {/* Title & blurb */}
-        <div className="px-4 pb-4 pt-2">
-          <h3 className="mb-1 text-xl font-semibold tracking-tight group-hover:underline text-black">
+        <div className="px-5 pb-5 pt-3">
+          <h3 className="mb-2 text-xl font-bold tracking-tight text-gray-900 group-hover:text-emerald-600 transition-colors">
             {r.title}
           </h3>
-          {blurb && <p className="mb-3 text-gray-600">{truncated}</p>}
+          {blurb && <p className="mb-4 text-gray-600 leading-relaxed">{truncated}</p>}
 
           {/* Rating stars */}
           <div className="mb-3">

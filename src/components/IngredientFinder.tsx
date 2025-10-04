@@ -325,7 +325,7 @@ export default function IngredientFinder() {
           let fewestMissing = 4; // We only care about 3 or fewer
 
           for (const recipe of recipes) {
-            const recipeIngredients = recipe.allIngredients?.map(ing => {
+            const recipeIngredients = recipe.allIngredients?.map((ing: any) => {
               if (ing.text && ing.text !== 'null') return ing.text.toLowerCase();
               if (ing.ref && ing.ref !== 'null') return ing.ref.toLowerCase();
               if (ing.refId && ing.refId !== 'null') {
@@ -533,8 +533,8 @@ export default function IngredientFinder() {
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-6">
-      <div className="rounded-2xl border p-4 bg-white shadow-sm">
+    <section className="mx-auto max-w-6xl px-4 py-8">
+      <div className="rounded-2xl border border-gray-200 p-6 bg-white shadow-lg">
         {/* Logo, Title, and Description */}
         <div className="flex flex-col sm:flex-row items-center gap-3 mb-4 pb-3 border-b bg-white">
           <Image
@@ -570,7 +570,7 @@ export default function IngredientFinder() {
           <div className="flex gap-2">
             <button
               type="submit"
-              className="h-11 flex-1 sm:flex-none rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white hover:bg-emerald-700"
+              className="h-11 flex-1 sm:flex-none rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white hover:bg-emerald-700 hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg"
               disabled={isPending}
               title="Search your recipes first"
             >
@@ -580,7 +580,7 @@ export default function IngredientFinder() {
               type="button"
               onClick={onGenerateAI}
               disabled={isGenerating || !q.trim()}
-              className="h-11 flex-1 sm:flex-none rounded-lg px-4 text-sm font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              className="h-11 flex-1 sm:flex-none rounded-lg px-4 text-sm font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg"
               style={{ backgroundColor: '#FF5757' }}
               title="Use AI to create a new recipe idea from your input"
             >
