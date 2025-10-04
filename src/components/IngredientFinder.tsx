@@ -244,10 +244,14 @@ export default function IngredientFinder() {
   const [isPending, start] = useTransition();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedRecipe, setGeneratedRecipe] = useState<GeneratedRecipe | null>(null);
+  const [lastGeneratedRecipe, setLastGeneratedRecipe] = useState<GeneratedRecipe | null>(null);
   const [showGeneratedRecipe, setShowGeneratedRecipe] = useState(true);
+  const [showLastRecipe, setShowLastRecipe] = useState(false);
   const [searchedIngredients, setSearchedIngredients] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [savedRecipeId, setSavedRecipeId] = useState<string | null>(null);
+  const [lastRecipeSavedId, setLastRecipeSavedId] = useState<string | null>(null);
+  const [isSavingLast, setIsSavingLast] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [userId, setUserId] = useState<string>("");
   const { isPremium } = useSubscription();
@@ -266,7 +270,18 @@ export default function IngredientFinder() {
     });
   }, []);
 
-  // Note: Removed localStorage loading - recipes are now saved to database
+  // Load last generated recipe from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("lastGeneratedRecipe");
+    if (saved) {
+      try {
+        const recipe = JSON.parse(saved);
+        setLastGeneratedRecipe(recipe);
+      } catch (error) {
+        console.error("Failed to load last recipe:", error);
+      }
+    }
+  }, []);
 
   async function onSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -308,8 +323,9 @@ export default function IngredientFinder() {
     });
   }
 
-  async function saveAIRecipe() {
-    if (!generatedRecipe) return;
+  async function saveAIRecipe(recipe?: GeneratedRecipe, isLast?: boolean) {
+    const recipeToSave = recipe || generatedRecipe;
+    if (!recipeToSave) return;
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -317,35 +333,47 @@ export default function IngredientFinder() {
       return;
     }
 
-    setIsSaving(true);
+    if (isLast) {
+      setIsSavingLast(true);
+    } else {
+      setIsSaving(true);
+    }
+
     try {
       const { data: savedRecipe, error } = await supabase.from("saved_ai_recipes").insert({
         user_id: user.id,
-        title: generatedRecipe.title,
-        description: generatedRecipe.description || "",
-        intro_text: generatedRecipe.introText || "",
-        servings: generatedRecipe.servings,
-        prep_min: generatedRecipe.prepMin,
-        cook_min: generatedRecipe.cookMin,
-        ingredients: generatedRecipe.ingredients,
-        steps: generatedRecipe.steps,
-        tips: generatedRecipe.tips || [],
-        faqs: generatedRecipe.faqs || [],
-        nutrition: generatedRecipe.nutrition || null,
-        brand_name: generatedRecipe.brandName || null,
-        data: generatedRecipe,
+        title: recipeToSave.title,
+        description: recipeToSave.description || "",
+        intro_text: recipeToSave.introText || "",
+        servings: recipeToSave.servings,
+        prep_min: recipeToSave.prepMin,
+        cook_min: recipeToSave.cookMin,
+        ingredients: recipeToSave.ingredients,
+        steps: recipeToSave.steps,
+        tips: recipeToSave.tips || [],
+        faqs: recipeToSave.faqs || [],
+        nutrition: recipeToSave.nutrition || null,
+        data: recipeToSave,
       }).select().single();
 
       if (error) throw error;
 
       if (savedRecipe) {
-        setSavedRecipeId(savedRecipe.id);
+        if (isLast) {
+          setLastRecipeSavedId(savedRecipe.id);
+        } else {
+          setSavedRecipeId(savedRecipe.id);
+        }
       }
     } catch (error: any) {
       console.error("Save error:", error);
       alert(`Failed to save recipe: ${error.message || error}`);
     } finally {
-      setIsSaving(false);
+      if (isLast) {
+        setIsSavingLast(false);
+      } else {
+        setIsSaving(false);
+      }
     }
   }
 
@@ -432,11 +460,20 @@ export default function IngredientFinder() {
       const data = await response.json();
 
       if (response.ok && data.ok) {
-        // Display the recipe locally (not saved yet)
+        // Move current recipe to "last" and display new one
+        if (generatedRecipe) {
+          setLastGeneratedRecipe(generatedRecipe);
+          setLastRecipeSavedId(savedRecipeId); // Keep the saved state
+        }
+
+        // Display the new recipe
         setGeneratedRecipe(data.recipe);
         setShowGeneratedRecipe(true);
         setResults([]);
-        setSavedRecipeId(null); // Reset saved state
+        setSavedRecipeId(null); // Reset saved state for new recipe
+
+        // Save to localStorage
+        localStorage.setItem("lastGeneratedRecipe", JSON.stringify(data.recipe));
       } else if (response.status === 429 && data.needsUpgrade) {
         // Rate limit hit - show upgrade modal
         setShowUpgradeModal(true);
@@ -665,6 +702,206 @@ export default function IngredientFinder() {
           </div>
         )}
 
+        {/* Last Generated Recipe - Expandable */}
+        {lastGeneratedRecipe && (
+          <div className="mt-6">
+            <button
+              onClick={() => setShowLastRecipe(!showLastRecipe)}
+              className="w-full rounded-lg border-2 border-dashed border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-700 hover:bg-emerald-100 transition-colors flex items-center justify-between"
+            >
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span className="font-medium">Last Generated Recipe: {lastGeneratedRecipe.title}</span>
+              </div>
+              <svg
+                className={`w-5 h-5 transition-transform ${showLastRecipe ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {showLastRecipe && (
+              <div className="mt-4 border rounded-2xl p-6 bg-white shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <div className="inline-flex items-center space-x-2 text-sm text-emerald-700 bg-emerald-50 rounded-full px-3 py-1 mb-2">
+                      <span>🤖</span>
+                      <span>Previously Generated Recipe</span>
+                      {lastRecipeSavedId && <span className="text-emerald-600">✓ Saved</span>}
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">{lastGeneratedRecipe.title}</h3>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {lastRecipeSavedId ? (
+                      <ShareRow
+                        title={lastGeneratedRecipe.title}
+                        url={`${window.location.origin}/ai-recipe/${lastRecipeSavedId}`}
+                      />
+                    ) : (
+                      <button
+                        onClick={() => saveAIRecipe(lastGeneratedRecipe, true)}
+                        disabled={isSavingLast}
+                        className="flex items-center gap-2 rounded-lg border border-emerald-600 bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+                        title="Save recipe to your account to enable sharing"
+                      >
+                        {isSavingLast ? (
+                          <>
+                            <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Saving...
+                          </>
+                        ) : (
+                          <>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                            </svg>
+                            Save Recipe
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {lastGeneratedRecipe.description && (
+                  <p className="text-gray-700 mb-4">{lastGeneratedRecipe.description}</p>
+                )}
+
+                {lastGeneratedRecipe.introText && (
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-lg mb-2">Why you'll love it</h4>
+                    <p className="text-gray-700">{lastGeneratedRecipe.introText}</p>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-sm">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-gray-500">👥</span>
+                    <span><strong>Serves:</strong> {lastGeneratedRecipe.servings}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-gray-500">⏱️</span>
+                    <span><strong>Prep:</strong> {lastGeneratedRecipe.prepMin}m</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-gray-500">🔥</span>
+                    <span><strong>Cook:</strong> {lastGeneratedRecipe.cookMin}m</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-gray-500">⏰</span>
+                    <span><strong>Total:</strong> {lastGeneratedRecipe.prepMin + lastGeneratedRecipe.cookMin}m</span>
+                  </div>
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="rounded-xl border p-4">
+                    <h4 className="flex items-center space-x-2 font-semibold text-lg mb-3">
+                      <span className="text-gray-500">🥄</span>
+                      <span>Ingredients</span>
+                    </h4>
+                    <ul className="space-y-2 text-sm">
+                      {lastGeneratedRecipe.ingredients.map((ingredient, i) => {
+                        const amount = [ingredient.amount, ingredient.unit].filter(Boolean).join(" ");
+                        const label = amount ? `${amount} ${ingredient.name}` : ingredient.name;
+                        return (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="mt-1 h-2 w-2 rounded-full bg-emerald-600 flex-shrink-0" />
+                            <span className="text-gray-700">{label}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+
+                  <div className="rounded-xl border p-4">
+                    <h4 className="flex items-center space-x-2 font-semibold text-lg mb-3">
+                      <span className="text-gray-500">👨‍🍳</span>
+                      <span>Method</span>
+                    </h4>
+                    <ol className="space-y-3 text-sm">
+                      {lastGeneratedRecipe.steps.map((step, i) => (
+                        <li key={i} className="flex gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-xs font-semibold">
+                            {i + 1}
+                          </span>
+                          <span className="text-gray-700">{step}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+
+                {lastGeneratedRecipe.tips && lastGeneratedRecipe.tips.length > 0 && (
+                  <div className="mt-6">
+                    <h4 className="flex items-center space-x-2 font-semibold text-lg mb-3">
+                      <span className="text-gray-500">💡</span>
+                      <span>Tips & Variations</span>
+                    </h4>
+                    <ul className="space-y-2 text-sm">
+                      {lastGeneratedRecipe.tips.map((tip, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="mt-1 h-2 w-2 rounded-full bg-yellow-500 flex-shrink-0" />
+                          <span className="text-gray-700">{tip}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {lastGeneratedRecipe.faqs && lastGeneratedRecipe.faqs.length > 0 && (
+                  <div className="mt-6">
+                    <h4 className="flex items-center space-x-2 font-semibold text-lg mb-3">
+                      <span className="text-gray-500">❓</span>
+                      <span>FAQs</span>
+                    </h4>
+                    <div className="space-y-3">
+                      {lastGeneratedRecipe.faqs.map((faq, i) => (
+                        <div key={i} className="bg-gray-50 p-4 rounded-lg">
+                          <div className="font-medium text-gray-800 mb-1">Q: {faq.question}</div>
+                          <div className="text-gray-700">A: {faq.answer}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {lastGeneratedRecipe.nutrition && (
+                  <div className="mt-6">
+                    <h4 className="flex items-center space-x-2 font-semibold text-lg mb-3">
+                      <span className="text-gray-500">📊</span>
+                      <span>Nutrition (per serving)</span>
+                    </h4>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                      <div className="bg-emerald-50 p-3 rounded text-center">
+                        <div className="font-semibold text-emerald-700">{lastGeneratedRecipe.nutrition.calories}</div>
+                        <div className="text-xs text-gray-600">calories</div>
+                      </div>
+                      <div className="bg-blue-50 p-3 rounded text-center">
+                        <div className="font-semibold text-blue-700">{lastGeneratedRecipe.nutrition.protein}g</div>
+                        <div className="text-xs text-gray-600">protein</div>
+                      </div>
+                      <div className="bg-yellow-50 p-3 rounded text-center">
+                        <div className="font-semibold text-yellow-700">{lastGeneratedRecipe.nutrition.fat}g</div>
+                        <div className="text-xs text-gray-600">fat</div>
+                      </div>
+                      <div className="bg-orange-50 p-3 rounded text-center">
+                        <div className="font-semibold text-orange-700">{lastGeneratedRecipe.nutrition.carbs}g</div>
+                        <div className="text-xs text-gray-600">carbs</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* AI Generated Recipe */}
         {generatedRecipe && showGeneratedRecipe && (
@@ -686,7 +923,7 @@ export default function IngredientFinder() {
                   />
                 ) : (
                   <button
-                    onClick={saveAIRecipe}
+                    onClick={() => saveAIRecipe()}
                     disabled={isSaving}
                     className="flex items-center gap-2 rounded-lg border border-emerald-600 bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
                     title="Save recipe to your account to enable sharing"
