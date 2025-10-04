@@ -480,8 +480,15 @@ export default function IngredientFinder() {
             height={80}
             className="flex-shrink-0"
           />
-          <div className="text-center sm:text-left">
-            <h2 className="text-lg sm:text-xl font-bold mb-1 text-black">Bite Buddy - The Smartest AI Recipe Generator</h2>
+          <div className="text-center sm:text-left flex-1">
+            <div className="flex items-center gap-2 justify-center sm:justify-start mb-1">
+              <h2 className="text-lg sm:text-xl font-bold text-black">Bite Buddy - The Smartest AI Recipe Generator</h2>
+              {!isPremium && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900">
+                  <span>⭐</span> 1/day free
+                </span>
+              )}
+            </div>
             <p className="text-xs sm:text-sm text-black sm:text-gray-600">
               Turn your ingredients into restaurant-style recipes in seconds with our AI recipe maker
             </p>

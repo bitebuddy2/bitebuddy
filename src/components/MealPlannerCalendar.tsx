@@ -193,13 +193,20 @@ export default function MealPlannerCalendar() {
       {/* Header with navigation */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">
-            {isPremium ? "14-Day" : "3-Day"} Meal Planner
-          </h2>
+          <div className="flex items-center gap-3 mb-1">
+            <h2 className="text-2xl font-bold text-gray-900">
+              {isPremium ? "14-Day" : "3-Day"} Meal Planner
+            </h2>
+            {!isPremium && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-900">
+                <span>🔒</span> Limited to 3 days
+              </span>
+            )}
+          </div>
           {!isPremium && (
             <button
               onClick={() => setShowUpgradeModal(true)}
-              className="text-sm text-emerald-600 hover:text-emerald-700 font-medium mt-1"
+              className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
             >
               ⭐ Upgrade to unlock 14-day planner
             </button>
