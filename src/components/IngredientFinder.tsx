@@ -244,6 +244,7 @@ export default function IngredientFinder() {
   const [isPending, start] = useTransition();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedRecipe, setGeneratedRecipe] = useState<GeneratedRecipe | null>(null);
+  const [showGeneratedRecipe, setShowGeneratedRecipe] = useState(true);
   const [searchedIngredients, setSearchedIngredients] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -272,6 +273,7 @@ export default function IngredientFinder() {
       try {
         const recipe = JSON.parse(saved);
         setGeneratedRecipe(recipe);
+        setShowGeneratedRecipe(false); // Don't show on page load
       } catch (error) {
         console.error("Failed to load last recipe:", error);
       }
@@ -441,6 +443,7 @@ export default function IngredientFinder() {
       if (response.ok && data.ok) {
         // Success! Display the recipe locally
         setGeneratedRecipe(data.recipe);
+        setShowGeneratedRecipe(true); // Show the newly generated recipe
         setResults([]); // Clear search results to show generated recipe
         setIsSaved(false); // Reset save state for new recipe
 
@@ -674,8 +677,24 @@ export default function IngredientFinder() {
           </div>
         )}
 
+        {/* Show last generated recipe button */}
+        {generatedRecipe && !showGeneratedRecipe && (
+          <div className="mt-6">
+            <button
+              onClick={() => setShowGeneratedRecipe(true)}
+              className="w-full rounded-lg border-2 border-dashed border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-700 hover:bg-emerald-100 transition-colors flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              <span className="font-medium">Show Last Generated Recipe</span>
+            </button>
+          </div>
+        )}
+
         {/* AI Generated Recipe */}
-        {generatedRecipe && (
+        {generatedRecipe && showGeneratedRecipe && (
           <div className="mt-6 border rounded-2xl p-6 bg-white shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
@@ -851,12 +870,19 @@ export default function IngredientFinder() {
             )}
 
             {/* Action to start over */}
-            <div className="mt-6 pt-4 border-t text-center">
+            <div className="mt-6 pt-4 border-t flex items-center justify-center gap-4">
+              <button
+                onClick={() => setShowGeneratedRecipe(false)}
+                className="text-sm text-gray-600 hover:text-gray-800"
+              >
+                Hide recipe
+              </button>
+              <span className="text-gray-400">•</span>
               <button
                 onClick={() => setGeneratedRecipe(null)}
                 className="text-sm text-gray-600 hover:text-gray-800"
               >
-                ← Generate another recipe
+                Generate another recipe
               </button>
             </div>
 
