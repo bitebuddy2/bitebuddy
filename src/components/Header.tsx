@@ -34,11 +34,14 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900 shadow-lg">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4">
         <Link href="/" className="flex items-center">
-          <div className="h-12 w-12 rounded-full overflow-hidden bg-white ring-2 ring-emerald-400 flex items-center justify-center p-1">
-            <img
-              src="/Bigger%20logo.svg"
+          <div className="h-12 w-12 rounded-full overflow-hidden bg-white ring-2 ring-emerald-400 flex items-center justify-center">
+            <Image
+              src="/Bigger logo.png"
               alt="Bite Buddy"
-              className="w-full h-full object-cover rounded-full"
+              width={48}
+              height={48}
+              priority
+              className="w-full h-full object-cover"
             />
           </div>
         </Link>

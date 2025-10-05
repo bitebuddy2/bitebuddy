@@ -19,19 +19,22 @@ export default async function HomePage() {
       <TopSearch />
 
       {/* HERO */}
-      <section className="relative border-b bg-gradient-to-b from-emerald-50 to-transparent overflow-hidden">
+      <section className="relative border-b overflow-hidden">
         {/* Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/Hero.jpg')" }}
-        />
+        >
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
 
         {/* Content */}
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12 md:py-16 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent pb-2 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white pb-2 leading-tight drop-shadow-lg">
             UK Copycat Recipes & Smart AI Meal Ideas
           </h1>
-          <p className="mx-auto mt-4 sm:mt-6 max-w-3xl text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed px-2">
+          <p className="mx-auto mt-4 sm:mt-6 max-w-3xl text-sm sm:text-base md:text-lg text-white leading-relaxed px-2 drop-shadow-md">
             Recreate your favourite UK restaurant dishes like Greggs, Nando&apos;s, and Wagamama — fast and simple. When you&apos;re out of ideas, our AI Recipe Generator helps you whip up something new in minutes.
           </p>
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4 sm:px-0">
