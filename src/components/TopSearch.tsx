@@ -28,7 +28,7 @@ export default function TopSearch() {
   }
 
   return (
-    <div className="border-b bg-white">
+    <div className="border-b" style={{ backgroundColor: '#D0EDCC' }}>
       <div className="mx-auto w-full max-w-5xl px-4 py-3">
         <div className="relative">
           <input
