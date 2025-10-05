@@ -31,15 +31,16 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
-      <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4">
+    <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900 shadow-lg">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4">
         <Link href="/" className="flex items-center">
           <Image
-            src="/Word Logo.svg"
+            src="/Bigger Logo.svg"
             alt="Bite Buddy"
-            width={120}
-            height={32}
+            width={48}
+            height={48}
             priority
+            className="rounded-full"
           />
         </Link>
 
@@ -48,8 +49,8 @@ export default function Header() {
             <Link
               key={n.href}
               href={n.href}
-              className={`text-sm hover:underline ${
-                pathname === n.href ? "font-semibold" : "text-gray-700"
+              className={`text-sm hover:text-emerald-400 transition-colors ${
+                pathname === n.href ? "font-semibold text-white" : "text-gray-300"
               }`}
             >
               {n.label}
@@ -93,14 +94,14 @@ export default function Header() {
           {user ? (
             <Link
               href="/account"
-              className="rounded-full border border-emerald-600 text-emerald-600 px-3 py-1.5 text-sm font-semibold hover:bg-emerald-50"
+              className="rounded-full border border-emerald-400 text-emerald-400 px-3 py-1.5 text-sm font-semibold hover:bg-gray-800"
             >
               Account
             </Link>
           ) : (
             <Link
               href="/account"
-              className="rounded-full border border-emerald-600 text-emerald-600 px-3 py-1.5 text-sm font-semibold hover:bg-emerald-50"
+              className="rounded-full border border-emerald-400 text-emerald-400 px-3 py-1.5 text-sm font-semibold hover:bg-gray-800"
             >
               Sign In
             </Link>
