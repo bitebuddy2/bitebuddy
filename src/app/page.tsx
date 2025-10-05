@@ -23,7 +23,7 @@ export default async function HomePage() {
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/Hero.jpg')" }}
+          style={{ backgroundImage: 'url("/Hero.jpg")' }}
         >
           {/* Dark overlay for better text readability */}
           <div className="absolute inset-0 bg-black/40" />
