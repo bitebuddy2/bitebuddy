@@ -36,7 +36,7 @@ export default function Header() {
         <Link href="/" className="flex items-center">
           <div className="h-12 w-12 rounded-full overflow-hidden bg-white ring-2 ring-emerald-400 flex items-center justify-center p-0.5">
             <Image
-              src="/Bigger logo.svg"
+              src="/bigger-logo.svg"
               alt="Bite Buddy"
               width={44}
               height={44}
