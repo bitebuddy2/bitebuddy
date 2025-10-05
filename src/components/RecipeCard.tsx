@@ -29,6 +29,12 @@ type CardRecipe = {
       alt?: string;
     };
   };
+  categories?: {
+    _id: string;
+    title: string;
+    slug: string;
+    description?: string;
+  }[];
 };
 
 function pill(label: string) {

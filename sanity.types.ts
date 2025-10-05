@@ -32,6 +32,14 @@ export type BrandRef = {
   logo?: ImageWithAlt;
 };
 
+/** ===== Category ===== */
+export type CategoryRef = {
+  _id: string;
+  title: string;
+  slug: string;
+  description?: string;
+};
+
 /** ===== Retailer Link ===== */
 export type RetailerLink = {
   retailer: string;
@@ -121,6 +129,7 @@ export type Recipe = {
   // relations
   collections?: CollectionRef[];
   brand?: BrandRef;
+  categories?: CategoryRef[];
 };
 
 /** ===== Lightweight cards (allRecipesQuery) ===== */
