@@ -153,7 +153,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
   const {
     title, description, heroImage, servings, prepMin, cookMin,
-    introText, brandContext, ingredients, steps, tips, faqs, nutrition
+    introText, brandContext, ingredients, steps, tips, faqs, nutrition, categories
   } = recipe;
 
   const totalMin = (prepMin || 0) + (cookMin || 0);
@@ -202,6 +202,19 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
       <h1 className="mt-2 text-3xl font-bold">{title}</h1>
       {description && <p className="mt-2 text-gray-700">{description}</p>}
+
+      {categories && categories.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {categories.map((category: any) => (
+            <span
+              key={category._id}
+              className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800"
+            >
+              {category.title}
+            </span>
+          ))}
+        </div>
+      )}
 
       <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
         {servings ? <span>Serves: {servings}</span> : null}

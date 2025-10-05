@@ -102,6 +102,14 @@ export const recipeBySlugQuery = groq/* groq */ `
     title,
     "slug": slug.current,
     logo
+  },
+
+  // Categories
+  categories[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    description
   }
 }
 `;
@@ -131,6 +139,11 @@ export const allRecipesForCardsQuery = groq/* groq */ `
       asset->{ url, metadata { lqip } },
       alt
     }
+  },
+  categories[]->{
+    _id,
+    title,
+    "slug": slug.current
   }
 }
 `;
@@ -257,5 +270,15 @@ export const allBrandsQuery = groq/* groq */ `
     asset->{ url, metadata{ lqip } },
     alt
   }
+}
+`;
+
+// ✅ Get all categories for filtering
+export const allCategoriesQuery = groq/* groq */ `
+*[_type == "category"] | order(title asc){
+  _id,
+  title,
+  "slug": slug.current,
+  description
 }
 `;

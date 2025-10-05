@@ -303,6 +303,15 @@ export default defineType({
       description: "The restaurant chain or brand this recipe is inspired by (e.g., Wagamama, Greggs, McDonald's).",
       type: "reference",
       to: [{ type: "brand" }]
+    }),
+
+    // Categories
+    defineField({
+      name: "categories",
+      title: "Categories",
+      description: "Recipe categories (e.g., Breakfast, Lunch, Dinner, Dessert, Vegetarian, etc.)",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "category" }] }]
     })
   ],
   preview: {

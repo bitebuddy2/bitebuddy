@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import RecipeCard from "@/components/RecipeCard";
 import { client } from "../../sanity/client";
-import { allRecipesForCardsQuery, allBrandsQuery } from "../../sanity/queries";
+import { allRecipesForCardsQuery, allBrandsQuery, allCategoriesQuery } from "../../sanity/queries";
 
 type CardRecipe = Parameters<typeof RecipeCard>[0]["r"];
 type Brand = {
@@ -17,22 +17,33 @@ type Brand = {
   };
 };
 
+type Category = {
+  _id: string;
+  title: string;
+  slug: string;
+  description?: string;
+};
+
 function RecipesContent() {
   const searchParams = useSearchParams();
   const [recipes, setRecipes] = useState<CardRecipe[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [recipesData, brandsData] = await Promise.all([
+        const [recipesData, brandsData, categoriesData] = await Promise.all([
           client.fetch(allRecipesForCardsQuery),
-          client.fetch(allBrandsQuery)
+          client.fetch(allBrandsQuery),
+          client.fetch(allCategoriesQuery)
         ]);
         setRecipes(recipesData || []);
         setBrands(brandsData || []);
+        setCategories(categoriesData || []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -51,9 +62,19 @@ function RecipesContent() {
     }
   }, [searchParams]);
 
-  const filteredRecipes = selectedBrand === "all"
-    ? recipes
-    : recipes.filter(recipe => recipe.brand?._id === selectedBrand);
+  let filteredRecipes = recipes;
+
+  // Filter by brand
+  if (selectedBrand !== "all") {
+    filteredRecipes = filteredRecipes.filter(recipe => recipe.brand?._id === selectedBrand);
+  }
+
+  // Filter by category
+  if (selectedCategory !== "all") {
+    filteredRecipes = filteredRecipes.filter(recipe =>
+      recipe.categories?.some((cat: any) => cat._id === selectedCategory)
+    );
+  }
 
   const recipesWithoutBrand = recipes.filter(recipe => !recipe.brand);
 
@@ -83,7 +104,7 @@ function RecipesContent() {
       {/* Filter and Recipes Section */}
       <div className="p-4 pt-0">
         {/* Brand Filter Dropdown */}
-        <div className="mb-6 flex justify-end">
+        <div className="mb-4 flex justify-end">
           <div className="flex flex-col items-end">
             <label htmlFor="brand-filter" className="text-sm font-medium text-gray-700 mb-1">
               Filter by Brand
@@ -110,25 +131,69 @@ function RecipesContent() {
           </div>
         </div>
 
+        {/* Category Filter Buttons */}
+        {categories.length > 0 && (
+          <div className="mb-6">
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setSelectedCategory("all")}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  selectedCategory === "all"
+                    ? "bg-emerald-600 text-white"
+                    : "bg-emerald-100 text-emerald-800 hover:bg-emerald-200"
+                }`}
+              >
+                All Categories
+              </button>
+              {categories.map((category) => {
+                const count = recipes.filter(r =>
+                  r.categories?.some((cat: any) => cat._id === category._id)
+                ).length;
+                return (
+                  <button
+                    key={category._id}
+                    onClick={() => setSelectedCategory(category._id)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      selectedCategory === category._id
+                        ? "bg-emerald-600 text-white"
+                        : "bg-emerald-100 text-emerald-800 hover:bg-emerald-200"
+                    }`}
+                  >
+                    {category.title} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
       {(!recipes || recipes.length === 0) ? (
         <p className="text-gray-500">
           No recipes yet. Add one in Sanity Studio to see it here.
         </p>
       ) : (
         <>
-          {selectedBrand !== "all" && (
+          {(selectedBrand !== "all" || selectedCategory !== "all") && (
             <div className="mb-4 flex items-center space-x-2">
               <span className="text-sm text-gray-600">
                 Showing {filteredRecipes.length} recipe{filteredRecipes.length === 1 ? '' : 's'}
-                {selectedBrand === "no-brand" ? " without a brand" :
+                {selectedBrand !== "all" && selectedBrand !== "no-brand" &&
                   ` from ${brands.find(b => b._id === selectedBrand)?.title}`}
+                {selectedBrand === "no-brand" && " without a brand"}
+                {selectedCategory !== "all" &&
+                  ` in ${categories.find(c => c._id === selectedCategory)?.title}`}
               </span>
-              <button
-                onClick={() => setSelectedBrand("all")}
-                className="text-sm text-emerald-600 hover:text-emerald-700 underline"
-              >
-                Clear filter
-              </button>
+              {(selectedBrand !== "all" || selectedCategory !== "all") && (
+                <button
+                  onClick={() => {
+                    setSelectedBrand("all");
+                    setSelectedCategory("all");
+                  }}
+                  className="text-sm text-emerald-600 hover:text-emerald-700 underline"
+                >
+                  Clear filters
+                </button>
+              )}
             </div>
           )}
 
