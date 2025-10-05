@@ -6,6 +6,7 @@ import AdPlaceholder from "@/components/AdPlaceholder";
 import { client } from "@/sanity/client";
 import { allRecipesForCardsQuery, allBrandsQuery } from "@/sanity/queries";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function HomePage() {
   const [recipes, brands] = await Promise.all([
@@ -19,15 +20,18 @@ export default async function HomePage() {
       <TopSearch />
 
       {/* HERO */}
-      <section className="relative border-b overflow-hidden">
+      <section className="relative border-b overflow-hidden min-h-[400px]">
         {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("/Hero.jpg")' }}
-        >
-          {/* Dark overlay for better text readability */}
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
+        <Image
+          src="/Hero.jpg"
+          alt="Hero Background"
+          fill
+          priority
+          className="object-cover"
+          quality={90}
+        />
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40" />
 
         {/* Content */}
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12 md:py-16 text-center">
