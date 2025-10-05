@@ -20,7 +20,6 @@
     "@supabase/supabase-js": "^2.58.0",
     "@types/node-fetch": "^2.6.13",
     "@vercel/speed-insights": "^1.2.0",
-    "lucide-react": "^0.544.0",
     "next": "15.5.4",
     "next-sanity": "^11.1.3",
     "node-fetch": "^3.3.2",
