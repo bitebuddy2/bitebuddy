@@ -19,8 +19,15 @@ export default async function HomePage() {
       <TopSearch />
 
       {/* HERO */}
-      <section className="border-b bg-gradient-to-b from-emerald-50 to-transparent">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12 md:py-16 text-center">
+      <section className="relative border-b bg-gradient-to-b from-emerald-50 to-transparent overflow-hidden">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          style={{ backgroundImage: "url('/Hero.jpg')" }}
+        />
+
+        {/* Content */}
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12 md:py-16 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent pb-2 leading-tight">
             UK Copycat Recipes & Smart AI Meal Ideas
           </h1>
