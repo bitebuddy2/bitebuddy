@@ -35,13 +35,9 @@ export default function Header() {
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4">
         <Link href="/" className="flex items-center">
           <div className="h-12 w-12 rounded-full overflow-hidden bg-white ring-2 ring-emerald-400 flex items-center justify-center p-0.5">
-            <Image
+            <img
               src="/bigger-logo.svg"
               alt="Bite Buddy"
-              width={44}
-              height={44}
-              priority
-              unoptimized
               className="w-full h-full object-contain"
             />
           </div>
