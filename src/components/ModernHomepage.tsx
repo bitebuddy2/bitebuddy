@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, Menu, X, Sparkles, ChefHat } from "lucide-react";
+import { Search, Sparkles, ChefHat } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type Recipe = {
@@ -34,7 +34,6 @@ interface ModernHomepageProps {
 }
 
 export default function ModernHomepage({ recipes }: ModernHomepageProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
@@ -57,96 +56,6 @@ export default function ModernHomepage({ recipes }: ModernHomepageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-gray-900 shadow-lg">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold italic">
-                <span className="text-emerald-400">bite</span>
-                <span className="text-white">buddy</span>
-              </span>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
-              <Link href="/" className="text-white hover:text-emerald-400 transition-colors font-medium">
-                Home
-              </Link>
-              <Link href="/recipes" className="text-white hover:text-emerald-400 transition-colors font-medium">
-                Recipes
-              </Link>
-              <Link href="/about" className="text-white hover:text-emerald-400 transition-colors font-medium">
-                About us
-              </Link>
-              <button
-                onClick={() => scrollToSection("ai-generator")}
-                className="text-white hover:text-emerald-400 transition-colors font-medium"
-              >
-                AI Generator
-              </button>
-              <Link
-                href="/recipes"
-                className="rounded-full bg-emerald-500 px-6 py-2.5 text-sm font-semibold text-white hover:bg-emerald-600 transition-all duration-200 shadow-md hover:shadow-lg"
-              >
-                Get Started
-              </Link>
-            </div>
-
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-white hover:text-emerald-400 transition-colors"
-            >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
-
-          {/* Mobile Navigation */}
-          {mobileMenuOpen && (
-            <div className="md:hidden pb-4 space-y-2">
-              <Link
-                href="/"
-                className="block px-4 py-2 text-white hover:bg-gray-800 rounded-lg transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/recipes"
-                className="block px-4 py-2 text-white hover:bg-gray-800 rounded-lg transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Recipes
-              </Link>
-              <Link
-                href="/about"
-                className="block px-4 py-2 text-white hover:bg-gray-800 rounded-lg transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About us
-              </Link>
-              <button
-                onClick={() => {
-                  scrollToSection("ai-generator");
-                  setMobileMenuOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 text-white hover:bg-gray-800 rounded-lg transition-colors"
-              >
-                AI Generator
-              </button>
-              <Link
-                href="/recipes"
-                className="block mx-4 mt-2 text-center rounded-full bg-emerald-500 px-6 py-2.5 text-sm font-semibold text-white hover:bg-emerald-600"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get Started
-              </Link>
-            </div>
-          )}
-        </div>
-      </nav>
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-emerald-400 via-emerald-500 to-green-600 py-20 sm:py-28 md:py-36">
