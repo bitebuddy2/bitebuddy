@@ -50,6 +50,7 @@ function AffiliateButton({
         e.preventDefault();
         handleClick();
       }}
+      target="_blank"
       rel="sponsored noopener"
       className="inline-block rounded-xl bg-black px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
     >
