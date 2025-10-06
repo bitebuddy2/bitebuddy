@@ -46,6 +46,7 @@ type Recipe = {
 const METHODS = ["Any", "Bake", "Grill", "Air Fry", "BBQ"] as const;
 const SPICE = ["None", "Mild", "Medium", "Hot"] as const;
 const DIETS = ["None", "Vegetarian", "Vegan", "Halal", "Gluten-Free"] as const;
+const INGREDIENT_MODES = ["Exact", "Flexible", "Creative"] as const;
 
 interface GeneratedRecipe {
   title: string;
@@ -260,6 +261,7 @@ export default function IngredientFinder() {
   const [spice, setSpice] = useState<(typeof SPICE)[number]>("None");
   const [diet, setDiet] = useState<(typeof DIETS)[number]>("None");
   const [avoid, setAvoid] = useState("");
+  const [ingredientMode, setIngredientMode] = useState<(typeof INGREDIENT_MODES)[number]>("Flexible");
 
   // Get user ID
   useEffect(() => {
@@ -523,9 +525,19 @@ export default function IngredientFinder() {
         promptParts.push(`avoiding these ingredients: ${avoid.trim()}`);
       }
 
+      // Add ingredient mode instruction
+      if (ingredientMode === "Exact") {
+        promptParts.push(`IMPORTANT: Use ONLY the exact ingredients listed, do not add any additional ingredients`);
+      } else if (ingredientMode === "Flexible") {
+        promptParts.push(`You may add common pantry staples (salt, pepper, oil, butter, flour, sugar, water) if needed, but keep additions minimal`);
+      } else if (ingredientMode === "Creative") {
+        promptParts.push(`Feel free to add complementary ingredients to enhance the dish`);
+      }
+
       const prompt = promptParts.join(", ") + ".";
       console.log("Generated prompt:", prompt);
       console.log("User ID:", userId);
+      console.log("Ingredient Mode:", ingredientMode);
 
       // Call the preview API (doesn't save to Sanity)
       const response = await fetch("/api/generate-preview", {
@@ -666,6 +678,37 @@ export default function IngredientFinder() {
         <p className="mt-2 text-xs text-gray-500">
           Tip: separate ingredients with commas — e.g. <em>chicken, thyme</em>. Use "Find" to search existing recipes (filtered by your preferences below) or "Create with AI" to generate a new recipe.
         </p>
+
+        {/* Ingredient Mode Toggle - Prominent */}
+        <div className="mt-4 p-4 bg-gradient-to-r from-emerald-50 to-blue-50 border-2 border-emerald-200 rounded-xl">
+          <div className="mb-2 flex items-center gap-2">
+            <svg className="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z"/>
+            </svg>
+            <span className="text-sm font-bold text-gray-900">AI Ingredient Mode</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {INGREDIENT_MODES.map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => setIngredientMode(mode)}
+                className={`rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all ${
+                  ingredientMode === mode
+                    ? "bg-emerald-600 text-white border-emerald-600 shadow-md scale-105"
+                    : "bg-white border-gray-300 hover:border-emerald-400 hover:bg-emerald-50"
+                }`}
+              >
+                <div className="font-semibold">{mode}</div>
+                <div className="text-xs opacity-90 mt-0.5">
+                  {mode === "Exact" && "Only your ingredients"}
+                  {mode === "Flexible" && "Add pantry staples"}
+                  {mode === "Creative" && "Full creative freedom"}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
 
         {(method !== "Any" || portions !== 2 || spice !== "None" || diet !== "None" || avoid.trim()) && (
           <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
