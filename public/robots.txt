@@ -1,3 +1,7 @@
 User-agent: *
-Disallow: /go
-Disallow: /
+Allow: /
+Disallow: /go/
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://bitebuddy.co.uk/sitemap.xml

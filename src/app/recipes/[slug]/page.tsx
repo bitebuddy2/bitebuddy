@@ -88,7 +88,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!recipe) {
     return {
       title: "Recipe not found | Bite Buddy",
-      robots: { index: false },
+      robots: { index: false }, // Keep 404 pages noindexed
     };
   }
 
