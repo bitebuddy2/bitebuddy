@@ -543,7 +543,7 @@ export default function IngredientFinder() {
         // Display the new recipe
         setGeneratedRecipe(data.recipe);
         setShowGeneratedRecipe(true);
-        setResults([]);
+        // Keep results to show matching recipes above AI recipe
         setSavedRecipeId(null); // Reset saved state for new recipe
 
         // Save to localStorage
