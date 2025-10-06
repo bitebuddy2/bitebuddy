@@ -17,42 +17,37 @@ function parseNames(q?: string): string[] {
       .filter(ingredient => ingredient.length > 1);
   }
 
-  // For space-only input, try to intelligently split on single spaces
-  // but keep common multi-word ingredients together
-  const commonMultiWord = [
-    'sausage meat', 'chicken breast', 'olive oil', 'sea salt', 'black pepper',
-    'red wine', 'white wine', 'coconut milk', 'soy sauce', 'fish sauce',
-    'tomato paste', 'beef stock', 'chicken stock', 'cream cheese', 'caster sugar',
-    'plain flour', 'self raising flour', 'double cream', 'single cream'
-  ];
+  // For space-only input, use capitalization to detect ingredient boundaries
+  // Example: "white bread Cheddar cheese" -> ["white bread", "Cheddar cheese"]
+  const words = q.split(/\s+/);
+  const ingredients: string[] = [];
+  let currentIngredient: string[] = [];
 
-  let result = q;
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    const isCapitalized = /^[A-Z]/.test(word);
+    const isFirstWord = i === 0;
 
-  // Replace known multi-word ingredients with temporary placeholders
-  const placeholders: { [key: string]: string } = {};
-  commonMultiWord.forEach((phrase, index) => {
-    if (result.toLowerCase().includes(phrase.toLowerCase())) {
-      const placeholder = `__MULTIWORD_${index}__`;
-      placeholders[placeholder] = phrase;
-      result = result.replace(new RegExp(phrase, 'gi'), placeholder);
+    // Start a new ingredient if:
+    // 1. This is a capitalized word AND it's not the first word
+    // 2. OR we haven't started an ingredient yet
+    if ((isCapitalized && !isFirstWord && currentIngredient.length > 0) || currentIngredient.length === 0) {
+      // Save previous ingredient if exists
+      if (currentIngredient.length > 0) {
+        ingredients.push(currentIngredient.join(' '));
+        currentIngredient = [];
+      }
     }
-  });
 
-  // Split on single spaces
-  const parts = result
-    .split(/\s+/)
-    .map(s => s.trim())
-    .filter(Boolean);
+    currentIngredient.push(word);
+  }
 
-  // Restore multi-word ingredients
-  const restored = parts.map(part => {
-    if (part.startsWith('__MULTIWORD_')) {
-      return placeholders[part] || part;
-    }
-    return part;
-  });
+  // Don't forget the last ingredient
+  if (currentIngredient.length > 0) {
+    ingredients.push(currentIngredient.join(' '));
+  }
 
-  return restored.filter(ingredient => ingredient.length > 1);
+  return ingredients.filter(ingredient => ingredient.length > 1);
 }
 
 export const revalidate = 30;

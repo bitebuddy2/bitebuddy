@@ -436,8 +436,37 @@ export default function IngredientFinder() {
 
     setIsGenerating(true);
     setGeneratedRecipe(null); // Clear previous recipe
-    setResults([]); // Clear search results to hide "No matches found" message
-    setSearchedIngredients([]); // Clear searched ingredients display
+    // DON'T clear search results - we want to show them with AI recipe
+    // setResults([]);
+    // setSearchedIngredients([]);
+
+    // Search for matching recipes before generating AI recipe
+    const names = parseNames(q);
+    setSearchedIngredients(names);
+
+    if (names.length > 0) {
+      try {
+        const recipes = await client.fetch(recipesByIngredientNamesQuery, {
+          names,
+          namesLower: names.map(name => name.toLowerCase()),
+          searchPattern: `*(${names.map(name => name.toLowerCase()).join("|")}).*`
+        });
+
+        // Apply preference-based filtering
+        const filteredRecipes = filterRecipesByPreferences(recipes || [], {
+          method,
+          portions,
+          spice,
+          diet,
+          avoid
+        });
+
+        setResults(filteredRecipes);
+      } catch (error) {
+        console.error('Search error:', error);
+        setResults([]);
+      }
+    }
 
     try {
       // Basic validation for obvious incompatible combinations
@@ -1008,18 +1037,74 @@ export default function IngredientFinder() {
           </div>
         )}
 
+        {/* Matching recipes when AI recipe is shown */}
+        {generatedRecipe && showGeneratedRecipe && results.length > 0 && (
+          <div className="mt-6">
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Our recipes that match your ingredients ({results.length})
+              </h3>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {results.slice(0, 6).map((recipe) => (
+                <div key={recipe.slug}>
+                  <RecipeCard r={recipe} />
+                  {/* Show matched ingredients below the card */}
+                  {recipe.matched && recipe.matched.length > 0 && (
+                    <div className="mt-2 text-xs text-gray-500">
+                      <p>
+                        Matches: {recipe.matched.map((m: any) => m.name || m).filter(Boolean).join(", ")}
+                      </p>
+                      {searchedIngredients.length > 0 && (
+                        <p className="text-red-600">
+                          Missing: {searchedIngredients.filter(searched =>
+                            !recipe.matched?.some((m: any) => {
+                              const matchName = (m.name || m).toLowerCase();
+                              const searchedLower = searched.toLowerCase();
+                              return matchName.includes(searchedLower) || searchedLower.includes(matchName);
+                            })
+                          ).join(", ")}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            {results.length > 6 && (
+              <p className="mt-3 text-sm text-gray-600">
+                Showing 6 of {results.length} matching recipes.{" "}
+                <Link href={`/search?q=${encodeURIComponent(q)}`} className="text-emerald-700 underline">
+                  See all results →
+                </Link>
+              </p>
+            )}
+          </div>
+        )}
+
         {/* AI Generated Recipe */}
         {generatedRecipe && showGeneratedRecipe && (
-          <div className="mt-6 border rounded-2xl p-6 bg-white shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <div className="inline-flex items-center space-x-2 text-sm text-emerald-700 bg-emerald-50 rounded-full px-3 py-1 mb-2">
-                  <span>🤖</span>
-                  <span>AI Generated Recipe</span>
-                  {savedRecipeId && <span className="text-emerald-600">✓ Saved</span>}
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">{generatedRecipe.title}</h3>
+          <>
+            {results.length > 0 && (
+              <div className="mt-6 mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Or try this AI-generated recipe
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Personalized to your preferences and ingredients
+                </p>
               </div>
+            )}
+            <div className="mt-6 border rounded-2xl p-6 bg-white shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <div className="inline-flex items-center space-x-2 text-sm text-emerald-700 bg-emerald-50 rounded-full px-3 py-1 mb-2">
+                    <span>🤖</span>
+                    <span>AI Generated Recipe</span>
+                    {savedRecipeId && <span className="text-emerald-600">✓ Saved</span>}
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900">{generatedRecipe.title}</h3>
+                </div>
               <div className="flex items-center gap-3">
                 {savedRecipeId ? (
                   <ShareRow
@@ -1211,6 +1296,7 @@ export default function IngredientFinder() {
               <AdPlaceholder size="banner" />
             </div>
           </div>
+          </>
         )}
 
         {/* Search Results */}

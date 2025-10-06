@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { trackAffiliateClick } from "@/lib/analytics";
 
 function AffiliateButton({
@@ -18,7 +17,6 @@ function AffiliateButton({
   brand?: string;
   label?: string;
 }) {
-  const router = useRouter();
 
   const handleClick = () => {
     // Extract domain from URL
