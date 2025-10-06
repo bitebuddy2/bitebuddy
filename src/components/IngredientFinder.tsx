@@ -11,6 +11,7 @@ import { recipesByIngredientNamesQuery } from "@/sanity/queries";
 import { supabase } from "@/lib/supabase";
 import { useSubscription } from "@/hooks/useSubscription";
 import UpgradeModal from "./UpgradeModal";
+import { trackGenerateAIRecipe } from "@/lib/analytics";
 
 type Recipe = {
   slug: string;
@@ -510,9 +511,28 @@ export default function IngredientFinder() {
 
         // Save to localStorage
         localStorage.setItem("lastGeneratedRecipe", JSON.stringify(data.recipe));
+
+        // Track successful AI recipe generation
+        trackGenerateAIRecipe({
+          prompt: prompt,
+          success: true,
+          recipe_title: data.recipe.title,
+          method: method !== "Any" ? method : undefined,
+          portions: portions,
+          diet: diet !== "None" ? diet : undefined,
+        });
       } else if (response.status === 429 && data.needsUpgrade) {
         // Rate limit hit - show upgrade modal
         setShowUpgradeModal(true);
+
+        // Track failed generation (rate limit)
+        trackGenerateAIRecipe({
+          prompt: prompt,
+          success: false,
+          method: method !== "Any" ? method : undefined,
+          portions: portions,
+          diet: diet !== "None" ? diet : undefined,
+        });
       } else {
         // Check if it's an impossible combination error
         const errorMsg = data.error || "Unknown error";
@@ -523,6 +543,15 @@ export default function IngredientFinder() {
         } else {
           alert(`Recipe generation failed: ${errorMsg}`);
         }
+
+        // Track failed generation
+        trackGenerateAIRecipe({
+          prompt: prompt,
+          success: false,
+          method: method !== "Any" ? method : undefined,
+          portions: portions,
+          diet: diet !== "None" ? diet : undefined,
+        });
       }
     } catch (error) {
       console.error("AI Generation Error:", error);

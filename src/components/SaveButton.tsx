@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { trackSaveRecipe } from "@/lib/analytics";
 
 interface SaveButtonProps {
   recipeSlug: string;
+  recipeTitle?: string;
 }
 
-export default function SaveButton({ recipeSlug }: SaveButtonProps) {
+export default function SaveButton({ recipeSlug, recipeTitle }: SaveButtonProps) {
   const [user, setUser] = useState<any>(null);
   const [isSaved, setIsSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -53,6 +55,12 @@ export default function SaveButton({ recipeSlug }: SaveButtonProps) {
         .from("saved_recipes")
         .insert({ user_id: user.id, recipe_slug: recipeSlug });
       setIsSaved(true);
+
+      // Track save event
+      trackSaveRecipe({
+        recipe_slug: recipeSlug,
+        recipe_title: recipeTitle,
+      });
     }
     setLoading(false);
   }

@@ -39,3 +39,37 @@ export function trackAffiliateClick(params: {
     brand: params.brand,
   });
 }
+
+/**
+ * Track when a user saves a recipe
+ */
+export function trackSaveRecipe(params: {
+  recipe_slug: string;
+  recipe_title?: string;
+}) {
+  trackEvent('save_recipe', {
+    recipe_slug: params.recipe_slug,
+    recipe_title: params.recipe_title,
+  });
+}
+
+/**
+ * Track AI recipe generation
+ */
+export function trackGenerateAIRecipe(params: {
+  prompt: string;
+  success: boolean;
+  recipe_title?: string;
+  method?: string;
+  portions?: number;
+  diet?: string;
+}) {
+  trackEvent('generate_ai_recipe', {
+    prompt: params.prompt,
+    success: params.success,
+    recipe_title: params.recipe_title,
+    method: params.method,
+    portions: params.portions,
+    diet: params.diet,
+  });
+}
