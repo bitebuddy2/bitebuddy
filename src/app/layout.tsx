@@ -88,6 +88,12 @@ export default function RootLayout({
             />
           </>
         )}
+        {/* Google AdSense */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8361515961087484"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-900 bg-green-50 pb-20`}
