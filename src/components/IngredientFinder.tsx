@@ -1046,7 +1046,7 @@ export default function IngredientFinder() {
               </h3>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {results.slice(0, 6).map((recipe) => (
+              {results.slice(0, 3).map((recipe) => (
                 <div key={recipe.slug}>
                   <RecipeCard r={recipe} />
                   {/* Show matched ingredients below the card */}
@@ -1071,9 +1071,9 @@ export default function IngredientFinder() {
                 </div>
               ))}
             </div>
-            {results.length > 6 && (
+            {results.length > 3 && (
               <p className="mt-3 text-sm text-gray-600">
-                Showing 6 of {results.length} matching recipes.{" "}
+                Showing 3 of {results.length} matching recipes.{" "}
                 <Link href={`/search?q=${encodeURIComponent(q)}`} className="text-emerald-700 underline">
                   See all results →
                 </Link>

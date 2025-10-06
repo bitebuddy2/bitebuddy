@@ -282,3 +282,87 @@ export const allCategoriesQuery = groq/* groq */ `
   description
 }
 `;
+
+// ✅ Get all products
+export const allProductsQuery = groq/* groq */ `
+*[_type == "product"] | order(featured desc, title asc){
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  image{
+    asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    alt
+  },
+  category,
+  price,
+  affiliateLink,
+  retailer,
+  featured,
+  rating
+}
+`;
+
+// ✅ Get products by category
+export const productsByCategoryQuery = groq/* groq */ `
+*[_type == "product" && category == $category] | order(featured desc, title asc){
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  image{
+    asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    alt
+  },
+  category,
+  price,
+  affiliateLink,
+  retailer,
+  featured,
+  rating
+}
+`;
+
+// ✅ Get single product by slug
+export const productBySlugQuery = groq/* groq */ `
+*[_type == "product" && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  image{
+    asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    alt
+  },
+  category,
+  price,
+  affiliateLink,
+  retailer,
+  featured,
+  rating,
+  relatedRecipes[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    heroImage{
+      asset->{
+        url,
+        metadata { lqip }
+      },
+      alt
+    }
+  }
+}
+`;
