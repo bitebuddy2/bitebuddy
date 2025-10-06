@@ -62,10 +62,22 @@ export default function CookieConsent() {
     setShowBanner(false);
   }
 
+  useEffect(() => {
+    // Notify other components that cookie banner is showing
+    if (showBanner) {
+      document.body.classList.add('cookie-banner-visible');
+    } else {
+      document.body.classList.remove('cookie-banner-visible');
+    }
+    return () => {
+      document.body.classList.remove('cookie-banner-visible');
+    };
+  }, [showBanner]);
+
   if (!showBanner) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 z-[60] bg-white border-t shadow-lg">
       <div className="mx-auto max-w-6xl px-4 py-4">
         <div className="flex flex-col gap-4">
           <div className="flex-1">

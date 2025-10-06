@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function SignupBanner() {
   const [showBanner, setShowBanner] = useState(false);
+  const [cookieBannerVisible, setCookieBannerVisible] = useState(false);
 
   useEffect(() => {
     // Check if user has already dismissed the banner
@@ -11,6 +12,22 @@ export default function SignupBanner() {
     if (!dismissed) {
       setShowBanner(true);
     }
+  }, []);
+
+  useEffect(() => {
+    // Check if cookie banner is visible
+    const checkCookieBanner = () => {
+      setCookieBannerVisible(document.body.classList.contains('cookie-banner-visible'));
+    };
+
+    // Check initially
+    checkCookieBanner();
+
+    // Watch for changes
+    const observer = new MutationObserver(checkCookieBanner);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
   }, []);
 
   function dismissBanner() {
@@ -21,7 +38,10 @@ export default function SignupBanner() {
   if (!showBanner) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-emerald-600 border-t border-black shadow-lg">
+    <div
+      className="fixed left-0 right-0 z-50 bg-emerald-600 border-t border-black shadow-lg transition-all duration-300"
+      style={{ bottom: cookieBannerVisible ? '180px' : '0' }}
+    >
       <div className="mx-auto max-w-6xl px-4 py-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex-1">
