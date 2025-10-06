@@ -105,9 +105,15 @@ export default function Header() {
                   className="w-5 h-5 rounded-full object-cover border border-white"
                 />
               ) : (
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                </svg>
+                <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center p-0.5">
+                  <Image
+                    src="/bigger-logo.svg"
+                    alt="Bite Buddy"
+                    width={20}
+                    height={20}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               )}
               <span className="hidden lg:inline">Hi, {userName}</span>
               <span className="lg:hidden">Account</span>
@@ -176,9 +182,15 @@ export default function Header() {
                     className="w-10 h-10 rounded-full object-cover border-2 border-emerald-400"
                   />
                 ) : (
-                  <svg className="w-10 h-10 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                  </svg>
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border-2 border-emerald-400 p-1">
+                    <Image
+                      src="/bigger-logo.svg"
+                      alt="Bite Buddy"
+                      width={40}
+                      height={40}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                 )}
                 <div className="flex-1">
                   <p className="text-white font-semibold text-sm">{userName}</p>
