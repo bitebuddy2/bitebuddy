@@ -39,8 +39,8 @@ function AffiliateButton({
       brand,
     });
 
-    // Navigate to redirect
-    router.push(`/go?u=${encodeURIComponent(url)}`);
+    // Open in new window
+    window.open(`/go?u=${encodeURIComponent(url)}`, "_blank", "noopener");
   };
 
   return (

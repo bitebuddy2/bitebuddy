@@ -75,42 +75,37 @@ function parseNames(q?: string): string[] {
       .filter(ingredient => ingredient.length > 1);
   }
 
-  // For space-only input, try to intelligently split on single spaces
-  // but keep common multi-word ingredients together
-  const commonMultiWord = [
-    'sausage meat', 'chicken breast', 'olive oil', 'sea salt', 'black pepper',
-    'red wine', 'white wine', 'coconut milk', 'soy sauce', 'fish sauce',
-    'tomato paste', 'beef stock', 'chicken stock', 'cream cheese', 'caster sugar',
-    'plain flour', 'self raising flour', 'double cream', 'single cream'
-  ];
+  // For space-only input, use capitalization to detect ingredient boundaries
+  // Example: "white bread Cheddar cheese" -> ["white bread", "Cheddar cheese"]
+  const words = q.split(/\s+/);
+  const ingredients: string[] = [];
+  let currentIngredient: string[] = [];
 
-  let result = q;
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    const isCapitalized = /^[A-Z]/.test(word);
+    const isFirstWord = i === 0;
 
-  // Replace known multi-word ingredients with temporary placeholders
-  const placeholders: { [key: string]: string } = {};
-  commonMultiWord.forEach((phrase, index) => {
-    if (result.toLowerCase().includes(phrase.toLowerCase())) {
-      const placeholder = `__MULTIWORD_${index}__`;
-      placeholders[placeholder] = phrase;
-      result = result.replace(new RegExp(phrase, 'gi'), placeholder);
+    // Start a new ingredient if:
+    // 1. This is a capitalized word AND it's not the first word
+    // 2. OR we haven't started an ingredient yet
+    if ((isCapitalized && !isFirstWord && currentIngredient.length > 0) || currentIngredient.length === 0) {
+      // Save previous ingredient if exists
+      if (currentIngredient.length > 0) {
+        ingredients.push(currentIngredient.join(' '));
+        currentIngredient = [];
+      }
     }
-  });
 
-  // Split on single spaces
-  const parts = result
-    .split(/\s+/)
-    .map(s => s.trim())
-    .filter(Boolean);
+    currentIngredient.push(word);
+  }
 
-  // Restore multi-word ingredients
-  const restored = parts.map(part => {
-    if (part.startsWith('__MULTIWORD_')) {
-      return placeholders[part] || part;
-    }
-    return part;
-  });
+  // Don't forget the last ingredient
+  if (currentIngredient.length > 0) {
+    ingredients.push(currentIngredient.join(' '));
+  }
 
-  return restored.filter(ingredient => ingredient.length > 1);
+  return ingredients.filter(ingredient => ingredient.length > 1);
 }
 
 // Filter recipes based on user preferences
@@ -319,11 +314,11 @@ export default function IngredientFinder() {
 
         setResults(filteredRecipes);
 
-        // Check for near-match recipes (missing 3 or fewer ingredients)
+        // Check for near-match recipes (at least 3 ingredients match)
         if (filteredRecipes.length === 0 && recipes && recipes.length > 0) {
           // Find the best near-match
           let bestMatch: { recipe: Recipe; missing: string[] } | null = null;
-          let fewestMissing = 4; // We only care about 3 or fewer
+          let mostMatches = 0;
 
           for (const recipe of recipes) {
             const recipeIngredients = recipe.allIngredients?.map((ing: any) => {
@@ -337,13 +332,26 @@ export default function IngredientFinder() {
 
             const missing = names.filter(searchedIng => {
               const searchedLower = searchedIng.toLowerCase();
-              return !recipeIngredients.some((recipeIng: string) =>
-                recipeIng.includes(searchedLower) || searchedLower.includes(recipeIng)
-              );
+              const searchedWords = searchedLower.split(/\s+/).filter(Boolean);
+
+              return !recipeIngredients.some((recipeIng: string) => {
+                const recipeIngLower = recipeIng.toLowerCase();
+                const recipeWords = recipeIngLower.split(/\s+/).filter(Boolean);
+
+                // Check if any word from search term matches any word in recipe ingredient (case-insensitive)
+                return searchedWords.some(searchWord =>
+                  recipeWords.some(recipeWord =>
+                    recipeWord.includes(searchWord) || searchWord.includes(recipeWord)
+                  )
+                );
+              });
             });
 
-            if (missing.length < fewestMissing && missing.length > 0 && missing.length <= 3) {
-              fewestMissing = missing.length;
+            const matchCount = names.length - missing.length;
+
+            // Only suggest if at least 3 ingredients match
+            if (matchCount >= 3 && matchCount > mostMatches) {
+              mostMatches = matchCount;
               bestMatch = { recipe, missing };
             }
           }
