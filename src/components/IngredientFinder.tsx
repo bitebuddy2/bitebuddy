@@ -251,6 +251,7 @@ export default function IngredientFinder() {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [userId, setUserId] = useState<string>("");
   const [nearMatchRecipe, setNearMatchRecipe] = useState<{ recipe: Recipe; missing: string[] } | null>(null);
+  const [showAllMatches, setShowAllMatches] = useState(false);
   const { isPremium } = useSubscription();
 
   // preferences (used by AI generation)
@@ -1037,8 +1038,8 @@ export default function IngredientFinder() {
           </div>
         )}
 
-        {/* Matching recipes when AI recipe is shown */}
-        {generatedRecipe && showGeneratedRecipe && results.length > 0 && (
+        {/* Matching recipes when AI recipe is being generated or shown */}
+        {(isGenerating || (generatedRecipe && showGeneratedRecipe)) && results.length > 0 && (
           <div className="mt-6">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
@@ -1046,7 +1047,7 @@ export default function IngredientFinder() {
               </h3>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {results.slice(0, 3).map((recipe) => (
+              {results.slice(0, showAllMatches ? results.length : 3).map((recipe) => (
                 <div key={recipe.slug}>
                   <RecipeCard r={recipe} />
                   {/* Show matched ingredients below the card */}
@@ -1072,12 +1073,28 @@ export default function IngredientFinder() {
               ))}
             </div>
             {results.length > 3 && (
-              <p className="mt-3 text-sm text-gray-600">
-                Showing 3 of {results.length} matching recipes.{" "}
-                <Link href={`/search?q=${encodeURIComponent(q)}`} className="text-emerald-700 underline">
-                  See all results →
-                </Link>
-              </p>
+              <div className="mt-4 text-center">
+                <button
+                  onClick={() => setShowAllMatches(!showAllMatches)}
+                  className="inline-flex items-center gap-2 rounded-lg border border-emerald-600 bg-white px-4 py-2 text-sm font-medium text-emerald-600 hover:bg-emerald-50 transition"
+                >
+                  {showAllMatches ? (
+                    <>
+                      Show Less
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                      </svg>
+                    </>
+                  ) : (
+                    <>
+                      Show All {results.length} Matching Recipes
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </>
+                  )}
+                </button>
+              </div>
             )}
           </div>
         )}
