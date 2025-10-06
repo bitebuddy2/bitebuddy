@@ -30,8 +30,13 @@ export default function Header() {
     };
   }, []);
 
+  // Get user's display name
+  const userName = user?.user_metadata?.full_name ||
+                   user?.user_metadata?.name ||
+                   user?.email?.split('@')[0];
+
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900 shadow-lg">
+    <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900 shadow-lg will-change-transform">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4">
         <Link href="/" className="flex items-center">
           <div className="h-12 w-12 rounded-full overflow-hidden bg-white ring-2 ring-emerald-400 flex items-center justify-center p-0.5">
@@ -70,9 +75,13 @@ export default function Header() {
           {user ? (
             <Link
               href="/account"
-              className="rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700"
+              className="rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700 flex items-center gap-2"
             >
-              My Account
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              </svg>
+              <span className="hidden lg:inline">Hi, {userName}</span>
+              <span className="lg:hidden">Account</span>
             </Link>
           ) : (
             <Link
@@ -97,9 +106,13 @@ export default function Header() {
           {user ? (
             <Link
               href="/account"
-              className="rounded-full border border-emerald-400 text-emerald-400 px-3 py-1.5 text-sm font-semibold hover:bg-gray-800"
+              className="rounded-full border border-emerald-400 text-emerald-400 px-3 py-1.5 text-sm font-semibold hover:bg-gray-800 flex items-center gap-1.5"
             >
-              Account
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              </svg>
+              <span className="hidden sm:inline">{userName}</span>
+              <span className="sm:hidden">Account</span>
             </Link>
           ) : (
             <Link

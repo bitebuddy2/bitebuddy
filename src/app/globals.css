@@ -24,3 +24,31 @@ body {
 * {
   border-color: var(--border-color);
 }
+
+/* Fix header flashing/repainting on scroll */
+header {
+  /* Force GPU acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+
+  /* Optimize compositing */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  /* Prevent repainting */
+  will-change: transform;
+
+  /* Hardware acceleration */
+  contain: layout style paint;
+}
+
+/* Smooth scrolling performance */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
