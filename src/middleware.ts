@@ -18,7 +18,11 @@ export function middleware(request: NextRequest) {
 
   // Only apply to auth API routes
   if (pathname.startsWith('/api/auth/')) {
-    const ip = request.ip || request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
+    // Get IP from headers (Vercel provides this)
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
+               request.headers.get('x-real-ip') ||
+               'unknown';
+
     const now = Date.now();
     const windowMs = 15 * 60 * 1000; // 15 minutes
     const maxRequests = 20; // 20 requests per 15 minutes per IP across all auth endpoints
