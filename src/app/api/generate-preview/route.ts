@@ -41,12 +41,29 @@ const RecipePreviewSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  // Check for required environment variables
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.error("Missing Supabase environment variables");
+    return NextResponse.json({
+      error: "Server configuration error",
+      details: "Missing database configuration"
+    }, { status: 500 });
+  }
+
+  if (!process.env.OPENAI_API_KEY) {
+    console.error("Missing OpenAI API key");
+    return NextResponse.json({
+      error: "Server configuration error",
+      details: "Missing AI service configuration"
+    }, { status: 500 });
+  }
+
   const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   try {
     const { prompt, userId } = await req.json();

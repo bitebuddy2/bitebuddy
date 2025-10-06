@@ -1323,8 +1323,8 @@ export default function IngredientFinder() {
           </>
         )}
 
-        {/* Search Results */}
-        {!generatedRecipe && results.length > 0 && (
+        {/* Search Results - only show when NOT generating AI and NO generated recipe */}
+        {!generatedRecipe && !isGenerating && results.length > 0 && (
           <section className="mt-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">
