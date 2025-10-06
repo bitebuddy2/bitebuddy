@@ -524,6 +524,8 @@ export default function IngredientFinder() {
       }
 
       const prompt = promptParts.join(", ") + ".";
+      console.log("Generated prompt:", prompt);
+      console.log("User ID:", userId);
 
       // Call the preview API (doesn't save to Sanity)
       const response = await fetch("/api/generate-preview", {
@@ -531,6 +533,8 @@ export default function IngredientFinder() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, userId }),
       });
+
+      console.log("API Response status:", response.status);
 
       const data = await response.json();
 
@@ -574,12 +578,15 @@ export default function IngredientFinder() {
       } else {
         // Check if it's an impossible combination error
         const errorMsg = data.error || "Unknown error";
+        const errorDetails = data.details ? ` (${data.details})` : "";
+        console.error("API Error:", data);
+
         if (errorMsg.toLowerCase().includes("impossible") ||
             errorMsg.toLowerCase().includes("not possible") ||
             errorMsg.toLowerCase().includes("incompatible")) {
           alert("Sorry, this combination isn't possible. Please try a different cooking method or recipe idea.");
         } else {
-          alert(`Recipe generation failed: ${errorMsg}`);
+          alert(`Recipe generation failed: ${errorMsg}${errorDetails}`);
         }
 
         // Track failed generation

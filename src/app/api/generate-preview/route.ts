@@ -142,7 +142,16 @@ export async function POST(req: Request) {
       message: "Recipe generated successfully (preview only - not saved)"
     });
   } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ error: "Server error", details: err?.message }, { status: 500 });
+    console.error("API Error Details:", {
+      message: err?.message,
+      stack: err?.stack,
+      name: err?.name,
+      cause: err?.cause
+    });
+    return NextResponse.json({
+      error: "Server error",
+      details: err?.message,
+      errorType: err?.name
+    }, { status: 500 });
   }
 }
