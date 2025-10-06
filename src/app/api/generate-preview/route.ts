@@ -7,7 +7,7 @@ import { createClient } from "@supabase/supabase-js";
 const ALLOWED_UNITS = [
   "g","kg","oz","lb","ml","l","tsp","tbsp","cup",
   "piece","slice","clove","leaf","sprig","bunch","pinch","dash",
-  "can","jar","packet","sheet","stick"
+  "can","jar","packet","sheet","stick","shot","shots"
 ];
 
 // zod validation for safe JSON
