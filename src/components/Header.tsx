@@ -48,10 +48,11 @@ export default function Header() {
     };
   }, [mobileMenuOpen]);
 
-  // Get user's display name
+  // Get user's display name and avatar
   const userName = user?.user_metadata?.full_name ||
                    user?.user_metadata?.name ||
                    user?.email?.split('@')[0];
+  const avatarUrl = user?.user_metadata?.avatar_url;
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900 shadow-lg will-change-transform">
@@ -95,9 +96,19 @@ export default function Header() {
               href="/account"
               className="rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700 flex items-center gap-2"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-              </svg>
+              {avatarUrl ? (
+                <Image
+                  src={avatarUrl}
+                  alt={userName || 'User'}
+                  width={20}
+                  height={20}
+                  className="w-5 h-5 rounded-full object-cover border border-white"
+                />
+              ) : (
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                </svg>
+              )}
               <span className="hidden lg:inline">Hi, {userName}</span>
               <span className="lg:hidden">Account</span>
             </Link>
@@ -155,10 +166,20 @@ export default function Header() {
           {/* User section */}
           {user && (
             <div className="pb-4 mb-4 border-b border-gray-700">
-              <div className="flex items-center gap-2 px-3 py-2">
-                <svg className="w-8 h-8 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                </svg>
+              <div className="flex items-center gap-3 px-3 py-2">
+                {avatarUrl ? (
+                  <Image
+                    src={avatarUrl}
+                    alt={userName || 'User'}
+                    width={40}
+                    height={40}
+                    className="w-10 h-10 rounded-full object-cover border-2 border-emerald-400"
+                  />
+                ) : (
+                  <svg className="w-10 h-10 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                  </svg>
+                )}
                 <div className="flex-1">
                   <p className="text-white font-semibold text-sm">{userName}</p>
                   <p className="text-gray-400 text-xs truncate">{user.email}</p>

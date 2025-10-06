@@ -242,6 +242,8 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
   const [activeTab, setActiveTab] = useState<"recipes" | "planner">(tabParam === "planner" ? "planner" : "recipes");
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [isManagingSubscription, setIsManagingSubscription] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(user?.user_metadata?.avatar_url || null);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const { isPremium, subscription } = useSubscription();
   const hasStripeCustomer = subscription?.stripe_customer_id;
 
@@ -250,6 +252,107 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
                    user?.user_metadata?.name ||
                    user?.email?.split('@')[0] ||
                    'there';
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Import compression utilities
+    const { compressImage, validateImageFile, formatFileSize } = await import('@/lib/imageCompression');
+
+    // Validate file
+    const validationError = validateImageFile(file);
+    if (validationError) {
+      alert(validationError);
+      return;
+    }
+
+    setUploadingAvatar(true);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        alert('Please sign in to upload a profile picture');
+        setUploadingAvatar(false);
+        return;
+      }
+
+      // Compress image before upload
+      const originalSize = file.size;
+      const compressedFile = await compressImage(file, {
+        maxWidth: 400,
+        maxHeight: 400,
+        quality: 0.85,
+        maxSizeMB: 1, // Target 1MB for fast uploads
+      });
+
+      const compressedSize = compressedFile.size;
+      console.log(`Compressed image: ${formatFileSize(originalSize)} → ${formatFileSize(compressedSize)}`);
+
+      const formData = new FormData();
+      formData.append('file', compressedFile);
+
+      const response = await fetch('/api/upload-avatar', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      setAvatarUrl(data.avatarUrl);
+
+      // Refresh user data to get updated metadata
+      await supabase.auth.refreshSession();
+
+      alert('Profile picture updated successfully!');
+    } catch (error: any) {
+      console.error('Avatar upload error:', error);
+      alert(error.message || 'Failed to upload profile picture');
+    } finally {
+      setUploadingAvatar(false);
+    }
+  };
+
+  const handleAvatarDelete = async () => {
+    if (!confirm('Are you sure you want to remove your profile picture?')) {
+      return;
+    }
+
+    setUploadingAvatar(true);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const response = await fetch('/api/upload-avatar', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete profile picture');
+      }
+
+      setAvatarUrl(null);
+      await supabase.auth.refreshSession();
+
+      alert('Profile picture removed successfully!');
+    } catch (error) {
+      console.error('Avatar delete error:', error);
+      alert('Failed to delete profile picture');
+    } finally {
+      setUploadingAvatar(false);
+    }
+  };
 
   const handleManageSubscription = async () => {
     setIsManagingSubscription(true);
@@ -284,24 +387,83 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
       <div className="mx-auto max-w-6xl px-4 py-8">
         {/* Header Section with Greeting */}
         <div className="mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
-            <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-3 mb-2">
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                  Hi {userName} 👋
-                </h1>
-                {isPremium && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 py-1 text-sm font-semibold text-white">
-                    ⭐ Premium
-                  </span>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 mb-4">
+            {/* Profile Picture and Info */}
+            <div className="flex items-start gap-4 flex-1">
+              {/* Profile Picture */}
+              <div className="relative group">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gray-200 border-4 border-emerald-500 flex items-center justify-center">
+                  {avatarUrl ? (
+                    <Image
+                      src={avatarUrl}
+                      alt={userName}
+                      width={96}
+                      height={96}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <svg className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+
+                {/* Upload/Delete overlay */}
+                <div className="absolute inset-0 rounded-full bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <div className="flex gap-1">
+                    <label className="cursor-pointer p-2 bg-emerald-600 rounded-full hover:bg-emerald-700 transition-colors">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatarUpload}
+                        disabled={uploadingAvatar}
+                        className="hidden"
+                      />
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </label>
+                    {avatarUrl && (
+                      <button
+                        onClick={handleAvatarDelete}
+                        disabled={uploadingAvatar}
+                        className="p-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
+                      >
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {uploadingAvatar && (
+                  <div className="absolute inset-0 rounded-full bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                  </div>
                 )}
               </div>
-              <p className="text-sm sm:text-base text-gray-600">
-                Here's your saved recipes and meal plan
-              </p>
-              <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                {user.email}
-              </p>
+
+              {/* User Info */}
+              <div className="flex-1">
+                <div className="flex flex-wrap items-center gap-3 mb-2">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                    Hi {userName} 👋
+                  </h1>
+                  {isPremium && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 py-1 text-sm font-semibold text-white">
+                      ⭐ Premium
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm sm:text-base text-gray-600">
+                  Here's your saved recipes and meal plan
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                  {user.email}
+                </p>
+              </div>
             </div>
 
             {/* Action Buttons - Fixed for mobile */}
