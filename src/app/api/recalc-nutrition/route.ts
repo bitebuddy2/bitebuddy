@@ -15,6 +15,7 @@ const RECIPE_QUERY = groq/* groq */ `
 *[_type == "recipe" && _id == $id][0]{
   _id,
   servings,
+  nutrition,
 
   // New grouped-ingredients shape
   ingredients[]{
@@ -79,6 +80,23 @@ export async function POST(req: NextRequest) {
   // Fetch recipe with ingredients (new + legacy support)
   const recipe = await client.fetch<any>(RECIPE_QUERY, { id: recipeId });
   if (!recipe?._id) return bad(404, "Recipe not found");
+
+  // Check if nutrition already has manual values (skip auto-calculation if so)
+  const hasManualNutrition = recipe.nutrition && (
+    recipe.nutrition.calories ||
+    recipe.nutrition.protein ||
+    recipe.nutrition.fat ||
+    recipe.nutrition.carbs
+  );
+
+  if (hasManualNutrition) {
+    return NextResponse.json({
+      ok: true,
+      recipeId: recipe._id,
+      skipped: true,
+      message: "Recipe has manual nutrition values, skipping auto-calculation"
+    });
+  }
 
   // Normalise ingredients to the grouped shape expected by the calculator
   const groups =
