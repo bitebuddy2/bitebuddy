@@ -244,6 +244,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [isManagingSubscription, setIsManagingSubscription] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(user?.user_metadata?.avatar_url || null);
+  const [avatarError, setAvatarError] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const { isPremium, subscription } = useSubscription();
   const hasStripeCustomer = subscription?.stripe_customer_id;
@@ -253,6 +254,9 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
                    user?.user_metadata?.name ||
                    user?.email?.split('@')[0] ||
                    'there';
+
+  // Debug: Log avatar URL
+  console.log('Avatar URL:', avatarUrl);
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -307,11 +311,14 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
         throw new Error(data.error || 'Upload failed');
       }
 
-      // Refresh user data to get updated metadata
-      const { data: { session: newSession } } = await supabase.auth.refreshSession();
+      console.log('Upload successful, new avatar URL:', data.avatarUrl);
 
-      // Update local state with the refreshed user metadata
-      setAvatarUrl(newSession?.user?.user_metadata?.avatar_url || data.avatarUrl);
+      // Update local state immediately with the new URL from API response
+      setAvatarUrl(data.avatarUrl);
+      setAvatarError(false);
+
+      // Refresh user data to get updated metadata for future page loads
+      await supabase.auth.refreshSession();
 
       alert('Profile picture updated successfully!');
     } catch (error: any) {
@@ -398,13 +405,19 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
               {/* Profile Picture */}
               <div className="relative group">
                 <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-emerald-600 border-4 border-emerald-500 flex items-center justify-center">
-                  {avatarUrl ? (
+                  {avatarUrl && !avatarError ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       key={avatarUrl}
                       src={avatarUrl}
                       alt={userName}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error('Image failed to load:', avatarUrl);
+                        console.error('Error:', e);
+                        setAvatarError(true);
+                      }}
+                      onLoad={() => console.log('Image loaded successfully:', avatarUrl)}
                     />
                   ) : (
                     <User className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
