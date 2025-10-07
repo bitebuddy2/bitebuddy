@@ -118,7 +118,7 @@ export default function Header() {
               href="/account"
               className="rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700"
             >
-              Sign In
+              Sign In/Up
             </Link>
           )}
         </nav>
@@ -241,7 +241,7 @@ export default function Header() {
               href="/account"
               className="px-3 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 text-center"
             >
-              Sign In
+              Sign In/Up
             </Link>
           )}
 
