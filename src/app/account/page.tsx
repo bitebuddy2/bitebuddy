@@ -14,10 +14,16 @@ import Link from "next/link";
 function AccountContent() {
   const [user, setUser] = useState<any>(null);
   const searchParams = useSearchParams();
+  const mode = searchParams.get('mode');
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
   }, []);
+
+  // Show password reset form if mode is reset-password
+  if (mode === 'reset-password') {
+    return <PasswordResetForm />;
+  }
 
   if (!user) {
     return <LoginForm />;
@@ -252,6 +258,119 @@ function LoginForm() {
               </>
             )}
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PasswordResetForm() {
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handlePasswordReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage(null);
+
+    if (newPassword !== confirmPassword) {
+      setMessage({ type: 'error', text: 'Passwords do not match' });
+      setLoading(false);
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setMessage({ type: 'error', text: 'Password must be at least 6 characters' });
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (error) throw error;
+
+      setMessage({ type: 'success', text: 'Password updated successfully! Redirecting...' });
+
+      // Redirect to account page after a short delay
+      setTimeout(() => {
+        window.location.href = '/account';
+      }, 2000);
+    } catch (error: any) {
+      setMessage({ type: 'error', text: error.message || 'Failed to update password' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center px-4">
+      <div className="max-w-md w-full space-y-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900">Reset Your Password</h1>
+          <p className="mt-2 text-sm text-gray-600">
+            Enter your new password below
+          </p>
+        </div>
+
+        {message && (
+          <div className={`rounded-lg p-4 ${
+            message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
+          }`}>
+            {message.text}
+          </div>
+        )}
+
+        <form onSubmit={handlePasswordReset} className="space-y-4">
+          <div>
+            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              New Password
+            </label>
+            <input
+              id="newPassword"
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              placeholder="••••••••"
+              minLength={6}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password
+            </label>
+            <input
+              id="confirmPassword"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              placeholder="••••••••"
+              minLength={6}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-lg bg-emerald-600 px-4 py-3 text-white font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50"
+          >
+            {loading ? 'Updating...' : 'Update Password'}
+          </button>
+        </form>
+
+        <div className="text-center text-sm">
+          <a href="/account" className="text-emerald-600 hover:text-emerald-700 font-medium">
+            Back to Account
+          </a>
         </div>
       </div>
     </div>
