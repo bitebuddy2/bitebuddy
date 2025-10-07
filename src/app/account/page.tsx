@@ -297,13 +297,13 @@ function PasswordResetForm() {
     setMessage(null);
 
     if (newPassword !== confirmPassword) {
-      setMessage({ type: 'error', text: 'Passwords do not match' });
+      setMessage({ type: 'error', text: 'Passwords don\'t match' });
       setLoading(false);
       return;
     }
 
     if (newPassword.length < 6) {
-      setMessage({ type: 'error', text: 'Password must be at least 6 characters' });
+      setMessage({ type: 'error', text: 'Password too short (min 6 characters)' });
       setLoading(false);
       return;
     }
@@ -315,7 +315,7 @@ function PasswordResetForm() {
 
       if (error) throw error;
 
-      setMessage({ type: 'success', text: 'Password updated successfully! Redirecting...' });
+      setMessage({ type: 'success', text: 'Password updated! Redirecting...' });
 
       // Redirect to account page after a short delay
       setTimeout(() => {
