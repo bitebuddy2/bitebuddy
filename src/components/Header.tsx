@@ -55,7 +55,7 @@ export default function Header() {
   const avatarUrl = user?.user_metadata?.avatar_url;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900 shadow-lg will-change-transform">
+    <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900 shadow-lg">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4">
         <Link href="/" className="flex items-center">
           <div className="h-12 w-12 rounded-full overflow-hidden bg-white ring-2 ring-emerald-400 flex items-center justify-center p-0.5">
@@ -105,12 +105,11 @@ export default function Header() {
                   className="w-5 h-5 rounded-full object-cover border border-white"
                 />
               ) : (
-                <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center p-0.5">
-                  <Image
+                <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center p-0.5">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src="/bigger-logo.png"
                     alt="Bite Buddy"
-                    width={20}
-                    height={20}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -155,17 +154,17 @@ export default function Header() {
       </div>
 
       {/* Mobile menu overlay */}
-      {mobileMenuOpen && (
-        <div
-          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
+      <div
+        className={`md:hidden fixed inset-0 bg-black transition-opacity duration-300 z-40 ${
+          mobileMenuOpen ? 'bg-opacity-50' : 'bg-opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setMobileMenuOpen(false)}
+      />
 
       {/* Mobile menu drawer */}
       <div
-        className={`md:hidden fixed top-16 right-0 bottom-0 w-64 bg-gray-900 z-50 transform transition-transform duration-300 ease-in-out ${
-          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        className={`md:hidden fixed top-16 right-0 bottom-0 w-64 bg-gray-900 shadow-2xl transform transition-transform duration-300 ease-in-out overflow-y-auto ${
+          mobileMenuOpen ? 'translate-x-0 z-50' : 'translate-x-full -z-10'
         }`}
       >
         <nav className="flex flex-col p-4 space-y-2">
@@ -182,12 +181,11 @@ export default function Header() {
                     className="w-10 h-10 rounded-full object-cover border-2 border-emerald-400"
                   />
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border-2 border-emerald-400 p-1">
-                    <Image
+                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center border-2 border-emerald-400 p-1">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src="/bigger-logo.png"
                       alt="Bite Buddy"
-                      width={40}
-                      height={40}
                       className="w-full h-full object-contain"
                     />
                   </div>

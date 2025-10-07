@@ -392,7 +392,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
             <div className="flex items-start gap-4 flex-1">
               {/* Profile Picture */}
               <div className="relative group">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-white border-4 border-emerald-500 flex items-center justify-center p-1">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gray-100 border-4 border-emerald-500 flex items-center justify-center p-1">
                   {avatarUrl ? (
                     <Image
                       src={avatarUrl}
@@ -402,11 +402,10 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <Image
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
                       src="/bigger-logo.png"
                       alt="Bite Buddy"
-                      width={96}
-                      height={96}
                       className="w-full h-full object-contain"
                     />
                   )}
