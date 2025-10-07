@@ -403,7 +403,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
                     />
                   ) : (
                     <Image
-                      src="/bigger-logo.svg"
+                      src="/bigger-logo.png"
                       alt="Bite Buddy"
                       width={96}
                       height={96}

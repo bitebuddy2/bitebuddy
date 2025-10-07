@@ -107,7 +107,7 @@ export default function Header() {
               ) : (
                 <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center p-0.5">
                   <Image
-                    src="/bigger-logo.svg"
+                    src="/bigger-logo.png"
                     alt="Bite Buddy"
                     width={20}
                     height={20}
@@ -164,7 +164,7 @@ export default function Header() {
 
       {/* Mobile menu drawer */}
       <div
-        className={`md:hidden fixed top-16 right-0 bottom-0 w-64 bg-gray-900 z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`md:hidden fixed top-16 right-0 bottom-0 w-64 bg-gray-900 z-50 transform transition-transform duration-300 ease-in-out ${
           mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -184,7 +184,7 @@ export default function Header() {
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border-2 border-emerald-400 p-1">
                     <Image
-                      src="/bigger-logo.svg"
+                      src="/bigger-logo.png"
                       alt="Bite Buddy"
                       width={40}
                       height={40}
