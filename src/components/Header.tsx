@@ -130,7 +130,7 @@ export default function Header() {
         {/* Mobile hamburger button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden relative z-50 p-2 text-gray-300 hover:text-white focus:outline-none"
+          className="md:hidden relative z-[60] p-2 text-gray-300 hover:text-white focus:outline-none"
           aria-label="Toggle menu"
         >
           <div className="w-6 h-5 flex flex-col justify-between">
@@ -163,8 +163,8 @@ export default function Header() {
 
       {/* Mobile menu drawer */}
       <div
-        className={`md:hidden fixed top-16 right-0 bottom-0 w-64 bg-gray-900 shadow-2xl transform transition-transform duration-300 ease-in-out overflow-y-auto ${
-          mobileMenuOpen ? 'translate-x-0 z-50' : 'translate-x-full -z-10'
+        className={`md:hidden fixed top-16 right-0 bottom-0 w-64 bg-gray-900 shadow-2xl transform transition-transform duration-300 ease-in-out overflow-y-auto z-50 ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <nav className="flex flex-col p-4 space-y-2">
