@@ -267,6 +267,9 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(user?.user_metadata?.avatar_url || null);
   const [avatarError, setAvatarError] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const { isPremium, subscription } = useSubscription();
   const hasStripeCustomer = subscription?.stripe_customer_id;
 
@@ -416,6 +419,45 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    if (deleteConfirmText !== 'DELETE') {
+      alert('Please type DELETE to confirm account deletion');
+      return;
+    }
+
+    setIsDeletingAccount(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        alert('Please sign in to delete your account');
+        setIsDeletingAccount(false);
+        return;
+      }
+
+      const response = await fetch('/api/auth/delete-account', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to delete account');
+      }
+
+      // Sign out and redirect
+      await supabase.auth.signOut();
+      alert('Your account has been successfully deleted.');
+      window.location.href = '/';
+    } catch (error: any) {
+      console.error('Account deletion error:', error);
+      alert(error.message || 'Failed to delete account. Please try again.');
+      setIsDeletingAccount(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <div className="mx-auto max-w-6xl px-4 py-8">
@@ -508,29 +550,35 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
             </div>
 
             {/* Action Buttons - Fixed for mobile */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              {isPremium ? (
+            <div className="flex flex-col items-end gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                {isPremium ? (
+                  <button
+                    onClick={hasStripeCustomer ? handleManageSubscription : () => window.open('https://billing.stripe.com/p/login/bJe5kw1rffNQ6C10k22VG00', '_blank')}
+                    disabled={isManagingSubscription}
+                    className="whitespace-nowrap rounded-lg border border-emerald-600 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-emerald-600 hover:bg-emerald-50 disabled:opacity-50 transition-colors"
+                  >
+                    {isManagingSubscription ? "Loading..." : "Manage Subscription"}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setShowUpgradeModal(true)}
+                    className="whitespace-nowrap rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:from-emerald-600 hover:to-emerald-700 transition-all"
+                  >
+                    ⭐ Upgrade to Premium
+                  </button>
+                )}
                 <button
-                  onClick={hasStripeCustomer ? handleManageSubscription : () => window.open('https://billing.stripe.com/p/login/bJe5kw1rffNQ6C10k22VG00', '_blank')}
-                  disabled={isManagingSubscription}
-                  className="whitespace-nowrap rounded-lg border border-emerald-600 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-emerald-600 hover:bg-emerald-50 disabled:opacity-50 transition-colors"
+                  onClick={() => supabase.auth.signOut().then(() => window.location.reload())}
+                  className="whitespace-nowrap rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >
-                  {isManagingSubscription ? "Loading..." : "Manage Subscription"}
+                  Sign Out
                 </button>
-              ) : (
-                <button
-                  onClick={() => setShowUpgradeModal(true)}
-                  className="whitespace-nowrap rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:from-emerald-600 hover:to-emerald-700 transition-all"
-                >
-                  ⭐ Upgrade to Premium
-                </button>
-              )}
-              <button
-                onClick={() => supabase.auth.signOut().then(() => window.location.reload())}
-                className="whitespace-nowrap rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                Sign Out
-              </button>
+              </div>
+              {/* Member since date */}
+              <p className="text-xs text-gray-500">
+                Member since {new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+              </p>
             </div>
           </div>
         </div>
@@ -579,6 +627,61 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
             userId={user.id}
           />
         )}
+
+        {/* Delete Account Section */}
+        <div className="max-w-4xl mt-12 pt-8 border-t border-gray-200">
+          <div className="bg-red-50 rounded-lg border border-red-200 p-6">
+            <h3 className="text-lg font-semibold text-red-900 mb-2">Delete Account</h3>
+            <p className="text-sm text-red-700 mb-4">
+              Once you delete your account, there is no going back. This will permanently delete your account,
+              saved recipes, meal plans, and all associated data.
+            </p>
+
+            {!showDeleteConfirm ? (
+              <button
+                onClick={() => setShowDeleteConfirm(true)}
+                className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 transition-colors"
+              >
+                Delete My Account
+              </button>
+            ) : (
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="deleteConfirm" className="block text-sm font-medium text-red-900 mb-2">
+                    Type <span className="font-bold">DELETE</span> to confirm:
+                  </label>
+                  <input
+                    id="deleteConfirm"
+                    type="text"
+                    value={deleteConfirmText}
+                    onChange={(e) => setDeleteConfirmText(e.target.value)}
+                    className="w-full max-w-xs rounded-lg border border-red-300 px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    placeholder="DELETE"
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleDeleteAccount}
+                    disabled={isDeletingAccount || deleteConfirmText !== 'DELETE'}
+                    className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {isDeletingAccount ? 'Deleting...' : 'Confirm Delete Account'}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowDeleteConfirm(false);
+                      setDeleteConfirmText('');
+                    }}
+                    disabled={isDeletingAccount}
+                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
