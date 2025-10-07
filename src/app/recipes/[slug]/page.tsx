@@ -181,12 +181,14 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
     recipeIngredient: toPlainIngredients(recipe.ingredients),
     recipeInstructions: (recipe.steps || []).map((s, idx: number) => ({
       "@type": "HowToStep",
+      name: `Step ${idx + 1}`,
       position: idx + 1,
       text: portableToPlainText(s.step),
       url: `${SITE_URL}/recipes/${recipe.slug}#step-${idx + 1}`,
       image: s.stepImage?.asset?.url || recipe.heroImage?.asset?.url,
     })),
     keywords: recipe.categories?.map((c: any) => c.title).join(", ") || undefined,
+    video: undefined, // Optional: Add video URL if available in the future
     nutrition: hasNutrition(recipe.nutrition) ? {
       "@type": "NutritionInformation",
       calories: recipe.nutrition?.calories ? `${recipe.nutrition.calories} calories` : undefined,
@@ -446,8 +448,8 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Recipes", item: `${SITE_URL}/recipes` },
-              { "@type": "ListItem", position: 2, name: title, item: `${SITE_URL}/recipes/${slug}` },
+              { "@type": "ListItem", position: 1, name: "Recipes", item: { "@id": `${SITE_URL}/recipes`, name: "Recipes" } },
+              { "@type": "ListItem", position: 2, name: title, item: { "@id": `${SITE_URL}/recipes/${slug}`, name: title } },
             ],
           }),
         }}
