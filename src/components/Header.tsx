@@ -49,10 +49,11 @@ export default function Header() {
     };
   }, [mobileMenuOpen]);
 
-  // Get user's display name
+  // Get user's display name and avatar
   const userName = user?.user_metadata?.full_name ||
                    user?.user_metadata?.name ||
                    user?.email?.split('@')[0];
+  const avatarUrl = user?.user_metadata?.avatar_url;
 
   return (
     <>
@@ -97,9 +98,19 @@ export default function Header() {
               href="/account"
               className="rounded-full bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-700 flex items-center gap-2"
             >
-              <User className="w-5 h-5" />
               <span className="hidden lg:inline">Hi, {userName}</span>
               <span className="lg:hidden">Account</span>
+              {avatarUrl ? (
+                <Image
+                  src={avatarUrl}
+                  alt={userName || 'User'}
+                  width={20}
+                  height={20}
+                  className="w-5 h-5 rounded-full object-cover border border-white"
+                />
+              ) : (
+                <User className="w-5 h-5" />
+              )}
             </Link>
           ) : (
             <Link
@@ -160,12 +171,22 @@ export default function Header() {
           {user && (
             <div className="pb-4 mb-4 border-b border-gray-700">
               <div className="flex items-center gap-3 px-3 py-2">
-                <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center border-2 border-emerald-400">
-                  <User className="w-6 h-6 text-white" />
-                </div>
                 <div className="flex-1">
                   <p className="text-white font-semibold text-sm">{userName}</p>
                   <p className="text-gray-400 text-xs truncate">{user.email}</p>
+                </div>
+                <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center border-2 border-emerald-400 overflow-hidden flex-shrink-0">
+                  {avatarUrl ? (
+                    <Image
+                      src={avatarUrl}
+                      alt={userName || 'User'}
+                      width={40}
+                      height={40}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <User className="w-6 h-6 text-white" />
+                  )}
                 </div>
               </div>
               {isPremium && (

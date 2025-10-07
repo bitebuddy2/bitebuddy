@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { client } from "@/sanity/client";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { User } from "lucide-react";
 import MealPlannerCalendar from "@/components/MealPlannerCalendar";
 import { useSubscription } from "@/hooks/useSubscription";
 import UpgradeModal from "@/components/UpgradeModal";
@@ -342,8 +343,11 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
         throw new Error('Failed to delete profile picture');
       }
 
-      setAvatarUrl(null);
-      await supabase.auth.refreshSession();
+      // Refresh session to get updated user metadata
+      const { data: { session: newSession } } = await supabase.auth.refreshSession();
+
+      // Update local state with the refreshed user metadata
+      setAvatarUrl(newSession?.user?.user_metadata?.avatar_url || null);
 
       alert('Profile picture removed successfully!');
     } catch (error) {
@@ -392,7 +396,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
             <div className="flex items-start gap-4 flex-1">
               {/* Profile Picture */}
               <div className="relative group">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gray-100 border-4 border-emerald-500 flex items-center justify-center p-1">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-emerald-600 border-4 border-emerald-500 flex items-center justify-center">
                   {avatarUrl ? (
                     <Image
                       src={avatarUrl}
@@ -402,12 +406,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src="/bigger-logo.png"
-                      alt="Bite Buddy"
-                      className="w-full h-full object-contain"
-                    />
+                    <User className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
                   )}
                 </div>
 
