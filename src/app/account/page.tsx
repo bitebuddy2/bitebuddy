@@ -404,20 +404,23 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
             <div className="flex items-start gap-4 flex-1">
               {/* Profile Picture */}
               <div className="relative group">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-emerald-600 border-4 border-emerald-500 flex items-center justify-center">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-emerald-500 bg-emerald-600 flex items-center justify-center overflow-hidden">
                   {avatarUrl && !avatarError ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       key={avatarUrl}
                       src={avatarUrl}
                       alt={userName}
-                      className="w-full h-full object-cover"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       onError={(e) => {
                         console.error('Image failed to load:', avatarUrl);
                         console.error('Error:', e);
                         setAvatarError(true);
                       }}
-                      onLoad={() => console.log('Image loaded successfully:', avatarUrl)}
+                      onLoad={(e) => {
+                        console.log('Image loaded successfully:', avatarUrl);
+                        console.log('Image element:', e.currentTarget);
+                      }}
                     />
                   ) : (
                     <User className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
