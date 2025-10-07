@@ -102,11 +102,13 @@ export default function Header() {
               <span className="lg:hidden">Account</span>
               {avatarUrl ? (
                 <Image
+                  key={avatarUrl}
                   src={avatarUrl}
                   alt={userName || 'User'}
                   width={20}
                   height={20}
                   className="w-5 h-5 rounded-full object-cover border border-white"
+                  unoptimized
                 />
               ) : (
                 <User className="w-5 h-5" />
@@ -178,11 +180,13 @@ export default function Header() {
                 <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center border-2 border-emerald-400 overflow-hidden flex-shrink-0">
                   {avatarUrl ? (
                     <Image
+                      key={avatarUrl}
                       src={avatarUrl}
                       alt={userName || 'User'}
                       width={40}
                       height={40}
                       className="w-full h-full object-cover"
+                      unoptimized
                     />
                   ) : (
                     <User className="w-6 h-6 text-white" />

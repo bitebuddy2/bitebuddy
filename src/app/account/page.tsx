@@ -307,10 +307,11 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
         throw new Error(data.error || 'Upload failed');
       }
 
-      setAvatarUrl(data.avatarUrl);
-
       // Refresh user data to get updated metadata
-      await supabase.auth.refreshSession();
+      const { data: { session: newSession } } = await supabase.auth.refreshSession();
+
+      // Update local state with the refreshed user metadata
+      setAvatarUrl(newSession?.user?.user_metadata?.avatar_url || data.avatarUrl);
 
       alert('Profile picture updated successfully!');
     } catch (error: any) {
@@ -399,11 +400,13 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
                 <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-emerald-600 border-4 border-emerald-500 flex items-center justify-center">
                   {avatarUrl ? (
                     <Image
+                      key={avatarUrl}
                       src={avatarUrl}
                       alt={userName}
                       width={96}
                       height={96}
                       className="w-full h-full object-cover"
+                      unoptimized
                     />
                   ) : (
                     <User className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
