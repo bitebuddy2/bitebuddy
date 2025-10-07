@@ -50,7 +50,8 @@ export default function Header() {
   }, [mobileMenuOpen]);
 
   // Get user's display name and avatar
-  const userName = user?.user_metadata?.full_name ||
+  const userName = user?.user_metadata?.first_name ||
+                   user?.user_metadata?.full_name ||
                    user?.user_metadata?.name ||
                    user?.email?.split('@')[0];
   const avatarUrl = user?.user_metadata?.avatar_url;

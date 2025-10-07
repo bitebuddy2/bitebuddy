@@ -38,6 +38,7 @@ function LoginForm() {
   const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'reset'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -64,6 +65,9 @@ function LoginForm() {
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/`,
+            data: {
+              first_name: firstName,
+            },
           },
         });
 
@@ -145,6 +149,23 @@ function LoginForm() {
 
           {/* Email/Password Form */}
           <form onSubmit={handleEmailPasswordAuth} className="space-y-4">
+            {authMode === 'signup' && (
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                  First Name
+                </label>
+                <input
+                  id="firstName"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  placeholder="John"
+                />
+              </div>
+            )}
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -250,7 +271,8 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
   const hasStripeCustomer = subscription?.stripe_customer_id;
 
   // Get user's display name
-  const userName = user?.user_metadata?.full_name ||
+  const userName = user?.user_metadata?.first_name ||
+                   user?.user_metadata?.full_name ||
                    user?.user_metadata?.name ||
                    user?.email?.split('@')[0] ||
                    'there';
