@@ -470,15 +470,15 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
 
             {/* Action Buttons - Fixed for mobile */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              {isPremium && hasStripeCustomer ? (
+              {isPremium ? (
                 <button
-                  onClick={handleManageSubscription}
+                  onClick={hasStripeCustomer ? handleManageSubscription : () => window.open('https://billing.stripe.com/p/login/bJe5kw1rffNQ6C10k22VG00', '_blank')}
                   disabled={isManagingSubscription}
                   className="whitespace-nowrap rounded-lg border border-emerald-600 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-emerald-600 hover:bg-emerald-50 disabled:opacity-50 transition-colors"
                 >
                   {isManagingSubscription ? "Loading..." : "Manage Subscription"}
                 </button>
-              ) : !isPremium ? (
+              ) : (
                 <button
                   onClick={() => setShowUpgradeModal(true)}
                   className="whitespace-nowrap rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:from-emerald-600 hover:to-emerald-700 transition-all"
