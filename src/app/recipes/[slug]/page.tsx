@@ -447,8 +447,8 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Recipes", item: { "@id": `${SITE_URL}/recipes`, name: "Recipes" } },
-              { "@type": "ListItem", position: 2, name: title, item: { "@id": `${SITE_URL}/recipes/${slug}`, name: title } },
+              { "@type": "ListItem", position: 1, name: "Recipes", item: `${SITE_URL}/recipes` },
+              { "@type": "ListItem", position: 2, name: title, item: `${SITE_URL}/recipes/${slug}` },
             ],
           }),
         }}
