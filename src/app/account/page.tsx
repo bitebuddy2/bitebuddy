@@ -399,14 +399,12 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
               <div className="relative group">
                 <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-emerald-600 border-4 border-emerald-500 flex items-center justify-center">
                   {avatarUrl ? (
-                    <Image
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
                       key={avatarUrl}
                       src={avatarUrl}
                       alt={userName}
-                      width={96}
-                      height={96}
                       className="w-full h-full object-cover"
-                      unoptimized
                     />
                   ) : (
                     <User className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
