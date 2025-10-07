@@ -142,12 +142,12 @@ export default function Header() {
     </header>
 
       {/* Mobile menu overlay */}
-      <div
-        className={`md:hidden fixed inset-0 bg-black transition-opacity duration-300 z-40 ${
-          mobileMenuOpen ? 'bg-opacity-50' : 'bg-opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setMobileMenuOpen(false)}
-      />
+      {mobileMenuOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 z-40"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
 
       {/* Mobile menu drawer */}
       <div
