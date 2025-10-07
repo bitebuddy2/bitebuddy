@@ -96,7 +96,7 @@ export function sumRecipeNutrition(groups: IngredientGroup[]): NutritionTotals {
 export function perServing(t: NutritionTotals, servings?: number) {
   const s = Math.max(1, servings || 1);
   return {
-    calories: Math.round(t.kcal),
+    calories: Math.round(t.kcal / s),
     protein: Math.round((t.protein / s) * 10) / 10,
     fat: Math.round((t.fat / s) * 10) / 10,
     carbs: Math.round((t.carbs / s) * 10) / 10
