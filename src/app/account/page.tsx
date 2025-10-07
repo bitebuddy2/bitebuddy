@@ -485,7 +485,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
                 >
                   ⭐ Upgrade to Premium
                 </button>
-              ) : null}
+              )}
               <button
                 onClick={() => supabase.auth.signOut().then(() => window.location.reload())}
                 className="whitespace-nowrap rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
