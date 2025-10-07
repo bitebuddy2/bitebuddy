@@ -188,7 +188,6 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       image: s.stepImage?.asset?.url || recipe.heroImage?.asset?.url,
     })),
     keywords: recipe.categories?.map((c: any) => c.title).join(", ") || undefined,
-    video: undefined, // Optional: Add video URL if available in the future
     nutrition: hasNutrition(recipe.nutrition) ? {
       "@type": "NutritionInformation",
       calories: recipe.nutrition?.calories ? `${recipe.nutrition.calories} calories` : undefined,
