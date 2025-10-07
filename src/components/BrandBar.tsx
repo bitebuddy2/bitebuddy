@@ -39,7 +39,7 @@ export default function BrandBar({ brands }: { brands: Brand[] }) {
               ) : (
                 <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
                   <span className="text-lg font-semibold text-gray-500">
-                    {brand.title.charAt(0)}
+                    {brand.title?.charAt(0) || '?'}
                   </span>
                 </div>
               )}
