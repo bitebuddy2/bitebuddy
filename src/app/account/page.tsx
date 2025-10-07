@@ -90,7 +90,12 @@ function LoginForm() {
         window.location.href = '/';
       }
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message || 'Authentication failed' });
+      // Simplify Supabase password requirement error
+      let errorMessage = error.message || 'Authentication failed';
+      if (errorMessage.includes('abcdefghijklmnopqrstuvwxyz') || errorMessage.includes('Password should contain')) {
+        errorMessage = 'Password must include: lowercase, uppercase, number, and special character';
+      }
+      setMessage({ type: 'error', text: errorMessage });
     } finally {
       setLoading(false);
     }
@@ -322,7 +327,12 @@ function PasswordResetForm() {
         window.location.href = '/account';
       }, 2000);
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message || 'Failed to update password' });
+      // Simplify Supabase password requirement error
+      let errorMessage = error.message || 'Failed to update password';
+      if (errorMessage.includes('abcdefghijklmnopqrstuvwxyz') || errorMessage.includes('Password should contain')) {
+        errorMessage = 'Password must include: lowercase, uppercase, number, and special character';
+      }
+      setMessage({ type: 'error', text: errorMessage });
     } finally {
       setLoading(false);
     }
