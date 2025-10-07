@@ -183,7 +183,17 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       "@type": "HowToStep",
       position: idx + 1,
       text: portableToPlainText(s.step),
+      url: `${SITE_URL}/recipes/${recipe.slug}#step-${idx + 1}`,
+      image: s.stepImage?.asset?.url || recipe.heroImage?.asset?.url,
     })),
+    keywords: recipe.categories?.map((c: any) => c.title).join(", ") || undefined,
+    nutrition: hasNutrition(recipe.nutrition) ? {
+      "@type": "NutritionInformation",
+      calories: recipe.nutrition?.calories ? `${recipe.nutrition.calories} calories` : undefined,
+      proteinContent: recipe.nutrition?.protein ? `${recipe.nutrition.protein} g` : undefined,
+      fatContent: recipe.nutrition?.fat ? `${recipe.nutrition.fat} g` : undefined,
+      carbohydrateContent: recipe.nutrition?.carbs ? `${recipe.nutrition.carbs} g` : undefined,
+    } : undefined,
     aggregateRating:
       typeof recipe.ratingSum === "number" && typeof recipe.ratingCount === "number" && recipe.ratingCount > 0
         ? {
@@ -436,8 +446,8 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Recipes", item: "/recipes" },
-              { "@type": "ListItem", position: 2, name: title, item: `/recipes/${slug}` },
+              { "@type": "ListItem", position: 1, name: "Recipes", item: `${SITE_URL}/recipes` },
+              { "@type": "ListItem", position: 2, name: title, item: `${SITE_URL}/recipes/${slug}` },
             ],
           }),
         }}
