@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseBrowserClient } from "@/lib/supabase";
 import { client } from "@/sanity/client";
 import Link from "next/link";
 import Image from "next/image";
+
+// Get properly configured Supabase client with auth session
+const supabase = getSupabaseBrowserClient();
 
 type PublishedRecipe = {
   id: string;
