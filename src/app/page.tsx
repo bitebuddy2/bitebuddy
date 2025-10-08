@@ -27,7 +27,7 @@ export default async function HomePage() {
           alt="Hero Background"
           fill
           priority
-          className="object-cover"
+          className="object-contain sm:object-cover"
           quality={90}
         />
         {/* Dark overlay for better text readability */}
