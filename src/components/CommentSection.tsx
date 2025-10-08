@@ -105,13 +105,10 @@ export default function CommentSection({ recipeSlug, aiRecipeId }: CommentSectio
         imageUrl = publicUrl;
       }
 
-      // Get user display name
-      const userName =
-        user.user_metadata?.first_name ||
-        user.user_metadata?.name ||
-        user.email?.split("@")[0] ||
-        "Anonymous";
-      const userAvatar = user.user_metadata?.avatar_url || null;
+      // Get user display name and avatar
+      const { getUserAvatar, getUserDisplayName } = await import("@/lib/getUserAvatar");
+      const userName = getUserDisplayName(user);
+      const userAvatar = getUserAvatar(user);
 
       // Insert comment
       const { error: commentError } = await supabase

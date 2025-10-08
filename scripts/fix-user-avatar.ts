@@ -56,7 +56,8 @@ async function fixUserAvatar() {
     {
       user_metadata: {
         ...user.user_metadata,
-        avatar_url: publicUrl,
+        custom_avatar_url: publicUrl,
+        has_custom_avatar: true,
       },
     }
   );
@@ -68,7 +69,8 @@ async function fixUserAvatar() {
   }
 
   console.log('✅ User metadata updated successfully!');
-  console.log('New avatar_url:', updatedUser.user?.user_metadata?.avatar_url);
+  console.log('New custom_avatar_url:', updatedUser.user?.user_metadata?.custom_avatar_url);
+  console.log('has_custom_avatar:', updatedUser.user?.user_metadata?.has_custom_avatar);
   console.log('\n✨ Done! The profile picture should now show correctly.');
   console.log('💡 You may need to refresh the page or sign out/in again.');
 }

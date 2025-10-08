@@ -59,10 +59,10 @@ export async function POST(request: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Delete old avatar if exists
-    const oldAvatarUrl = user.user_metadata?.avatar_url;
-    if (oldAvatarUrl) {
-      // Extract filename from URL
+    // Delete old custom avatar if exists
+    const oldAvatarUrl = user.user_metadata?.custom_avatar_url;
+    if (oldAvatarUrl && oldAvatarUrl.includes('supabase.co')) {
+      // Extract filename from URL (only delete if it's from our storage)
       const oldFileName = oldAvatarUrl.split('/').pop();
       if (oldFileName) {
         await supabaseAdmin.storage
@@ -93,12 +93,14 @@ export async function POST(request: NextRequest) {
       .getPublicUrl(filePath);
 
     // Update user metadata with avatar URL
+    // Use custom_avatar_url to avoid Google OAuth overwriting it
     const { data: updatedUser, error: updateError } = await supabaseAdmin.auth.admin.updateUserById(
       user.id,
       {
         user_metadata: {
           ...user.user_metadata,
-          avatar_url: publicUrl,
+          custom_avatar_url: publicUrl,
+          has_custom_avatar: true,
         },
       }
     );
@@ -113,7 +115,7 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('✅ User metadata updated successfully');
-    console.log('New avatar_url:', updatedUser.user?.user_metadata?.avatar_url);
+    console.log('New custom_avatar_url:', updatedUser.user?.user_metadata?.custom_avatar_url);
 
     return NextResponse.json({
       success: true,
@@ -143,8 +145,8 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const oldAvatarUrl = user.user_metadata?.avatar_url;
-    if (oldAvatarUrl) {
+    const oldAvatarUrl = user.user_metadata?.custom_avatar_url;
+    if (oldAvatarUrl && oldAvatarUrl.includes('supabase.co')) {
       const oldFileName = oldAvatarUrl.split('/').pop();
       if (oldFileName) {
         await supabaseAdmin.storage
@@ -153,13 +155,14 @@ export async function DELETE(request: NextRequest) {
       }
     }
 
-    // Remove avatar URL from user metadata
+    // Remove custom avatar from user metadata
     const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(
       user.id,
       {
         user_metadata: {
           ...user.user_metadata,
-          avatar_url: null,
+          custom_avatar_url: null,
+          has_custom_avatar: false,
         },
       }
     );

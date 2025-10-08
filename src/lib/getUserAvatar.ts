@@ -6,13 +6,14 @@
 export function getUserAvatar(user: any): string | null {
   if (!user) return null;
 
-  const avatarUrl = user.user_metadata?.avatar_url;
+  // Prioritize custom uploaded avatar over OAuth avatar
+  // This prevents Google OAuth from overwriting custom uploads on sign-in
+  if (user.user_metadata?.has_custom_avatar && user.user_metadata?.custom_avatar_url) {
+    return user.user_metadata.custom_avatar_url;
+  }
 
-  if (!avatarUrl) return null;
-
-  // Return the avatar URL - custom uploads from Supabase storage will be prioritized
-  // since they overwrite the Google OAuth avatar in user metadata
-  return avatarUrl;
+  // Fall back to OAuth avatar (Google, etc.)
+  return user.user_metadata?.avatar_url || null;
 }
 
 /**

@@ -483,11 +483,15 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
 
   // Sync avatarUrl with user metadata changes
   useEffect(() => {
-    if (user?.user_metadata?.avatar_url) {
-      setAvatarUrl(user.user_metadata.avatar_url);
-      setAvatarError(false);
-    }
-  }, [user?.user_metadata?.avatar_url]);
+    // Import the helper to get correct avatar (custom or OAuth)
+    import('@/lib/getUserAvatar').then(({ getUserAvatar }) => {
+      const avatar = getUserAvatar(user);
+      if (avatar) {
+        setAvatarUrl(avatar);
+        setAvatarError(false);
+      }
+    });
+  }, [user]);
 
   // Debug: Log avatar URL
   console.log('Avatar URL:', avatarUrl);
