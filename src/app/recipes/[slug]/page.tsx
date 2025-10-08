@@ -213,6 +213,34 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       </Link>
 
       <h1 className="mt-2 text-3xl font-bold">{title}</h1>
+
+      {/* User credit for AI-generated community recipes */}
+      {(recipe as any).createdBy && (
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-gray-600">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-emerald-700">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+            </svg>
+            <span>Created by <strong>{(recipe as any).createdBy.userName}</strong></span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-purple-50 px-3 py-1 text-purple-700">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M13 7H7v6h6V7z" />
+              <path fillRule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z" clipRule="evenodd" />
+            </svg>
+            <span>AI Generated</span>
+          </span>
+          {(recipe as any)._createdAt && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-gray-700">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+              </svg>
+              <span>{new Date((recipe as any)._createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+            </span>
+          )}
+        </div>
+      )}
+
       {description && <p className="mt-2 text-gray-700">{description}</p>}
 
       {categories && categories.length > 0 && (

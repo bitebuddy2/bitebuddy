@@ -27,6 +27,7 @@ export const recipeSlugsQuery = groq/* groq */ `
 export const recipeBySlugQuery = groq/* groq */ `
 *[_type == "recipe" && slug.current == $slug][0]{
   _id,
+  _createdAt,
   title,
   "slug": slug.current,
   description,
@@ -110,7 +111,10 @@ export const recipeBySlugQuery = groq/* groq */ `
     title,
     "slug": slug.current,
     description
-  }
+  },
+
+  // User-generated recipe credit
+  createdBy
 }
 `;
 

@@ -88,12 +88,19 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
           {/* User Avatar */}
           <div className="flex-shrink-0">
             {comment.user_avatar ? (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={comment.user_avatar}
                 alt={comment.user_name}
-                width={40}
-                height={40}
-                className="rounded-full object-cover"
+                className="w-10 h-10 rounded-full object-cover"
+                onError={(e) => {
+                  // Hide image on error and show default icon
+                  e.currentTarget.style.display = 'none';
+                  const parent = e.currentTarget.parentElement;
+                  if (parent) {
+                    parent.innerHTML = `<div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center"><svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></div>`;
+                  }
+                }}
               />
             ) : (
               <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
