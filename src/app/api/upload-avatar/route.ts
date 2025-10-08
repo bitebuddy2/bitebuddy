@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
       .getPublicUrl(filePath);
 
     // Update user metadata with avatar URL
-    const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(
+    const { data: updatedUser, error: updateError } = await supabaseAdmin.auth.admin.updateUserById(
       user.id,
       {
         user_metadata: {
@@ -105,11 +105,15 @@ export async function POST(request: NextRequest) {
 
     if (updateError) {
       console.error('Metadata update error:', updateError);
+      console.error('Error details:', JSON.stringify(updateError, null, 2));
       return NextResponse.json(
-        { error: 'Failed to update user profile' },
+        { error: 'Failed to update user profile', details: updateError.message },
         { status: 500 }
       );
     }
+
+    console.log('✅ User metadata updated successfully');
+    console.log('New avatar_url:', updatedUser.user?.user_metadata?.avatar_url);
 
     return NextResponse.json({
       success: true,
