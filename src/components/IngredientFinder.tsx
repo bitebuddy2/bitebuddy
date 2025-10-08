@@ -4,6 +4,7 @@ import { useState, useTransition, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ShareRow from "./ShareRow";
+import PublishRecipeButton from "./PublishRecipeButton";
 import RecipeCard from "./RecipeCard";
 import AdPlaceholder from "./AdPlaceholder";
 import { client } from "@/sanity/client";
@@ -1180,10 +1181,13 @@ export default function IngredientFinder() {
                 </div>
               <div className="flex items-center gap-3">
                 {savedRecipeId ? (
-                  <ShareRow
-                    title={generatedRecipe.title}
-                    url={`${window.location.origin}/ai-recipe/${savedRecipeId}`}
-                  />
+                  <>
+                    <PublishRecipeButton aiRecipeId={savedRecipeId} />
+                    <ShareRow
+                      title={generatedRecipe.title}
+                      url={`${window.location.origin}/ai-recipe/${savedRecipeId}`}
+                    />
+                  </>
                 ) : (
                   <button
                     onClick={() => saveAIRecipe()}

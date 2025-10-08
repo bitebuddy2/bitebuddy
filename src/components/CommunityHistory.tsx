@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { client } from "@/sanity/client";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -63,8 +64,28 @@ export default function CommunityHistory({ userId }: { userId: string }) {
           let recipeTitle = "Unknown Recipe";
 
           if (comment.recipe_slug) {
-            // Sanity recipe - we'd need to fetch from Sanity, but for now just show slug
-            recipeTitle = comment.recipe_slug.replace(/-/g, " ");
+            // Sanity recipe - fetch actual title from Sanity
+            try {
+              const sanityRecipe = await client.fetch(
+                `*[_type == "recipe" && slug.current == $slug][0]{ title }`,
+                { slug: comment.recipe_slug }
+              );
+              if (sanityRecipe?.title) {
+                recipeTitle = sanityRecipe.title;
+              } else {
+                // Fallback to formatted slug
+                recipeTitle = comment.recipe_slug
+                  .split("-")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ");
+              }
+            } catch (error) {
+              console.error("Error fetching Sanity recipe:", error);
+              recipeTitle = comment.recipe_slug
+                .split("-")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+            }
           } else if (comment.ai_recipe_id) {
             // AI recipe from Supabase
             const { data: aiRecipe } = await supabase
