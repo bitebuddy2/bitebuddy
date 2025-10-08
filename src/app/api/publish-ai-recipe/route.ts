@@ -196,7 +196,15 @@ export async function POST(req: Request) {
 
     if (updateError) {
       console.error("Error updating Supabase:", updateError);
-      // Don't fail the request, recipe is already created in Sanity
+      return NextResponse.json(
+        {
+          error: "Recipe created in Sanity but failed to update database record",
+          details: updateError.message,
+          sanityId: sanityResult._id,
+          slug: slug,
+        },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({
