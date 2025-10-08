@@ -252,6 +252,8 @@ export default function IngredientFinder() {
   const [isSavingLast, setIsSavingLast] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [userId, setUserId] = useState<string>("");
+  const [isPublished, setIsPublished] = useState(false);
+  const [publishedSlug, setPublishedSlug] = useState<string | null>(null);
   const [nearMatchRecipe, setNearMatchRecipe] = useState<{ recipe: Recipe; missing: string[] } | null>(null);
   const [showAllMatches, setShowAllMatches] = useState(false);
   const { isPremium } = useSubscription();
@@ -1182,7 +1184,12 @@ export default function IngredientFinder() {
               <div className="flex items-center gap-3">
                 {savedRecipeId ? (
                   <>
-                    <PublishRecipeButton aiRecipeId={savedRecipeId} />
+                    <PublishRecipeButton
+                      aiRecipeId={savedRecipeId}
+                      aiRecipeTitle={generatedRecipe.title}
+                      isPublished={isPublished}
+                      publishedSlug={publishedSlug}
+                    />
                     <ShareRow
                       title={generatedRecipe.title}
                       url={`${window.location.origin}/ai-recipe/${savedRecipeId}`}
