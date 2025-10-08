@@ -13,6 +13,7 @@ import ShareRow from "@/components/ShareRow";
 import SaveButton from "@/components/SaveButton";
 import AffiliateButton from "@/components/AffiliateButton";
 import AdPlaceholder from "@/components/AdPlaceholder";
+import CommentSection from "@/components/CommentSection";
 
 // 👇 use ONE of these imports depending on which fix you chose:
 // Option A: relative import (quick fix)
@@ -432,6 +433,11 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       <div className="mt-8">
         <AdPlaceholder size="rectangle" />
       </div>
+
+      {/* Comment Section */}
+      <section className="mt-12">
+        <CommentSection recipeSlug={recipe.slug} />
+      </section>
 
       {/* JSON-LD: Recipe */}
       <script

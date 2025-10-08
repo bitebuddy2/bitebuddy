@@ -312,6 +312,20 @@ export default defineType({
       description: "Recipe categories (e.g., Breakfast, Lunch, Dinner, Dessert, Vegetarian, etc.)",
       type: "array",
       of: [{ type: "reference", to: [{ type: "category" }] }]
+    }),
+
+    // Created By (for user-generated recipes)
+    defineField({
+      name: "createdBy",
+      title: "Created By",
+      description: "User who created this recipe (for community/AI-generated recipes)",
+      type: "object",
+      fields: [
+        defineField({ name: "userId", title: "User ID", type: "string" }),
+        defineField({ name: "userName", title: "User Name", type: "string" }),
+        defineField({ name: "userEmail", title: "User Email", type: "string" })
+      ],
+      hidden: ({ document }) => !document?.brand || document?.brand?._ref !== 'bite-buddy-kitchen'
     })
   ],
   preview: {

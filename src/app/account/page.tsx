@@ -10,6 +10,7 @@ import { useSubscription } from "@/hooks/useSubscription";
 import UpgradeModal from "@/components/UpgradeModal";
 import ShareRow from "@/components/ShareRow";
 import Link from "next/link";
+import CommunityHistory from "@/components/CommunityHistory";
 
 function AccountContent() {
   const [user, setUser] = useState<any>(null);
@@ -447,7 +448,9 @@ function PasswordResetForm() {
 function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
   const tabParam = searchParams.get("tab");
   const aiRecipeId = searchParams.get("ai");
-  const [activeTab, setActiveTab] = useState<"recipes" | "planner">(tabParam === "planner" ? "planner" : "recipes");
+  const [activeTab, setActiveTab] = useState<"recipes" | "planner" | "community">(
+    tabParam === "planner" ? "planner" : tabParam === "community" ? "community" : "recipes"
+  );
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [isManagingSubscription, setIsManagingSubscription] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(user?.user_metadata?.avatar_url || null);
@@ -792,6 +795,16 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
             >
               Meal Planner
             </button>
+            <button
+              onClick={() => setActiveTab("community")}
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                activeTab === "community"
+                  ? "border-emerald-600 text-emerald-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              🧑‍🍳 Community History
+            </button>
           </nav>
         </div>
 
@@ -801,8 +814,10 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
             <SavedPublished />
             <SavedAI aiRecipeId={aiRecipeId} />
           </div>
-        ) : (
+        ) : activeTab === "planner" ? (
           <MealPlannerCalendar />
+        ) : (
+          <CommunityHistory userId={user.id} />
         )}
 
         {/* Upgrade Modal */}

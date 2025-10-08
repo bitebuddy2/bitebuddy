@@ -2,6 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { notFound } from "next/navigation";
 import ShareRow from "@/components/ShareRow";
 import Link from "next/link";
+import PublishRecipeButton from "@/components/PublishRecipeButton";
+import CommentSection from "@/components/CommentSection";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -42,6 +44,10 @@ interface AIRecipe {
   nutrition?: Nutrition;
   brand_name?: string;
   created_at: string;
+  is_published?: boolean;
+  slug?: string | null;
+  sanity_recipe_id?: string | null;
+  published_at?: string | null;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
@@ -96,7 +102,13 @@ export default async function AIRecipePage({ params }: { params: Promise<{ id: s
             </div>
             <h1 className="text-3xl font-bold text-gray-900">{aiRecipe.title}</h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <PublishRecipeButton
+              aiRecipeId={aiRecipe.id}
+              aiRecipeTitle={aiRecipe.title}
+              isPublished={aiRecipe.is_published || false}
+              publishedSlug={aiRecipe.slug}
+            />
             <ShareRow title={aiRecipe.title} url={shareUrl} />
           </div>
         </div>
@@ -236,6 +248,11 @@ export default async function AIRecipePage({ params }: { params: Promise<{ id: s
           </div>
         )}
       </div>
+
+      {/* Comment Section */}
+      <section className="mt-8">
+        <CommentSection aiRecipeId={aiRecipe.id} />
+      </section>
     </main>
   );
 }
