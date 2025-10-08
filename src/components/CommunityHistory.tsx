@@ -31,11 +31,15 @@ export default function CommunityHistory({ userId }: { userId: string }) {
   const [deletingRecipeId, setDeletingRecipeId] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchData();
+    if (userId) {
+      fetchData();
+    }
   }, [userId]);
 
   const fetchData = async () => {
     try {
+      console.log("Fetching community history for user:", userId);
+
       // Fetch published recipes
       const { data: recipes, error: recipesError } = await supabase
         .from("saved_ai_recipes")
@@ -44,8 +48,12 @@ export default function CommunityHistory({ userId }: { userId: string }) {
         .eq("is_published", true)
         .order("published_at", { ascending: false });
 
-      if (recipesError) throw recipesError;
+      if (recipesError) {
+        console.error("Error fetching published recipes:", recipesError);
+        throw recipesError;
+      }
 
+      console.log("Published recipes:", recipes);
       setPublishedRecipes(recipes || []);
 
       // Fetch user's comments
@@ -56,13 +64,20 @@ export default function CommunityHistory({ userId }: { userId: string }) {
         .order("created_at", { ascending: false })
         .limit(50);
 
-      if (commentsError) throw commentsError;
+      if (commentsError) {
+        console.error("Error fetching comments:", commentsError);
+        throw commentsError;
+      }
+
+      console.log("Comments data:", commentsData);
 
       // Get recipe titles for comments
-      const commentsWithTitles = await Promise.all(
-        (commentsData || []).map(async (comment) => {
-          let recipeTitle = "Unknown Recipe";
+      const commentsWithTitles: CommentHistory[] = [];
 
+      for (const comment of commentsData || []) {
+        let recipeTitle = "Unknown Recipe";
+
+        try {
           if (comment.recipe_slug) {
             // Sanity recipe - fetch actual title from Sanity
             try {
@@ -79,8 +94,8 @@ export default function CommunityHistory({ userId }: { userId: string }) {
                   .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
                   .join(" ");
               }
-            } catch (error) {
-              console.error("Error fetching Sanity recipe:", error);
+            } catch (sanityError) {
+              console.error("Error fetching Sanity recipe:", sanityError);
               recipeTitle = comment.recipe_slug
                 .split("-")
                 .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -98,17 +113,23 @@ export default function CommunityHistory({ userId }: { userId: string }) {
               recipeTitle = aiRecipe.title;
             }
           }
+        } catch (titleError) {
+          console.error("Error getting recipe title:", titleError);
+        }
 
-          return {
-            ...comment,
-            recipe_title: recipeTitle,
-          };
-        })
-      );
+        commentsWithTitles.push({
+          ...comment,
+          recipe_title: recipeTitle,
+        });
+      }
 
+      console.log("Comments with titles:", commentsWithTitles);
       setComments(commentsWithTitles);
     } catch (error) {
       console.error("Error fetching community history:", error);
+      // Don't throw - just show empty state
+      setComments([]);
+      setPublishedRecipes([]);
     } finally {
       setLoading(false);
     }
