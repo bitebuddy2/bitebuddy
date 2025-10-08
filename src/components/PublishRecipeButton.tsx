@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseBrowserClient } from "@/lib/supabase";
+
+// Get properly configured Supabase client with auth session
+const supabase = getSupabaseBrowserClient();
 
 type PublishRecipeButtonProps = {
   aiRecipeId: string;
