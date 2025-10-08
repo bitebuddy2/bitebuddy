@@ -33,6 +33,7 @@ function RecipesContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [showBiteBuddyKitchen, setShowBiteBuddyKitchen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -97,6 +98,13 @@ function RecipesContent() {
     );
   }
 
+  // Filter by search query (only when showBiteBuddyKitchen is true)
+  if (showBiteBuddyKitchen && searchQuery.trim()) {
+    filteredRecipes = filteredRecipes.filter(recipe =>
+      recipe.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+
   const recipesWithoutBrand = recipes.filter(recipe => !recipe.brand);
 
   if (loading) {
@@ -132,6 +140,9 @@ function RecipesContent() {
               if (!showBiteBuddyKitchen) {
                 setSelectedBrand("all");
                 setSelectedCategory("all");
+                setSearchQuery(""); // Clear search when switching to community recipes
+              } else {
+                setSearchQuery(""); // Clear search when switching away from community recipes
               }
             }}
             className={`w-full md:w-auto px-6 py-4 rounded-xl font-semibold text-left transition-all ${
@@ -177,6 +188,19 @@ function RecipesContent() {
               </svg>
             </div>
           </button>
+
+          {/* Search input for Community Recipes */}
+          {showBiteBuddyKitchen && (
+            <div className="mt-4">
+              <input
+                type="text"
+                placeholder="Search community recipes..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900"
+              />
+            </div>
+          )}
         </div>
 
         {/* Brand Filter Dropdown */}

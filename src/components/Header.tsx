@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { User } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useSubscription } from "@/hooks/useSubscription";
+import { getUserAvatar } from "@/lib/getUserAvatar";
 
 const nav = [
   { href: "/about", label: "About Us" },
@@ -55,7 +56,7 @@ export default function Header() {
                    user?.user_metadata?.full_name ||
                    user?.user_metadata?.name ||
                    user?.email?.split('@')[0];
-  const avatarUrl = user?.user_metadata?.avatar_url;
+  const avatarUrl = getUserAvatar(user);
 
   return (
     <>

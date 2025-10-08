@@ -881,6 +881,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
 function SavedPublished() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     async function fetchSavedRecipes() {
@@ -917,6 +918,11 @@ function SavedPublished() {
     setItems(items.filter(r => r.slug !== slug));
   }
 
+  // Filter recipes based on search query
+  const filteredItems = items.filter(recipe =>
+    recipe.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <section className="mb-10">
       <h2 className="text-xl font-semibold mb-4 text-gray-900">Saved Recipes</h2>
@@ -926,8 +932,23 @@ function SavedPublished() {
         ) : items.length === 0 ? (
           <p className="text-gray-500 text-center py-8">No saved recipes yet. Browse recipes and save your favorites!</p>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2">
-            {items.map((recipe) => (
+          <>
+            {/* Search input */}
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Search saved recipes..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              />
+            </div>
+
+            {filteredItems.length === 0 ? (
+              <p className="text-gray-500 text-center py-8">No recipes match your search.</p>
+            ) : (
+              <div className="grid gap-4 md:grid-cols-2">
+                {filteredItems.map((recipe) => (
               <div key={recipe.slug} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
                 <a href={`/recipes/${recipe.slug}`} className="block">
                   {recipe.heroImage?.asset?.url && (
@@ -956,7 +977,9 @@ function SavedPublished() {
                 </div>
               </div>
             ))}
-          </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>
@@ -967,6 +990,7 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
   const [items, setItems] = useState<any[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     supabase.from("saved_ai_recipes").select("*").order("created_at", { ascending:false })
@@ -997,6 +1021,11 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
     setItems(items.filter(r => r.id !== id));
     if (selectedRecipe?.id === id) setSelectedRecipe(null);
   }
+
+  // Filter AI recipes based on search query
+  const filteredItems = items.filter(recipe =>
+    recipe.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (selectedRecipe) {
     return (
@@ -1173,8 +1202,23 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
         ) : items.length === 0 ? (
           <p className="text-gray-500 text-center py-8">No AI recipes yet. Generate custom recipes with AI!</p>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2">
-            {items.map((r) => (
+          <>
+            {/* Search input */}
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Search AI-generated recipes..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              />
+            </div>
+
+            {filteredItems.length === 0 ? (
+              <p className="text-gray-500 text-center py-8">No recipes match your search.</p>
+            ) : (
+              <div className="grid gap-4 md:grid-cols-2">
+                {filteredItems.map((r) => (
               <div
                 key={r.id}
                 className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
@@ -1213,7 +1257,9 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
                 </div>
               </div>
             ))}
-          </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>
