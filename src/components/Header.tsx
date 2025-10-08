@@ -76,6 +76,29 @@ export default function Header() {
           </div>
         </Link>
 
+        {/* Mobile greeting - shown only on mobile when user is logged in */}
+        {user && (
+          <Link
+            href="/account"
+            className="md:hidden flex items-center gap-2 text-sm text-white font-medium hover:text-emerald-400 transition-colors"
+          >
+            <span className="truncate max-w-[120px]">Hi, {userName}</span>
+            {avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={avatarUrl}
+                src={avatarUrl}
+                alt={userName || 'User'}
+                className="w-7 h-7 rounded-full object-cover border-2 border-emerald-400"
+              />
+            ) : (
+              <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center border-2 border-emerald-400">
+                <User className="w-4 h-4 text-white" />
+              </div>
+            )}
+          </Link>
+        )}
+
         <nav className="hidden md:flex items-center gap-4">
           {nav.map((n) => (
             <Link

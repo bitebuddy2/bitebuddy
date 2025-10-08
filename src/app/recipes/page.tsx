@@ -235,10 +235,11 @@ function RecipesContent() {
         {/* Category Filter Buttons */}
         {categories.length > 0 && (
           <div className="mb-6">
+            <h3 className="text-sm font-medium text-gray-700 mb-3">Filter by Category</h3>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedCategory("all")}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   selectedCategory === "all"
                     ? "bg-emerald-600 text-white"
                     : "bg-emerald-100 text-emerald-800 hover:bg-emerald-200"
@@ -254,7 +255,7 @@ function RecipesContent() {
                   <button
                     key={category._id}
                     onClick={() => setSelectedCategory(category._id)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                       selectedCategory === category._id
                         ? "bg-emerald-600 text-white"
                         : "bg-emerald-100 text-emerald-800 hover:bg-emerald-200"

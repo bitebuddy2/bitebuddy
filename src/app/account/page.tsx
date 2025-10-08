@@ -947,7 +947,7 @@ function SavedPublished() {
             {filteredItems.length === 0 ? (
               <p className="text-gray-500 text-center py-8">No recipes match your search.</p>
             ) : (
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 {filteredItems.map((recipe) => (
               <div key={recipe.slug} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
                 <a href={`/recipes/${recipe.slug}`} className="block">
@@ -961,7 +961,7 @@ function SavedPublished() {
                     />
                   )}
                   <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 hover:text-emerald-600">{recipe.title}</h3>
+                    <h3 className="font-semibold text-gray-900 hover:text-emerald-600 break-words">{recipe.title}</h3>
                     {recipe.description && (
                       <p className="text-sm text-gray-600 mt-1 line-clamp-2">{recipe.description}</p>
                     )}
