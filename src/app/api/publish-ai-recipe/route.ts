@@ -138,7 +138,7 @@ export async function POST(req: Request) {
       "Anonymous";
 
     // Create recipe in Sanity
-    const sanityRecipe = {
+    const sanityRecipe: any = {
       _type: "recipe",
       title: aiRecipe.title,
       slug: {
@@ -146,14 +146,7 @@ export async function POST(req: Request) {
         current: slug,
       },
       description: aiRecipe.description || aiRecipe.intro_text || aiRecipe.title,
-      heroImage: {
-        _type: "image",
-        asset: {
-          _type: "reference",
-          _ref: "image-placeholder", // You'll need a default image
-        },
-        alt: aiRecipe.title,
-      },
+      // Skip heroImage for now - will be added via placeholder or user upload later
       servings: aiRecipe.servings || 4,
       prepMin: aiRecipe.prep_min || 0,
       cookMin: aiRecipe.cook_min || 0,

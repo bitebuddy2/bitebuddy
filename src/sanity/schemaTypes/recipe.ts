@@ -37,10 +37,10 @@ export default defineType({
           name: "alt",
           title: "Alt text",
           type: "string",
-          validation: r => r.required().min(5)
+          validation: r => r.min(5)
         })
-      ],
-      validation: r => r.required()
+      ]
+      // Removed required validation to allow AI-generated recipes without images
     }),
 
     // Timings & yield

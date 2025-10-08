@@ -6,7 +6,7 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // Use CDN for faster public reads
-  token: process.env.SANITY_WRITE_TOKEN, // Add token for reference dereferencing
+  useCdn: false, // Disable CDN for write operations
+  token: process.env.SANITY_WRITE_TOKEN, // Token for write operations
   perspective: 'published', // Only fetch published documents
 })
