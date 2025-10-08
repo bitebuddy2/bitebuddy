@@ -11,6 +11,7 @@ import UpgradeModal from "@/components/UpgradeModal";
 import ShareRow from "@/components/ShareRow";
 import Link from "next/link";
 import CommunityHistory from "@/components/CommunityHistory";
+import AccountSettings from "@/components/AccountSettings";
 
 function AccountContent() {
   const [user, setUser] = useState<any>(null);
@@ -829,62 +830,15 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
         ) : activeTab === "community" ? (
           <CommunityHistory userId={user.id} />
         ) : (
-          <div className="max-w-4xl space-y-8">
-            <h2 className="text-2xl font-bold">Account Settings</h2>
-
-            {/* Delete Account Section */}
-            <div className="bg-red-50 rounded-lg border border-red-200 p-6">
-              <h3 className="text-lg font-semibold text-red-900 mb-2">Delete Account</h3>
-              <p className="text-sm text-red-700 mb-4">
-                Once you delete your account, there is no going back. This will permanently delete your account,
-                saved recipes, meal plans, and all associated data.
-              </p>
-
-              {!showDeleteConfirm ? (
-                <button
-                  onClick={() => setShowDeleteConfirm(true)}
-                  className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 transition-colors"
-                >
-                  Delete My Account
-                </button>
-              ) : (
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="deleteConfirm" className="block text-sm font-medium text-red-900 mb-2">
-                      Type <span className="font-bold">DELETE</span> to confirm:
-                    </label>
-                    <input
-                      id="deleteConfirm"
-                      type="text"
-                      value={deleteConfirmText}
-                      onChange={(e) => setDeleteConfirmText(e.target.value)}
-                      className="w-full max-w-xs rounded-lg border border-red-300 px-4 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                      placeholder="DELETE"
-                    />
-                  </div>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={handleDeleteAccount}
-                      disabled={isDeletingAccount || deleteConfirmText !== 'DELETE'}
-                      className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                      {isDeletingAccount ? 'Deleting...' : 'Confirm Delete Account'}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setShowDeleteConfirm(false);
-                        setDeleteConfirmText('');
-                      }}
-                      disabled={isDeletingAccount}
-                      className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+          <AccountSettings
+            user={user}
+            onDeleteAccount={handleDeleteAccount}
+            showDeleteConfirm={showDeleteConfirm}
+            setShowDeleteConfirm={setShowDeleteConfirm}
+            deleteConfirmText={deleteConfirmText}
+            setDeleteConfirmText={setDeleteConfirmText}
+            isDeletingAccount={isDeletingAccount}
+          />
         )}
 
         {/* Upgrade Modal */}
