@@ -7,6 +7,20 @@ import { client } from "@/sanity/client";
 import { allRecipesForCardsQuery, allBrandsQuery } from "@/sanity/queries";
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "UK Copycat Recipes & AI Recipe Generator | Bite Buddy",
+  description: "Recreate your favourite UK restaurant dishes from Greggs, Nando's, Wagamama & more. Plus, use our free AI Recipe Generator to create personalized meal ideas in seconds.",
+  openGraph: {
+    title: "UK Copycat Recipes & AI Recipe Generator | Bite Buddy",
+    description: "Recreate your favourite UK restaurant dishes from Greggs, Nando's, Wagamama & more. Plus, use our free AI Recipe Generator to create personalized meal ideas in seconds.",
+  },
+  twitter: {
+    title: "UK Copycat Recipes & AI Recipe Generator | Bite Buddy",
+    description: "Recreate your favourite UK restaurant dishes from Greggs, Nando's, Wagamama & more. Plus, use our free AI Recipe Generator to create personalized meal ideas in seconds.",
+  },
+};
 
 export default async function HomePage() {
   const [recipes, brands] = await Promise.all([

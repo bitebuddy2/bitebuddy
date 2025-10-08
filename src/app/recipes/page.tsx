@@ -5,6 +5,20 @@ import { useSearchParams } from "next/navigation";
 import RecipeCard from "@/components/RecipeCard";
 import { client } from "../../sanity/client";
 import { allRecipesForCardsQuery, allBrandsQuery, allCategoriesQuery } from "../../sanity/queries";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "All UK Copycat Recipes | Bite Buddy",
+  description: "Browse our complete collection of UK restaurant copycat recipes from Greggs, Nando's, Wagamama, KFC, McDonald's, Costa, and more. Find your favourite dishes to recreate at home.",
+  openGraph: {
+    title: "All UK Copycat Recipes | Bite Buddy",
+    description: "Browse our complete collection of UK restaurant copycat recipes from Greggs, Nando's, Wagamama, KFC, McDonald's, Costa, and more. Find your favourite dishes to recreate at home.",
+  },
+  twitter: {
+    title: "All UK Copycat Recipes | Bite Buddy",
+    description: "Browse our complete collection of UK restaurant copycat recipes from Greggs, Nando's, Wagamama, KFC, McDonald's, Costa, and more. Find your favourite dishes to recreate at home.",
+  },
+};
 
 type CardRecipe = Parameters<typeof RecipeCard>[0]["r"];
 type Brand = {
