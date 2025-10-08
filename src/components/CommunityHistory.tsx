@@ -76,14 +76,14 @@ export default function CommunityHistory({ userId }: { userId: string }) {
                 // Fallback to formatted slug
                 recipeTitle = comment.recipe_slug
                   .split("-")
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
                   .join(" ");
               }
             } catch (error) {
               console.error("Error fetching Sanity recipe:", error);
               recipeTitle = comment.recipe_slug
                 .split("-")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(" ");
             }
           } else if (comment.ai_recipe_id) {
