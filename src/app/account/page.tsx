@@ -551,7 +551,7 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
       setAvatarUrl(data.avatarUrl);
       setAvatarError(false);
 
-      // Refresh user data to get updated metadata for future page loads
+      // Refresh session to update user metadata (triggers onAuthStateChange)
       await supabase.auth.refreshSession();
 
       alert('Profile picture updated successfully!');
