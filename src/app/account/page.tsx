@@ -1,5 +1,5 @@
 "use client";
-import { supabase, getSupabaseBrowserClient } from "@/lib/supabase";
+import { getSupabaseBrowserClient } from "@/lib/supabase";
 import { useEffect, useState, Suspense } from "react";
 import { client } from "@/sanity/client";
 import Image from "next/image";
@@ -13,13 +13,24 @@ import Link from "next/link";
 import CommunityHistory from "@/components/CommunityHistory";
 import AccountSettings from "@/components/AccountSettings";
 
+// Get properly configured Supabase client with auth session
+const supabase = getSupabaseBrowserClient();
+
 function AccountContent() {
   const [user, setUser] = useState<any>(null);
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode');
 
   useEffect(() => {
+    // Get initial user
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
+
+    // Listen for auth state changes to pick up metadata updates
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   // Show password reset form if mode is reset-password
@@ -469,6 +480,14 @@ function Dashboard({ user, searchParams }: { user: any; searchParams: any }) {
                    user?.user_metadata?.name ||
                    user?.email?.split('@')[0] ||
                    'there';
+
+  // Sync avatarUrl with user metadata changes
+  useEffect(() => {
+    if (user?.user_metadata?.avatar_url) {
+      setAvatarUrl(user.user_metadata.avatar_url);
+      setAvatarError(false);
+    }
+  }, [user?.user_metadata?.avatar_url]);
 
   // Debug: Log avatar URL
   console.log('Avatar URL:', avatarUrl);
