@@ -128,6 +128,7 @@ export const allRecipesForCardsQuery = groq/* groq */ `
   prepMin,
   cookMin,
   kcal, // optional if you store per-serving kcal
+  createdBy,
   isSignature, // optional boolean in your schema
   ratingSum,
   ratingCount,

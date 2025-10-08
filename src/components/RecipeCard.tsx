@@ -35,6 +35,12 @@ type CardRecipe = {
     slug: string;
     description?: string;
   }[];
+  createdBy?: {
+    userName: string;
+    cookingMethod?: string;
+    spiceLevel?: string;
+    dietaryPreference?: string;
+  };
 };
 
 function pill(label: string) {
@@ -178,6 +184,27 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
             {typeof r.servings === "number" && pill(`Serve  ${r.servings}`)}
             {typeof r.kcal === "number" && pill(`Kcal  ${r.kcal}`)}
           </div>
+
+          {/* AI Recipe Preferences badges */}
+          {r.createdBy && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {r.createdBy.spiceLevel && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-orange-50 px-2 py-0.5 text-xs text-orange-700">
+                  🌶️ {r.createdBy.spiceLevel}
+                </span>
+              )}
+              {r.createdBy.dietaryPreference && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
+                  🥗 {r.createdBy.dietaryPreference}
+                </span>
+              )}
+              {r.createdBy.cookingMethod && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700">
+                  🔥 {r.createdBy.cookingMethod}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </Link>
     </li>
