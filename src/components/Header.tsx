@@ -14,6 +14,7 @@ const nav = [
   { href: "/recipes", label: "Recipes" },
   { href: "/products", label: "Products" },
   { href: "/search", label: "Ingredient Search" },
+  { href: "/ai-recipe-generator", label: "AI Recipe Generator" },
 ];
 
 export default function Header() {
