@@ -325,7 +325,10 @@ export default defineType({
         defineField({ name: "userName", title: "User Name", type: "string" }),
         defineField({ name: "userEmail", title: "User Email", type: "string" })
       ],
-      hidden: ({ document }) => !document?.brand || document?.brand?._ref !== 'bite-buddy-kitchen'
+      hidden: ({ document }) => {
+        const brand = document?.brand as any;
+        return !brand || brand?._ref !== 'bite-buddy-kitchen';
+      }
     })
   ],
   preview: {
