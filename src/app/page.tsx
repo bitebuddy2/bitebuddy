@@ -28,6 +28,10 @@ export default async function HomePage() {
     client.fetch(allBrandsQuery)
   ]);
 
+  // Filter out Bite Buddy Kitchen recipes from home page
+  const biteBuddyBrand = brands.find((b: any) => b.slug === 'bite-buddy-kitchen');
+  const filteredRecipes = recipes.filter((r: any) => r.brand?._id !== biteBuddyBrand?._id);
+
   return (
     <main>
       {/* TOP SEARCH (title) */}
@@ -78,7 +82,7 @@ export default async function HomePage() {
       <BrandBar brands={brands} />
 
       {/* LATEST RECIPES */}
-      <LatestRecipes recipes={recipes} />
+      <LatestRecipes recipes={filteredRecipes} />
     </main>
   );
 }

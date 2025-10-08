@@ -42,7 +42,18 @@ function RecipesContent() {
           client.fetch(allBrandsQuery),
           client.fetch(allCategoriesQuery)
         ]);
-        setRecipes(recipesData || []);
+
+        // Sort recipes: Bite Buddy Kitchen recipes go last
+        const biteBuddyBrand = brandsData?.find((b: Brand) => b.slug === "bite-buddy-kitchen");
+        const sortedRecipes = recipesData?.sort((a: CardRecipe, b: CardRecipe) => {
+          const aIsBiteBuddy = a.brand?._id === biteBuddyBrand?._id;
+          const bIsBiteBuddy = b.brand?._id === biteBuddyBrand?._id;
+          if (aIsBiteBuddy && !bIsBiteBuddy) return 1; // a goes after b
+          if (!aIsBiteBuddy && bIsBiteBuddy) return -1; // b goes after a
+          return 0; // maintain original order
+        });
+
+        setRecipes(sortedRecipes || []);
         setBrands(brandsData || []);
         setCategories(categoriesData || []);
       } catch (error) {

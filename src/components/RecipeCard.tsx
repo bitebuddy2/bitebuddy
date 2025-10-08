@@ -97,7 +97,9 @@ function MicroStars({ ratingSum = 0, ratingCount = 0 }: { ratingSum?: number; ra
 }
 
 export default function RecipeCard({ r }: { r: CardRecipe }) {
-  const imgUrl = r.heroImage?.asset?.url;
+  // Use AI Generated.jpg as fallback for Bite Buddy Kitchen recipes without images
+  const imgUrl = r.heroImage?.asset?.url ||
+    (r.brand?.slug === 'bite-buddy-kitchen' ? '/AI Generated.jpg' : null);
   const lqip = r.heroImage?.asset?.metadata?.lqip;
   const alt = r.heroImage?.alt || r.title;
 
