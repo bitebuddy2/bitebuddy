@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseBrowserClient } from "@/lib/supabase";
 import { trackSaveRecipe } from "@/lib/analytics";
+
+// Get properly configured Supabase client with auth session
+const supabase = getSupabaseBrowserClient();
 
 interface SaveButtonProps {
   recipeSlug: string;
