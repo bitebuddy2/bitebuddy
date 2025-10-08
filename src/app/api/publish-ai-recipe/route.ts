@@ -93,6 +93,24 @@ export async function POST(req: Request) {
       );
     }
 
+    // Fetch or create "AI Generated" category
+    let aiCategory = await sanityClient.fetch(
+      `*[_type == "category" && slug.current == "ai-generated"][0]{ _id }`
+    );
+
+    if (!aiCategory) {
+      // Create the AI Generated category if it doesn't exist
+      aiCategory = await sanityClient.create({
+        _type: "category",
+        title: "AI Generated",
+        slug: {
+          _type: "slug",
+          current: "ai-generated"
+        },
+        description: "Recipes created with AI assistance by our community members"
+      });
+    }
+
     // Transform ingredients to Sanity format
     const ingredients = aiRecipe.ingredients || [];
     const ingredientGroups = [
@@ -171,11 +189,20 @@ export async function POST(req: Request) {
         _type: "reference",
         _ref: biteBuddyKitchen._id,
       },
+      categories: [
+        {
+          _type: "reference",
+          _ref: aiCategory._id,
+        },
+      ],
       createdBy: {
         _type: "createdBy",
         userId: user.id,
         userName: userName,
         userEmail: user.email,
+        cookingMethod: aiRecipe.cooking_method || null,
+        spiceLevel: aiRecipe.spice_level || null,
+        dietaryPreference: aiRecipe.dietary_preference || null,
       },
       ratingCount: 0,
       ratingSum: 0,

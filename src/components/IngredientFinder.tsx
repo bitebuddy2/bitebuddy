@@ -404,6 +404,9 @@ export default function IngredientFinder() {
         tips: recipeToSave.tips || [],
         faqs: recipeToSave.faqs || [],
         nutrition: recipeToSave.nutrition || null,
+        cooking_method: method !== "Any" ? method : null,
+        spice_level: spice !== "None" ? spice : null,
+        dietary_preference: diet !== "None" ? diet : null,
         data: recipeToSave,
       }).select().single();
 
