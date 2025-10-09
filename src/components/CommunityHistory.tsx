@@ -82,12 +82,22 @@ export default function CommunityHistory({ userId }: { userId: string }) {
 
         try {
           if (comment.recipe_slug) {
-            // Sanity recipe - fetch actual title from Sanity
+            // Sanity recipe - try communityRecipe first, then regular recipe
             try {
-              const sanityRecipe = await client.fetch(
-                `*[_type == "recipe" && slug.current == $slug][0]{ title }`,
+              // Try communityRecipe first
+              let sanityRecipe = await client.fetch(
+                `*[_type == "communityRecipe" && slug.current == $slug][0]{ title }`,
                 { slug: comment.recipe_slug }
               );
+
+              // If not found, try regular recipe
+              if (!sanityRecipe) {
+                sanityRecipe = await client.fetch(
+                  `*[_type == "recipe" && slug.current == $slug][0]{ title }`,
+                  { slug: comment.recipe_slug }
+                );
+              }
+
               if (sanityRecipe?.title) {
                 recipeTitle = sanityRecipe.title;
               } else {
@@ -270,7 +280,7 @@ export default function CommunityHistory({ userId }: { userId: string }) {
 
                 <div className="flex items-center gap-2">
                   <Link
-                    href={`/recipes/${recipe.slug}`}
+                    href={`/community-recipes/${recipe.slug}`}
                     className="flex-1 text-center px-4 py-2 bg-emerald-600 text-white text-sm rounded hover:bg-emerald-700"
                   >
                     View Recipe
@@ -309,7 +319,7 @@ export default function CommunityHistory({ userId }: { userId: string }) {
           <div className="space-y-4">
             {comments.map((comment) => {
               const recipeUrl = comment.recipe_slug
-                ? `/recipes/${comment.recipe_slug}`
+                ? `/community-recipes/${comment.recipe_slug}`
                 : comment.ai_recipe_id
                 ? `/ai-recipe/${comment.ai_recipe_id}`
                 : "#";

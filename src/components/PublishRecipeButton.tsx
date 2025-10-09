@@ -56,12 +56,12 @@ export default function PublishRecipeButton({
 
       // Success!
       alert(
-        `Recipe published successfully! You can now find it in the Bite Buddy Kitchen section.`
+        `Recipe published successfully! You can now find it in the Community Recipes section.`
       );
       setShowModal(false);
 
       // Redirect to published recipe
-      router.push(`/recipes/${data.slug}`);
+      router.push(`/community-recipes/${data.slug}`);
     } catch (error: any) {
       console.error("Error publishing recipe:", error);
       alert(error.message || "Failed to publish recipe");
@@ -73,7 +73,7 @@ export default function PublishRecipeButton({
   if (isPublished && publishedSlug) {
     return (
       <a
-        href={`/recipes/${publishedSlug}`}
+        href={`/community-recipes/${publishedSlug}`}
         className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-6 py-3 text-white font-semibold hover:bg-emerald-700 transition-colors"
       >
         <span>🌟</span>
@@ -104,7 +104,7 @@ export default function PublishRecipeButton({
             <div className="space-y-3 text-sm text-gray-700">
               <p>
                 <strong>"{aiRecipeTitle}"</strong> will be published to the{" "}
-                <strong>Bite Buddy Kitchen</strong> community section.
+                <strong>Community Recipes</strong> section.
               </p>
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
@@ -112,7 +112,7 @@ export default function PublishRecipeButton({
                   What happens when you publish:
                 </p>
                 <ul className="list-disc list-inside space-y-1 text-blue-800">
-                  <li>Recipe appears on the /recipes page</li>
+                  <li>Recipe appears on the /community-recipes page</li>
                   <li>Other users can view and comment</li>
                   <li>You'll be credited as the creator</li>
                   <li>You can delete it anytime</li>
