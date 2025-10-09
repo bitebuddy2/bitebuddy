@@ -882,6 +882,9 @@ function SavedPublished() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedSlugs, setSelectedSlugs] = useState<Set<string>>(new Set());
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [selectionMode, setSelectionMode] = useState(false);
 
   useEffect(() => {
     async function fetchSavedRecipes() {
@@ -918,6 +921,52 @@ function SavedPublished() {
     setItems(items.filter(r => r.slug !== slug));
   }
 
+  async function bulkUnsave() {
+    if (selectedSlugs.size === 0) return;
+
+    if (!confirm(`Are you sure you want to remove ${selectedSlugs.size} recipe${selectedSlugs.size > 1 ? 's' : ''}?`)) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      // Delete all selected recipes
+      const { error } = await supabase
+        .from("saved_recipes")
+        .delete()
+        .in("recipe_slug", Array.from(selectedSlugs));
+
+      if (error) throw error;
+
+      // Update local state
+      setItems(items.filter(r => !selectedSlugs.has(r.slug)));
+      setSelectedSlugs(new Set());
+    } catch (error) {
+      console.error('Bulk unsave error:', error);
+      alert('Failed to remove recipes. Please try again.');
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
+  function toggleSelection(slug: string) {
+    const newSelection = new Set(selectedSlugs);
+    if (newSelection.has(slug)) {
+      newSelection.delete(slug);
+    } else {
+      newSelection.add(slug);
+    }
+    setSelectedSlugs(newSelection);
+  }
+
+  function toggleSelectAll() {
+    if (selectedSlugs.size === filteredItems.length) {
+      setSelectedSlugs(new Set());
+    } else {
+      setSelectedSlugs(new Set(filteredItems.map(r => r.slug)));
+    }
+  }
+
   // Filter recipes based on search query
   const filteredItems = items.filter(recipe =>
     recipe.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -925,7 +974,54 @@ function SavedPublished() {
 
   return (
     <section className="mb-10">
-      <h2 className="text-xl font-semibold mb-4 text-gray-900">Saved Recipes</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold text-gray-900">Saved Recipes</h2>
+        <div className="flex items-center gap-2">
+          {selectionMode && selectedSlugs.size > 0 && (
+            <button
+              onClick={bulkUnsave}
+              disabled={isDeleting}
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 text-sm font-medium"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              {isDeleting ? 'Removing...' : `Remove ${selectedSlugs.size}`}
+            </button>
+          )}
+          {items.length > 0 && (
+            <button
+              onClick={() => {
+                setSelectionMode(!selectionMode);
+                if (selectionMode) {
+                  setSelectedSlugs(new Set()); // Clear selections when exiting selection mode
+                }
+              }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
+                selectionMode
+                  ? 'bg-gray-600 text-white hover:bg-gray-700'
+                  : 'bg-emerald-600 text-white hover:bg-emerald-700'
+              }`}
+            >
+              {selectionMode ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Cancel
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                  Select Multiple
+                </>
+              )}
+            </button>
+          )}
+        </div>
+      </div>
       <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
         {loading ? (
           <p className="text-gray-500 text-center py-8">Loading...</p>
@@ -933,8 +1029,8 @@ function SavedPublished() {
           <p className="text-gray-500 text-center py-8">No saved recipes yet. Browse recipes and save your favorites!</p>
         ) : (
           <>
-            {/* Search input */}
-            <div className="mb-4">
+            {/* Search input and select all */}
+            <div className="mb-4 space-y-3">
               <input
                 type="text"
                 placeholder="Search saved recipes..."
@@ -942,6 +1038,17 @@ function SavedPublished() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
+              {selectionMode && filteredItems.length > 0 && (
+                <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedSlugs.size === filteredItems.length && filteredItems.length > 0}
+                    onChange={toggleSelectAll}
+                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                  />
+                  <span>Select All ({filteredItems.length})</span>
+                </label>
+              )}
             </div>
 
             {filteredItems.length === 0 ? (
@@ -949,7 +1056,27 @@ function SavedPublished() {
             ) : (
               <div className="grid gap-4 sm:grid-cols-2">
                 {filteredItems.map((recipe) => (
-              <div key={recipe.slug} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+              <div
+                key={recipe.slug}
+                className={`bg-white rounded-lg overflow-hidden hover:shadow-md transition-all ${
+                  selectionMode && selectedSlugs.has(recipe.slug)
+                    ? 'border-2 border-emerald-500 bg-emerald-50'
+                    : 'border border-gray-200'
+                }`}
+              >
+                {selectionMode && (
+                  <div className="p-3 border-b border-gray-100">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedSlugs.has(recipe.slug)}
+                        onChange={() => toggleSelection(recipe.slug)}
+                        className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                      />
+                      <span className="text-sm text-gray-700">Select</span>
+                    </label>
+                  </div>
+                )}
                 <a href={`/recipes/${recipe.slug}`} className="block">
                   {recipe.heroImage?.asset?.url && (
                     <Image
@@ -967,14 +1094,16 @@ function SavedPublished() {
                     )}
                   </div>
                 </a>
-                <div className="px-4 pb-4">
-                  <button
-                    onClick={() => unsave(recipe.slug)}
-                    className="text-sm text-red-600 hover:text-red-700 hover:underline"
-                  >
-                    Remove
-                  </button>
-                </div>
+                {!selectionMode && (
+                  <div className="px-4 pb-4">
+                    <button
+                      onClick={() => unsave(recipe.slug)}
+                      className="text-sm text-red-600 hover:text-red-700 hover:underline"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
               </div>
