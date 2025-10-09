@@ -253,7 +253,7 @@ export default async function CommunityRecipePage({
 
       {/* Comments */}
       <section>
-        <CommentSection recipeSlug={slug} recipeId={recipe._id} />
+        <CommentSection recipeSlug={slug} />
       </section>
     </article>
   );
