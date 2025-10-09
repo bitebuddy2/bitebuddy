@@ -59,10 +59,10 @@ export default function MealPlannerCalendar() {
     });
   }, []);
 
-  // Generate days from start date - 4 days for all users
+  // Generate days from start date - 14 days for premium, 3 days for free
   const getDays = () => {
     const days = [];
-    const maxDays = 4;
+    const maxDays = isPremium ? 14 : 3;
     for (let i = 0; i < maxDays; i++) {
       const date = new Date(startDate);
       date.setDate(date.getDate() + i);
@@ -78,7 +78,7 @@ export default function MealPlannerCalendar() {
 
       // Fetch meal plan entries
       const endDate = new Date(startDate);
-      const maxDays = 4;
+      const maxDays = isPremium ? 14 : 3;
       endDate.setDate(endDate.getDate() + maxDays);
 
       const { data: planData } = await supabase
@@ -261,12 +261,14 @@ export default function MealPlannerCalendar() {
     setNoteText(dayNotes[date]?.note || "");
   }
 
-  // Export meal plan to PDF with multi-page support
+  // Export meal plan to PDF with multi-page support - 4 days per page in landscape
   function exportToPDF() {
-    const doc = new jsPDF('portrait', 'mm', 'a4');
+    const doc = new jsPDF('landscape', 'mm', 'a4');
+
+    // Use all days from the current view (3 for free, 14 for premium)
     const days = getDays();
-    const pageWidth = 210; // A4 width in mm
-    const pageHeight = 297; // A4 height in mm
+    const pageWidth = 297; // A4 landscape width in mm
+    const pageHeight = 210; // A4 landscape height in mm
     const margin = 15;
     const contentWidth = pageWidth - (margin * 2);
 
@@ -285,7 +287,7 @@ export default function MealPlannerCalendar() {
         doc.setFontSize(24);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(16, 185, 129); // emerald-600
-        doc.text('4-Day Meal Plan', margin, 20);
+        doc.text(`${days.length}-Day Meal Plan`, margin, 20);
 
         // Add logo to top right - using text as placeholder since we can't easily embed images in jsPDF without loading
         doc.setFontSize(14);
@@ -484,7 +486,7 @@ export default function MealPlannerCalendar() {
 
   const days = getDays();
 
-  const maxDays = 4;
+  const maxDays = isPremium ? 14 : 3;
 
   return (
     <div className="space-y-6">
@@ -493,8 +495,16 @@ export default function MealPlannerCalendar() {
         <div>
           <div className="flex items-center gap-3 mb-1">
             <h2 className="text-2xl font-bold text-gray-900">
-              4-Day Meal Planner
+              {isPremium ? "14-Day Meal Planner" : "3-Day Meal Planner"}
             </h2>
+            {!isPremium && (
+              <button
+                onClick={() => setShowUpgradeModal(true)}
+                className="text-xs bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-3 py-1 rounded-full hover:from-emerald-600 hover:to-emerald-700 transition-all font-semibold"
+              >
+                ⭐ Upgrade for 14 days
+              </button>
+            )}
           </div>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
