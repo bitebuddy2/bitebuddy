@@ -991,35 +991,99 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
   const [selectedRecipe, setSelectedRecipe] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [selectionMode, setSelectionMode] = useState(false);
 
   useEffect(() => {
-    supabase.from("saved_ai_recipes").select("*").order("created_at", { ascending:false })
-      .then(({ data }) => {
-        setItems(data ?? []);
+    async function fetchAIRecipes() {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
         setLoading(false);
+        return;
+      }
 
-        // Auto-open recipe if ID is in URL
-        if (aiRecipeId && data) {
-          const recipe = data.find((r: any) => r.id === aiRecipeId);
-          if (recipe) {
-            setSelectedRecipe(recipe);
+      // Fetch only current user's recipes
+      const { data } = await supabase
+        .from("saved_ai_recipes")
+        .select("*")
+        .eq("user_id", user.id) // Explicitly filter by user_id
+        .order("created_at", { ascending: false });
 
-            // Scroll to AI recipes section after a brief delay
-            setTimeout(() => {
-              const element = document.getElementById('ai-recipes-section');
-              if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }
-            }, 100);
-          }
+      setItems(data ?? []);
+      setLoading(false);
+
+      // Auto-open recipe if ID is in URL
+      if (aiRecipeId && data) {
+        const recipe = data.find((r: any) => r.id === aiRecipeId);
+        if (recipe) {
+          setSelectedRecipe(recipe);
+
+          // Scroll to AI recipes section after a brief delay
+          setTimeout(() => {
+            const element = document.getElementById('ai-recipes-section');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 100);
         }
-      });
+      }
+    }
+
+    fetchAIRecipes();
   }, [aiRecipeId]);
 
   async function deleteRecipe(id: string) {
     await supabase.from("saved_ai_recipes").delete().eq("id", id);
     setItems(items.filter(r => r.id !== id));
     if (selectedRecipe?.id === id) setSelectedRecipe(null);
+  }
+
+  async function bulkDeleteRecipes() {
+    if (selectedIds.size === 0) return;
+
+    if (!confirm(`Are you sure you want to delete ${selectedIds.size} recipe${selectedIds.size > 1 ? 's' : ''}?`)) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      // Delete all selected recipes
+      const { error } = await supabase
+        .from("saved_ai_recipes")
+        .delete()
+        .in("id", Array.from(selectedIds));
+
+      if (error) throw error;
+
+      // Update local state
+      setItems(items.filter(r => !selectedIds.has(r.id)));
+      setSelectedIds(new Set());
+    } catch (error) {
+      console.error('Bulk delete error:', error);
+      alert('Failed to delete recipes. Please try again.');
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
+  function toggleSelection(id: string) {
+    const newSelection = new Set(selectedIds);
+    if (newSelection.has(id)) {
+      newSelection.delete(id);
+    } else {
+      newSelection.add(id);
+    }
+    setSelectedIds(newSelection);
+  }
+
+  function toggleSelectAll() {
+    if (selectedIds.size === filteredItems.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filteredItems.map(r => r.id)));
+    }
   }
 
   // Filter AI recipes based on search query
@@ -1195,7 +1259,54 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
 
   return (
     <section id="ai-recipes-section">
-      <h2 className="text-xl font-semibold mb-4 text-gray-900">AI-Generated Recipes</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold text-gray-900">AI-Generated Recipes</h2>
+        <div className="flex items-center gap-2">
+          {selectionMode && selectedIds.size > 0 && (
+            <button
+              onClick={bulkDeleteRecipes}
+              disabled={isDeleting}
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 text-sm font-medium"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              {isDeleting ? 'Deleting...' : `Delete ${selectedIds.size}`}
+            </button>
+          )}
+          {items.length > 0 && (
+            <button
+              onClick={() => {
+                setSelectionMode(!selectionMode);
+                if (selectionMode) {
+                  setSelectedIds(new Set()); // Clear selections when exiting selection mode
+                }
+              }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
+                selectionMode
+                  ? 'bg-gray-600 text-white hover:bg-gray-700'
+                  : 'bg-emerald-600 text-white hover:bg-emerald-700'
+              }`}
+            >
+              {selectionMode ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Cancel
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                  Select Multiple
+                </>
+              )}
+            </button>
+          )}
+        </div>
+      </div>
       <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
         {loading ? (
           <p className="text-gray-500 text-center py-8">Loading...</p>
@@ -1203,8 +1314,8 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
           <p className="text-gray-500 text-center py-8">No AI recipes yet. Generate custom recipes with AI!</p>
         ) : (
           <>
-            {/* Search input */}
-            <div className="mb-4">
+            {/* Search input and select all */}
+            <div className="mb-4 space-y-3">
               <input
                 type="text"
                 placeholder="Search AI-generated recipes..."
@@ -1212,6 +1323,17 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
+              {selectionMode && filteredItems.length > 0 && (
+                <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.size === filteredItems.length && filteredItems.length > 0}
+                    onChange={toggleSelectAll}
+                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                  />
+                  <span>Select All ({filteredItems.length})</span>
+                </label>
+              )}
             </div>
 
             {filteredItems.length === 0 ? (
@@ -1221,9 +1343,21 @@ function SavedAI({ aiRecipeId }: { aiRecipeId?: string | null }) {
                 {filteredItems.map((r) => (
               <div
                 key={r.id}
-                className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
+                className={`bg-white rounded-lg p-4 hover:shadow-md transition-all ${
+                  selectionMode && selectedIds.has(r.id)
+                    ? 'border-2 border-emerald-500 bg-emerald-50'
+                    : 'border border-gray-200'
+                }`}
               >
                 <div className="flex items-start gap-3">
+                  {selectionMode && (
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.has(r.id)}
+                      onChange={() => toggleSelection(r.id)}
+                      className="mt-1 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                    />
+                  )}
                   <svg className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
