@@ -248,7 +248,7 @@ export default async function CommunityRecipePage({
 
       {/* Rating */}
       <section className="mb-8">
-        <StarRating recipeId={recipe._id} initialRatingCount={recipe.ratingCount} initialRatingSum={recipe.ratingSum} />
+        <StarRating recipeId={recipe._id} ratingCount={recipe.ratingCount} ratingSum={recipe.ratingSum} slug={slug} />
       </section>
 
       {/* Comments */}
