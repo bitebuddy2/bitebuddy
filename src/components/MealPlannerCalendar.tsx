@@ -185,109 +185,168 @@ export default function MealPlannerCalendar() {
     }
   }
 
-  // Export meal plan to PDF
+  // Export meal plan to PDF with multi-page support
   function exportToPDF() {
-    const doc = new jsPDF('landscape', 'mm', 'a4');
+    const doc = new jsPDF('portrait', 'mm', 'a4');
     const days = getDays();
+    const pageWidth = 210; // A4 width in mm
+    const pageHeight = 297; // A4 height in mm
+    const margin = 15;
+    const contentWidth = pageWidth - (margin * 2);
 
-    // Title
-    doc.setFontSize(20);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`${isPremium ? '14-Day' : '3-Day'} Meal Plan`, 15, 15);
+    // Days per page (3 days fits nicely on portrait)
+    const daysPerPage = 3;
+    const totalPages = Math.ceil(days.length / daysPerPage);
 
-    // Date range
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    const startDateStr = startDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + days.length - 1);
-    const endDateStr = endDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    doc.text(`${startDateStr} - ${endDateStr}`, 15, 22);
+    for (let page = 0; page < totalPages; page++) {
+      if (page > 0) doc.addPage();
 
-    // Table setup
-    const startY = 30;
-    const rowHeight = 25;
-    const colWidth = 38; // Width for each day column
-    const mealColWidth = 30; // Width for meal type column
+      const pageDays = days.slice(page * daysPerPage, (page + 1) * daysPerPage);
+      const numDaysOnPage = pageDays.length;
 
-    // Header row
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'bold');
-    doc.setFillColor(243, 244, 246); // gray-100
-    doc.rect(15, startY, mealColWidth, 12, 'F');
-    doc.text('Meal', 17, startY + 8);
+      // Title (only on first page)
+      if (page === 0) {
+        doc.setFontSize(24);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(16, 185, 129); // emerald-600
+        doc.text(`${isPremium ? '14-Day' : '3-Day'} Meal Plan`, margin, 20);
 
-    days.forEach((day, index) => {
-      const x = 15 + mealColWidth + (index * colWidth);
-      doc.rect(x, startY, colWidth, 12, 'F');
+        // Date range
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(107, 114, 128); // gray-500
+        const startDateStr = startDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + days.length - 1);
+        const endDateStr = endDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        doc.text(`${startDateStr} - ${endDateStr}`, margin, 28);
 
-      const dayName = day.toLocaleDateString('en-GB', { weekday: 'short' });
-      const dateStr = day.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        // Add divider line
+        doc.setDrawColor(229, 231, 235); // gray-200
+        doc.setLineWidth(0.5);
+        doc.line(margin, 32, pageWidth - margin, 32);
+      }
 
-      doc.text(dayName, x + 2, startY + 5);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
-      doc.text(dateStr, x + 2, startY + 9);
-      doc.setFontSize(9);
+      // Page title for subsequent pages
+      if (page > 0) {
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(16, 185, 129);
+        doc.text(`Meal Plan (continued)`, margin, 20);
+        doc.setDrawColor(229, 231, 235);
+        doc.setLineWidth(0.5);
+        doc.line(margin, 24, pageWidth - margin, 24);
+      }
+
+      const startY = page === 0 ? 40 : 30;
+      const colWidth = contentWidth / numDaysOnPage;
+      const rowHeight = 35;
+
+      // Day headers
       doc.setFont('helvetica', 'bold');
-    });
+      doc.setFontSize(12);
+      doc.setTextColor(0, 0, 0);
 
-    // Meal rows
-    let currentY = startY + 12;
-    doc.setFont('helvetica', 'normal');
+      pageDays.forEach((day, index) => {
+        const x = margin + (index * colWidth);
 
-    mealTypes.forEach((mealType) => {
-      // Meal type label
-      doc.setFont('helvetica', 'bold');
-      doc.setFillColor(249, 250, 251); // gray-50
-      doc.rect(15, currentY, mealColWidth, rowHeight, 'F');
-      doc.text(mealType.charAt(0).toUpperCase() + mealType.slice(1), 17, currentY + 6);
+        // Header background
+        doc.setFillColor(243, 244, 246); // gray-100
+        doc.roundedRect(x + 1, startY, colWidth - 2, 16, 2, 2, 'F');
 
-      // Recipe cells
-      doc.setFont('helvetica', 'normal');
-      days.forEach((day, index) => {
-        const x = 15 + mealColWidth + (index * colWidth);
-        const dateStr = day.toISOString().split('T')[0];
-        const recipe = getRecipeForSlot(dateStr, mealType);
+        // Day name
+        const dayName = day.toLocaleDateString('en-GB', { weekday: 'long' });
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.text(dayName, x + (colWidth / 2), startY + 7, { align: 'center' });
 
-        // Draw cell border
-        doc.rect(x, currentY, colWidth, rowHeight);
-
-        if (recipe) {
-          // Truncate title if too long
-          const maxLen = 30;
-          const title = recipe.title.length > maxLen
-            ? recipe.title.substring(0, maxLen - 3) + '...'
-            : recipe.title;
-
-          doc.setFontSize(8);
-          // Split text into multiple lines if needed
-          const lines = doc.splitTextToSize(title, colWidth - 4);
-          const startTextY = currentY + 5;
-          lines.forEach((line: string, lineIndex: number) => {
-            if (lineIndex < 3) { // Max 3 lines
-              doc.text(line, x + 2, startTextY + (lineIndex * 4));
-            }
-          });
-
-          // Add AI badge if applicable
-          if (recipe.type === 'ai') {
-            doc.setFontSize(7);
-            doc.setTextColor(16, 185, 129); // emerald-600
-            doc.text('AI', x + 2, currentY + rowHeight - 3);
-            doc.setTextColor(0, 0, 0);
-          }
-          doc.setFontSize(9);
-        }
+        // Date
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(107, 114, 128);
+        const dateStr = day.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        doc.text(dateStr, x + (colWidth / 2), startY + 13, { align: 'center' });
+        doc.setTextColor(0, 0, 0);
       });
 
-      currentY += rowHeight;
-    });
+      // Meal rows
+      let currentY = startY + 18;
 
-    // Footer
-    doc.setFontSize(8);
-    doc.setTextColor(156, 163, 175); // gray-400
-    doc.text('Generated by Bite Buddy - bitebuddy.co.uk', 15, 195);
+      mealTypes.forEach((mealType) => {
+        // Meal type label
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(55, 65, 81); // gray-700
+
+        // Meal label background
+        doc.setFillColor(249, 250, 251); // gray-50
+        doc.roundedRect(margin, currentY, contentWidth, 8, 1, 1, 'F');
+        doc.text(mealType.charAt(0).toUpperCase() + mealType.slice(1), margin + 3, currentY + 6);
+
+        currentY += 10;
+
+        // Recipe cards for each day
+        pageDays.forEach((day, index) => {
+          const x = margin + (index * colWidth);
+          const dateStr = day.toISOString().split('T')[0];
+          const recipe = getRecipeForSlot(dateStr, mealType);
+
+          // Card border
+          doc.setDrawColor(229, 231, 235); // gray-200
+          doc.setLineWidth(0.3);
+          doc.roundedRect(x + 1, currentY, colWidth - 2, rowHeight - 2, 2, 2);
+
+          if (recipe) {
+            // Recipe content background
+            doc.setFillColor(236, 253, 245); // emerald-50
+            doc.roundedRect(x + 2, currentY + 1, colWidth - 4, rowHeight - 4, 2, 2, 'F');
+
+            // Recipe title
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.setTextColor(0, 0, 0);
+
+            const lines = doc.splitTextToSize(recipe.title, colWidth - 8);
+            const maxLines = 4;
+            const startTextY = currentY + 6;
+
+            lines.slice(0, maxLines).forEach((line: string, lineIndex: number) => {
+              doc.text(line, x + 4, startTextY + (lineIndex * 4.5));
+            });
+
+            // AI badge
+            if (recipe.type === 'ai') {
+              const badgeY = currentY + rowHeight - 6;
+              doc.setFillColor(16, 185, 129); // emerald-600
+              doc.roundedRect(x + 4, badgeY - 3, 10, 4, 1, 1, 'F');
+              doc.setFontSize(7);
+              doc.setFont('helvetica', 'bold');
+              doc.setTextColor(255, 255, 255);
+              doc.text('AI', x + 5, badgeY);
+              doc.setTextColor(0, 0, 0);
+            }
+          } else {
+            // Empty slot
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(156, 163, 175); // gray-400
+            doc.text('-', x + (colWidth / 2), currentY + (rowHeight / 2), { align: 'center' });
+            doc.setTextColor(0, 0, 0);
+          }
+        });
+
+        currentY += rowHeight + 2;
+      });
+
+      // Footer
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(156, 163, 175); // gray-400
+      const footerY = pageHeight - 10;
+      doc.text('Generated by Bite Buddy', margin, footerY);
+      doc.text(`bitebuddy.co.uk`, pageWidth - margin, footerY, { align: 'right' });
+      doc.text(`Page ${page + 1} of ${totalPages}`, pageWidth / 2, footerY, { align: 'center' });
+    }
 
     // Save the PDF
     const filename = `meal-plan-${startDate.toISOString().split('T')[0]}.pdf`;

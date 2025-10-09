@@ -262,12 +262,12 @@ export default function CommunityHistory({ userId }: { userId: string }) {
                 key={recipe.id}
                 className="border rounded-lg p-4 bg-white hover:shadow-md transition-shadow"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex flex-col gap-3">
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-lg mb-1 truncate">
+                    <h3 className="font-semibold text-lg mb-1 break-words">
                       {recipe.title}
                     </h3>
-                    <p className="text-xs text-gray-500 mb-3">
+                    <p className="text-xs text-gray-500">
                       Published on{" "}
                       {new Date(recipe.published_at).toLocaleDateString("en-GB", {
                         day: "numeric",
@@ -276,22 +276,22 @@ export default function CommunityHistory({ userId }: { userId: string }) {
                       })}
                     </p>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-2">
-                  <Link
-                    href={`/community-recipes/${recipe.slug}`}
-                    className="flex-1 text-center px-4 py-2 bg-emerald-600 text-white text-sm rounded hover:bg-emerald-700"
-                  >
-                    View Recipe
-                  </Link>
-                  <button
-                    onClick={() => handleDeleteRecipe(recipe.id, recipe.sanity_recipe_id)}
-                    disabled={deletingRecipeId === recipe.id}
-                    className="px-4 py-2 border border-red-300 text-red-600 text-sm rounded hover:bg-red-50 disabled:opacity-50"
-                  >
-                    {deletingRecipeId === recipe.id ? "Deleting..." : "Delete"}
-                  </button>
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <Link
+                      href={`/community-recipes/${recipe.slug}`}
+                      className="flex-1 text-center px-4 py-2 bg-emerald-600 text-white text-sm rounded hover:bg-emerald-700"
+                    >
+                      View Recipe
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteRecipe(recipe.id, recipe.sanity_recipe_id)}
+                      disabled={deletingRecipeId === recipe.id}
+                      className="px-4 py-2 border border-red-300 text-red-600 text-sm rounded hover:bg-red-50 disabled:opacity-50 whitespace-nowrap"
+                    >
+                      {deletingRecipeId === recipe.id ? "Deleting..." : "Delete"}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
