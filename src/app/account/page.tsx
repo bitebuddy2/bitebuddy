@@ -91,7 +91,20 @@ function LoginForm() {
           },
         });
 
-        if (error) throw error;
+        if (error) {
+          // Check if user already exists
+          if (error.message.toLowerCase().includes('already registered') ||
+              error.message.toLowerCase().includes('already exists') ||
+              error.message.toLowerCase().includes('user already registered')) {
+            // Switch to sign-in mode and show helpful message
+            setAuthMode('signin');
+            setMessage({ type: 'error', text: 'This email is already registered. Please sign in instead.' });
+            setPassword(''); // Clear password for security
+            setLoading(false);
+            return;
+          }
+          throw error;
+        }
         setMessage({ type: 'success', text: 'Account created! Check your email to verify.' });
       } else {
         const { error } = await client.auth.signInWithPassword({
