@@ -47,11 +47,12 @@ type CommunityRecipe = {
 export default async function CommunityRecipePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   const recipe: CommunityRecipe | null = await client.fetch(
     communityRecipeBySlugQuery,
-    { slug: params.slug }
+    { slug }
   );
 
   if (!recipe) {
@@ -252,7 +253,7 @@ export default async function CommunityRecipePage({
 
       {/* Comments */}
       <section>
-        <CommentSection recipeSlug={params.slug} recipeId={recipe._id} />
+        <CommentSection recipeSlug={slug} recipeId={recipe._id} />
       </section>
     </article>
   );
