@@ -118,6 +118,11 @@ export default function PremiumPage() {
                 <td className="px-6 py-4 text-center bg-emerald-50 font-semibold text-emerald-700">14 days</td>
               </tr>
               <tr>
+                <td className="px-6 py-4 font-medium text-gray-900">Export Meal Plan to PDF</td>
+                <td className="px-6 py-4 text-center text-gray-400">✗</td>
+                <td className="px-6 py-4 text-center bg-emerald-50 text-emerald-700">✓</td>
+              </tr>
+              <tr>
                 <td className="px-6 py-4 font-medium text-gray-900">AI Recipe Generator</td>
                 <td className="px-6 py-4 text-center text-gray-600">1 per day</td>
                 <td className="px-6 py-4 text-center bg-emerald-50 font-semibold text-emerald-700">Unlimited</td>

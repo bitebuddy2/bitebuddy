@@ -156,6 +156,16 @@ export default function UpgradeModal({ isOpen, onClose, userId }: UpgradeModalPr
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
               <div>
+                <div className="font-medium text-gray-900">Export Meal Plan to PDF</div>
+                <p className="text-sm text-gray-600">Download and print your 14-day meal plan</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <div>
                 <div className="font-medium text-gray-900">Unlimited AI Recipe Generator</div>
                 <p className="text-sm text-gray-600">Create custom recipes anytime (Free: 1 per day)</p>
               </div>
