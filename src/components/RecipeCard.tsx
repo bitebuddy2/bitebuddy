@@ -102,10 +102,10 @@ function MicroStars({ ratingSum = 0, ratingCount = 0 }: { ratingSum?: number; ra
   );
 }
 
-export default function RecipeCard({ r }: { r: CardRecipe }) {
-  // Use ai-generated.jpg as fallback for Bite Buddy Kitchen recipes without images
+export default function RecipeCard({ r, isCommunity = false }: { r: CardRecipe; isCommunity?: boolean }) {
+  // Use ai-generated.jpg as fallback for community recipes without images
   const imgUrl = r.heroImage?.asset?.url ||
-    (r.brand?.slug === 'bite-buddy-kitchen' ? '/ai-generated.jpg' : null);
+    (isCommunity ? '/ai-generated.jpg' : null);
   const lqip = r.heroImage?.asset?.metadata?.lqip;
   const alt = r.heroImage?.alt || r.title;
 
@@ -115,7 +115,7 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
 
   return (
     <li className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-      <Link href={`/recipes/${r.slug}`} className="block focus:outline-none focus:ring-2 focus:ring-emerald-500/50">
+      <Link href={isCommunity ? `/community-recipes/${r.slug}` : `/recipes/${r.slug}`} className="block focus:outline-none focus:ring-2 focus:ring-emerald-500/50">
         {/* Top image */}
         <div className="relative aspect-[16/9] bg-gray-100 overflow-hidden">
           {imgUrl ? (
@@ -143,8 +143,19 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
           )}
         </div>
 
-        {/* Brand tag (under image) */}
-        {r.brand && (
+        {/* Brand tag or Creator attribution */}
+        {isCommunity && r.createdBy ? (
+          <div className="flex items-center gap-2 px-4 pt-3 text-sm">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-white">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              </svg>
+            </span>
+            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-emerald-700">
+              By {r.createdBy.userName}
+            </span>
+          </div>
+        ) : r.brand ? (
           <div className="flex items-center gap-2 px-4 pt-3 text-sm">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-gray-900 text-white overflow-hidden">
               {r.brand.logo?.asset?.url ? (
@@ -163,7 +174,7 @@ export default function RecipeCard({ r }: { r: CardRecipe }) {
               {r.brand.title}
             </span>
           </div>
-        )}
+        ) : null}
 
         {/* Title & blurb */}
         <div className="px-5 pb-5 pt-3">

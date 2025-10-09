@@ -81,72 +81,18 @@ export async function POST(req: Request) {
       counter++;
     }
 
-    // Fetch Bite Buddy Kitchen brand
-    const biteBuddyKitchen = await sanityClient.fetch(
-      `*[_type == "brand" && slug.current == "bite-buddy-kitchen"][0]{ _id }`
-    );
-
-    if (!biteBuddyKitchen) {
-      return NextResponse.json(
-        { error: "Bite Buddy Kitchen brand not found in Sanity" },
-        { status: 500 }
-      );
-    }
-
-    // Fetch or create "AI Generated" category
-    let aiCategory = await sanityClient.fetch(
-      `*[_type == "category" && slug.current == "ai-generated"][0]{ _id }`
-    );
-
-    if (!aiCategory) {
-      // Create the AI Generated category if it doesn't exist
-      aiCategory = await sanityClient.create({
-        _type: "category",
-        title: "AI Generated",
-        slug: {
-          _type: "slug",
-          current: "ai-generated"
-        },
-        description: "Recipes created with AI assistance by our community members"
-      });
-    }
-
-    // Transform ingredients to Sanity format
-    const ingredients = aiRecipe.ingredients || [];
-    const ingredientGroups = [
-      {
-        _type: "ingredientGroup",
-        _key: "main",
-        heading: "Ingredients",
-        items: ingredients.map((ing: any, idx: number) => ({
-          _type: "ingredientItem",
-          _key: `ing-${idx}`,
-          quantity: ing.amount || "",
-          unit: ing.unit || "",
-          ingredientText: ing.name || "",
-          notes: "",
-        })),
-      },
-    ];
-
-    // Transform steps to Sanity format
-    const steps = (aiRecipe.steps || []).map((step: string, idx: number) => ({
-      _type: "step",
-      _key: `step-${idx}`,
-      step: [
-        {
-          _type: "block",
-          _key: `block-${idx}`,
-          style: "normal",
-          children: [
-            {
-              _type: "span",
-              text: step,
-            },
-          ],
-        },
-      ],
+    // Transform ingredients to simple format for communityRecipe
+    const ingredients = (aiRecipe.ingredients || []).map((ing: any) => ({
+      _type: "object",
+      _key: `ing-${Math.random().toString(36).substr(2, 9)}`,
+      name: ing.name || "",
+      amount: ing.amount || "",
+      unit: ing.unit || "",
+      notes: "",
     }));
+
+    // Steps are already plain text array - no transformation needed
+    const steps = aiRecipe.steps || [];
 
     // Get user display name
     const userName =
@@ -155,9 +101,9 @@ export async function POST(req: Request) {
       user.email?.split("@")[0] ||
       "Anonymous";
 
-    // Create recipe in Sanity
+    // Create communityRecipe in Sanity
     const sanityRecipe: any = {
-      _type: "recipe",
+      _type: "communityRecipe",
       title: aiRecipe.title,
       slug: {
         _type: "slug",
@@ -169,7 +115,7 @@ export async function POST(req: Request) {
       prepMin: aiRecipe.prep_min || 0,
       cookMin: aiRecipe.cook_min || 0,
       introText: aiRecipe.intro_text || aiRecipe.description || "",
-      ingredients: ingredientGroups,
+      ingredients: ingredients,
       steps: steps,
       tips: aiRecipe.tips || [],
       faqs: (aiRecipe.faqs || []).map((faq: any) => ({
@@ -185,18 +131,7 @@ export async function POST(req: Request) {
             carbs: aiRecipe.nutrition.carbs,
           }
         : undefined,
-      brand: {
-        _type: "reference",
-        _ref: biteBuddyKitchen._id,
-      },
-      categories: [
-        {
-          _type: "reference",
-          _ref: aiCategory._id,
-        },
-      ],
       createdBy: {
-        _type: "createdBy",
         userId: user.id,
         userName: userName,
         userEmail: user.email,

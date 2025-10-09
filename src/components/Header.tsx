@@ -13,6 +13,7 @@ const nav = [
   { href: "/about", label: "About Us" },
   { href: "/", label: "Home" },
   { href: "/recipes", label: "Recipes" },
+  { href: "/community-recipes", label: "Community Recipes" },
   { href: "/products", label: "Products" },
   { href: "/search", label: "Ingredient Search" },
   { href: "/ai-recipe-generator", label: "AI Recipe Generator" },

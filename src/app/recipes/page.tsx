@@ -31,9 +31,7 @@ function RecipesContent() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("all");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [showBiteBuddyKitchen, setShowBiteBuddyKitchen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -77,31 +75,15 @@ function RecipesContent() {
 
   let filteredRecipes = recipes;
 
-  // Filter by Bite Buddy Kitchen (user-generated recipes)
-  if (showBiteBuddyKitchen) {
-    // Find Bite Buddy Kitchen brand
-    const biteBuddyKitchenBrand = brands.find(b => b.slug === "bite-buddy-kitchen");
-    if (biteBuddyKitchenBrand) {
-      filteredRecipes = filteredRecipes.filter(recipe => recipe.brand?._id === biteBuddyKitchenBrand._id);
-    }
-  } else {
-    // Filter by brand
-    if (selectedBrand !== "all") {
-      filteredRecipes = filteredRecipes.filter(recipe => recipe.brand?._id === selectedBrand);
-    }
+  // Filter by brand
+  if (selectedBrand !== "all") {
+    filteredRecipes = filteredRecipes.filter(recipe => recipe.brand?._id === selectedBrand);
   }
 
   // Filter by category
   if (selectedCategory !== "all") {
     filteredRecipes = filteredRecipes.filter(recipe =>
       recipe.categories?.some((cat: any) => cat._id === selectedCategory)
-    );
-  }
-
-  // Filter by search query (only when showBiteBuddyKitchen is true)
-  if (showBiteBuddyKitchen && searchQuery.trim()) {
-    filteredRecipes = filteredRecipes.filter(recipe =>
-      recipe.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
 
@@ -132,77 +114,6 @@ function RecipesContent() {
 
       {/* Filter and Recipes Section */}
       <div className="p-4 pt-0">
-        {/* Bite Buddy Kitchen Filter Button */}
-        <div className="mb-6">
-          <button
-            onClick={() => {
-              setShowBiteBuddyKitchen(!showBiteBuddyKitchen);
-              if (!showBiteBuddyKitchen) {
-                setSelectedBrand("all");
-                setSelectedCategory("all");
-                setSearchQuery(""); // Clear search when switching to community recipes
-              } else {
-                setSearchQuery(""); // Clear search when switching away from community recipes
-              }
-            }}
-            className={`w-full md:w-auto px-6 py-4 rounded-xl font-semibold text-left transition-all ${
-              showBiteBuddyKitchen
-                ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg"
-                : "bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-800 hover:from-emerald-100 hover:to-teal-100 border-2 border-emerald-200"
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">🧑‍🍳</span>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">Community Recipes</span>
-                  {(() => {
-                    const biteBuddyBrand = brands.find(b => b.slug === "bite-buddy-kitchen");
-                    const count = biteBuddyBrand
-                      ? recipes.filter(r => r.brand?._id === biteBuddyBrand._id).length
-                      : 0;
-                    return count > 0 && (
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        showBiteBuddyKitchen
-                          ? "bg-white/20 text-white"
-                          : "bg-emerald-200 text-emerald-800"
-                      }`}>
-                        {count}
-                      </span>
-                    );
-                  })()}
-                </div>
-                <p className={`text-xs mt-1 ${
-                  showBiteBuddyKitchen ? "text-white/90" : "text-emerald-700"
-                }`}>
-                  User-generated recipes created with AI assistance
-                </p>
-              </div>
-              <svg
-                className={`w-5 h-5 transition-transform ${showBiteBuddyKitchen ? "rotate-180" : ""}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </button>
-
-          {/* Search input for Community Recipes */}
-          {showBiteBuddyKitchen && (
-            <div className="mt-4">
-              <input
-                type="text"
-                placeholder="Search community recipes..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900"
-              />
-            </div>
-          )}
-        </div>
-
         {/* Brand Filter Dropdown */}
         <div className="mb-4 flex justify-end">
           <div className="flex flex-col items-end">
@@ -213,8 +124,7 @@ function RecipesContent() {
               id="brand-filter"
               value={selectedBrand}
               onChange={(e) => setSelectedBrand(e.target.value)}
-              disabled={showBiteBuddyKitchen}
-              className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none min-w-[160px] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none min-w-[160px]"
             >
               <option value="all">All Brands ({recipes.length})</option>
               {brands.map((brand) => {

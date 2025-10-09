@@ -371,3 +371,54 @@ export const productBySlugQuery = groq/* groq */ `
   }
 }
 `;
+
+// ✅ Community recipes for cards
+export const allCommunityRecipesQuery = groq/* groq */ `
+*[_type == "communityRecipe"] | order(_updatedAt desc){
+  "slug": slug.current,
+  title,
+  description,
+  introText,
+  servings,
+  prepMin,
+  cookMin,
+  ratingSum,
+  ratingCount,
+  heroImage{
+    asset->{ url, metadata { lqip, dimensions } },
+    alt
+  },
+  createdBy
+}
+`;
+
+// ✅ Single community recipe by slug
+export const communityRecipeBySlugQuery = groq/* groq */ `
+*[_type == "communityRecipe" && slug.current == $slug][0]{
+  _id,
+  _createdAt,
+  title,
+  "slug": slug.current,
+  description,
+  servings,
+  prepMin,
+  cookMin,
+  heroImage{
+    asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    alt
+  },
+  introText,
+  ingredients,
+  steps,
+  tips,
+  faqs,
+  nutrition,
+  ratingCount,
+  ratingSum,
+  createdBy
+}
+`;
