@@ -19,6 +19,13 @@ type MealPlanEntry = {
   notes?: string;
 };
 
+type DayNote = {
+  id?: string;
+  user_id: string;
+  date: string;
+  note: string;
+};
+
 type Recipe = {
   slug?: string;
   id?: string;
@@ -37,9 +44,13 @@ export default function MealPlannerCalendar() {
   const [loading, setLoading] = useState(true);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [userId, setUserId] = useState<string>("");
+  const [dayNotes, setDayNotes] = useState<Record<string, DayNote>>({});
+  const [editingNote, setEditingNote] = useState<string | null>(null);
+  const [noteText, setNoteText] = useState("");
   const { isPremium, loading: subLoading } = useSubscription();
 
   const mealTypes: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
+  const MAX_NOTE_LENGTH = 100;
 
   // Get user ID
   useEffect(() => {
@@ -48,10 +59,10 @@ export default function MealPlannerCalendar() {
     });
   }, []);
 
-  // Generate days from start date - 3 for free, 14 for premium
+  // Generate days from start date - 4 days for all users
   const getDays = () => {
     const days = [];
-    const maxDays = isPremium ? 14 : 3;
+    const maxDays = 4;
     for (let i = 0; i < maxDays; i++) {
       const date = new Date(startDate);
       date.setDate(date.getDate() + i);
@@ -67,7 +78,7 @@ export default function MealPlannerCalendar() {
 
       // Fetch meal plan entries
       const endDate = new Date(startDate);
-      const maxDays = isPremium ? 14 : 3;
+      const maxDays = 4;
       endDate.setDate(endDate.getDate() + maxDays);
 
       const { data: planData } = await supabase
@@ -82,6 +93,21 @@ export default function MealPlannerCalendar() {
           planMap[`${entry.date}-${entry.meal_type}`] = entry;
         });
         setMealPlan(planMap);
+      }
+
+      // Fetch day notes
+      const { data: notesData } = await supabase
+        .from("day_notes")
+        .select("*")
+        .gte("date", startDate.toISOString().split("T")[0])
+        .lt("date", endDate.toISOString().split("T")[0]);
+
+      if (notesData) {
+        const notesMap: Record<string, DayNote> = {};
+        notesData.forEach((note) => {
+          notesMap[note.date] = note;
+        });
+        setDayNotes(notesMap);
       }
 
       // Fetch saved published recipes
@@ -185,6 +211,56 @@ export default function MealPlannerCalendar() {
     }
   }
 
+  // Save or update day note
+  async function saveDayNote(date: string) {
+    if (!noteText.trim()) {
+      // If note is empty, delete it
+      const existingNote = dayNotes[date];
+      if (existingNote?.id) {
+        await supabase.from("day_notes").delete().eq("id", existingNote.id);
+        const newNotes = { ...dayNotes };
+        delete newNotes[date];
+        setDayNotes(newNotes);
+      }
+      setEditingNote(null);
+      setNoteText("");
+      return;
+    }
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const noteData = {
+      user_id: user.id,
+      date: date,
+      note: noteText.trim().substring(0, MAX_NOTE_LENGTH),
+    };
+
+    const { data, error } = await supabase
+      .from("day_notes")
+      .upsert(noteData, { onConflict: "user_id,date" })
+      .select();
+
+    if (error) {
+      console.error("Error saving note:", error);
+      alert("Failed to save note. Please try again.");
+      return;
+    }
+
+    if (data && data[0]) {
+      setDayNotes({ ...dayNotes, [date]: data[0] });
+    }
+
+    setEditingNote(null);
+    setNoteText("");
+  }
+
+  // Start editing a note
+  function startEditingNote(date: string) {
+    setEditingNote(date);
+    setNoteText(dayNotes[date]?.note || "");
+  }
+
   // Export meal plan to PDF with multi-page support
   function exportToPDF() {
     const doc = new jsPDF('portrait', 'mm', 'a4');
@@ -194,8 +270,8 @@ export default function MealPlannerCalendar() {
     const margin = 15;
     const contentWidth = pageWidth - (margin * 2);
 
-    // Days per page (3 days fits nicely on portrait)
-    const daysPerPage = 3;
+    // All 4 days on one page
+    const daysPerPage = 4;
     const totalPages = Math.ceil(days.length / daysPerPage);
 
     for (let page = 0; page < totalPages; page++) {
@@ -209,7 +285,13 @@ export default function MealPlannerCalendar() {
         doc.setFontSize(24);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(16, 185, 129); // emerald-600
-        doc.text(`${isPremium ? '14-Day' : '3-Day'} Meal Plan`, margin, 20);
+        doc.text('4-Day Meal Plan', margin, 20);
+
+        // Add logo to top right - using text as placeholder since we can't easily embed images in jsPDF without loading
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(16, 185, 129);
+        doc.text('BiteBuddy', pageWidth - margin - 30, 20);
 
         // Date range
         doc.setFontSize(11);
@@ -232,7 +314,12 @@ export default function MealPlannerCalendar() {
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(16, 185, 129);
-        doc.text(`Meal Plan (continued)`, margin, 20);
+        doc.text('Meal Plan (continued)', margin, 20);
+
+        // Logo on subsequent pages too
+        doc.setFontSize(14);
+        doc.text('BiteBuddy', pageWidth - margin - 30, 20);
+
         doc.setDrawColor(229, 231, 235);
         doc.setLineWidth(0.5);
         doc.line(margin, 24, pageWidth - margin, 24);
@@ -269,9 +356,51 @@ export default function MealPlannerCalendar() {
         doc.setTextColor(0, 0, 0);
       });
 
-      // Meal rows
+      // Day notes row (new)
       let currentY = startY + 18;
 
+      // Notes section
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(55, 65, 81);
+      doc.setFillColor(249, 250, 251);
+      doc.roundedRect(margin, currentY, contentWidth, 8, 1, 1, 'F');
+      doc.text('Notes', margin + 3, currentY + 6);
+      currentY += 10;
+
+      pageDays.forEach((day, index) => {
+        const x = margin + (index * colWidth);
+        const dateStr = day.toISOString().split('T')[0];
+        const dayNote = dayNotes[dateStr];
+
+        doc.setDrawColor(229, 231, 235);
+        doc.setLineWidth(0.3);
+        doc.roundedRect(x + 1, currentY, colWidth - 2, 15, 2, 2);
+
+        if (dayNote?.note) {
+          doc.setFillColor(254, 249, 195); // yellow-100
+          doc.roundedRect(x + 2, currentY + 1, colWidth - 4, 13, 2, 2, 'F');
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(7);
+          doc.setTextColor(0, 0, 0);
+
+          // Wrap text properly
+          const noteLines = doc.splitTextToSize(dayNote.note, colWidth - 6);
+          noteLines.slice(0, 2).forEach((line: string, lineIndex: number) => {
+            doc.text(line, x + 3, currentY + 5 + (lineIndex * 3.5));
+          });
+        } else {
+          doc.setFontSize(7);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(156, 163, 175);
+          doc.text('-', x + (colWidth / 2), currentY + 8, { align: 'center' });
+          doc.setTextColor(0, 0, 0);
+        }
+      });
+
+      currentY += 17;
+
+      // Meal rows
       mealTypes.forEach((mealType) => {
         // Meal type label
         doc.setFontSize(10);
@@ -301,9 +430,9 @@ export default function MealPlannerCalendar() {
             doc.setFillColor(236, 253, 245); // emerald-50
             doc.roundedRect(x + 2, currentY + 1, colWidth - 4, rowHeight - 4, 2, 2, 'F');
 
-            // Recipe title
+            // Recipe title with proper wrapping
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9);
+            doc.setFontSize(8);
             doc.setTextColor(0, 0, 0);
 
             const lines = doc.splitTextToSize(recipe.title, colWidth - 8);
@@ -311,7 +440,7 @@ export default function MealPlannerCalendar() {
             const startTextY = currentY + 6;
 
             lines.slice(0, maxLines).forEach((line: string, lineIndex: number) => {
-              doc.text(line, x + 4, startTextY + (lineIndex * 4.5));
+              doc.text(line, x + 4, startTextY + (lineIndex * 3.5));
             });
 
             // AI badge
@@ -355,7 +484,7 @@ export default function MealPlannerCalendar() {
 
   const days = getDays();
 
-  const maxDays = isPremium ? 14 : 3;
+  const maxDays = 4;
 
   return (
     <div className="space-y-6">
@@ -364,22 +493,9 @@ export default function MealPlannerCalendar() {
         <div>
           <div className="flex items-center gap-3 mb-1">
             <h2 className="text-2xl font-bold text-gray-900">
-              {isPremium ? "14-Day" : "3-Day"} Meal Planner
+              4-Day Meal Planner
             </h2>
-            {!isPremium && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-900">
-                <span>🔒</span> Limited to 3 days
-              </span>
-            )}
           </div>
-          {!isPremium && (
-            <button
-              onClick={() => setShowUpgradeModal(true)}
-              className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
-            >
-              ⭐ Upgrade to unlock 14-day planner
-            </button>
-          )}
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           {isPremium ? (
@@ -458,6 +574,76 @@ export default function MealPlannerCalendar() {
               </tr>
             </thead>
             <tbody>
+              {/* Day Notes Row */}
+              <tr>
+                <td className="border border-gray-200 bg-yellow-50 p-2 text-sm font-medium text-gray-700 sticky left-0 z-10">
+                  📝 Notes
+                </td>
+                {days.map((day) => {
+                  const dateStr = day.toISOString().split("T")[0];
+                  const dayNote = dayNotes[dateStr];
+                  const isEditing = editingNote === dateStr;
+
+                  return (
+                    <td key={`note-${dateStr}`} className="border border-gray-200 p-2 align-top bg-yellow-50">
+                      {isEditing ? (
+                        <div className="space-y-2">
+                          <textarea
+                            value={noteText}
+                            onChange={(e) => setNoteText(e.target.value.substring(0, MAX_NOTE_LENGTH))}
+                            placeholder="Add a note..."
+                            className="w-full text-xs p-2 border border-gray-300 rounded resize-none"
+                            rows={2}
+                            maxLength={MAX_NOTE_LENGTH}
+                          />
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-gray-500">
+                              {noteText.length}/{MAX_NOTE_LENGTH}
+                            </span>
+                            <div className="flex gap-1">
+                              <button
+                                onClick={() => saveDayNote(dateStr)}
+                                className="px-2 py-1 bg-emerald-600 text-white rounded hover:bg-emerald-700 text-xs"
+                              >
+                                Save
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setEditingNote(null);
+                                  setNoteText("");
+                                }}
+                                className="px-2 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 text-xs"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="relative group">
+                          {dayNote?.note ? (
+                            <div
+                              onClick={() => startEditingNote(dateStr)}
+                              className="text-xs p-2 bg-yellow-100 rounded cursor-pointer hover:bg-yellow-200 transition-colors min-h-[60px] break-words whitespace-pre-wrap"
+                            >
+                              {dayNote.note}
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => startEditingNote(dateStr)}
+                              className="w-full h-16 rounded border-2 border-dashed border-gray-300 hover:border-yellow-400 hover:bg-yellow-50 text-gray-400 hover:text-yellow-600 transition-colors text-xs"
+                            >
+                              + Add Note
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+
+              {/* Meal Type Rows */}
               {mealTypes.map((mealType) => (
                 <tr key={mealType}>
                   <td className="border border-gray-200 bg-gray-50 p-2 text-sm font-medium text-gray-700 capitalize sticky left-0 z-10">
@@ -485,7 +671,7 @@ export default function MealPlannerCalendar() {
                                   className="w-full h-16 object-cover rounded mb-1"
                                 />
                               )}
-                              <div className="font-medium text-gray-900 line-clamp-2">{recipe.title}</div>
+                              <div className="font-medium text-gray-900 line-clamp-3 break-words">{recipe.title}</div>
                               {recipe.type === "ai" && (
                                 <div className="text-xs text-emerald-600 mt-1">🤖 AI</div>
                               )}
