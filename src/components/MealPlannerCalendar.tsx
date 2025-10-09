@@ -327,9 +327,9 @@ export default function MealPlannerCalendar() {
         doc.line(margin, 24, pageWidth - margin, 24);
       }
 
-      const startY = page === 0 ? 40 : 30;
+      const startY = page === 0 ? 38 : 28;
       const colWidth = contentWidth / numDaysOnPage;
-      const rowHeight = 35;
+      const rowHeight = 26; // Reduced to fit all 4 meal types + snack on page
 
       // Day headers
       doc.setFont('helvetica', 'bold');
@@ -359,16 +359,16 @@ export default function MealPlannerCalendar() {
       });
 
       // Day notes row (new)
-      let currentY = startY + 18;
+      let currentY = startY + 17;
 
       // Notes section
-      doc.setFontSize(10);
+      doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(55, 65, 81);
       doc.setFillColor(249, 250, 251);
-      doc.roundedRect(margin, currentY, contentWidth, 8, 1, 1, 'F');
-      doc.text('Notes', margin + 3, currentY + 6);
-      currentY += 10;
+      doc.roundedRect(margin, currentY, contentWidth, 7, 1, 1, 'F');
+      doc.text('Notes', margin + 3, currentY + 5);
+      currentY += 8;
 
       pageDays.forEach((day, index) => {
         const x = margin + (index * colWidth);
@@ -377,44 +377,44 @@ export default function MealPlannerCalendar() {
 
         doc.setDrawColor(229, 231, 235);
         doc.setLineWidth(0.3);
-        doc.roundedRect(x + 1, currentY, colWidth - 2, 15, 2, 2);
+        doc.roundedRect(x + 1, currentY, colWidth - 2, 12, 2, 2);
 
         if (dayNote?.note) {
           doc.setFillColor(254, 249, 195); // yellow-100
-          doc.roundedRect(x + 2, currentY + 1, colWidth - 4, 13, 2, 2, 'F');
+          doc.roundedRect(x + 2, currentY + 1, colWidth - 4, 10, 2, 2, 'F');
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(7);
+          doc.setFontSize(6);
           doc.setTextColor(0, 0, 0);
 
           // Wrap text properly
           const noteLines = doc.splitTextToSize(dayNote.note, colWidth - 6);
           noteLines.slice(0, 2).forEach((line: string, lineIndex: number) => {
-            doc.text(line, x + 3, currentY + 5 + (lineIndex * 3.5));
+            doc.text(line, x + 3, currentY + 4 + (lineIndex * 3));
           });
         } else {
-          doc.setFontSize(7);
+          doc.setFontSize(6);
           doc.setFont('helvetica', 'normal');
           doc.setTextColor(156, 163, 175);
-          doc.text('-', x + (colWidth / 2), currentY + 8, { align: 'center' });
+          doc.text('-', x + (colWidth / 2), currentY + 7, { align: 'center' });
           doc.setTextColor(0, 0, 0);
         }
       });
 
-      currentY += 17;
+      currentY += 14;
 
       // Meal rows
       mealTypes.forEach((mealType) => {
         // Meal type label
-        doc.setFontSize(10);
+        doc.setFontSize(9);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(55, 65, 81); // gray-700
 
         // Meal label background
         doc.setFillColor(249, 250, 251); // gray-50
-        doc.roundedRect(margin, currentY, contentWidth, 8, 1, 1, 'F');
-        doc.text(mealType.charAt(0).toUpperCase() + mealType.slice(1), margin + 3, currentY + 6);
+        doc.roundedRect(margin, currentY, contentWidth, 7, 1, 1, 'F');
+        doc.text(mealType.charAt(0).toUpperCase() + mealType.slice(1), margin + 3, currentY + 5);
 
-        currentY += 10;
+        currentY += 8;
 
         // Recipe cards for each day
         pageDays.forEach((day, index) => {
@@ -438,11 +438,11 @@ export default function MealPlannerCalendar() {
             doc.setTextColor(0, 0, 0);
 
             const lines = doc.splitTextToSize(recipe.title, colWidth - 8);
-            const maxLines = 4;
-            const startTextY = currentY + 6;
+            const maxLines = 3;
+            const startTextY = currentY + 5;
 
             lines.slice(0, maxLines).forEach((line: string, lineIndex: number) => {
-              doc.text(line, x + 4, startTextY + (lineIndex * 3.5));
+              doc.text(line, x + 4, startTextY + (lineIndex * 3));
             });
 
             // AI badge
@@ -466,7 +466,7 @@ export default function MealPlannerCalendar() {
           }
         });
 
-        currentY += rowHeight + 2;
+        currentY += rowHeight + 1;
       });
 
       // Footer
