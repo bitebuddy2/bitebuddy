@@ -25,7 +25,8 @@
       "Bash(wait)",
       "mcp__ide__getDiagnostics",
       "Bash(echo \"Check browser console for errors. Also, can you confirm:\n1. Have you posted any comments on recipes?\n2. What''s the exact error message when publishing fails?\n3. Go to /account?tab=community - does it show ''Loading...'' or ''You haven''t commented yet''?\")",
-      "Bash(echo \"SANITY_WRITE_TOKEN: $SANITY_WRITE_TOKEN:0:20...\")"
+      "Bash(echo \"SANITY_WRITE_TOKEN: $SANITY_WRITE_TOKEN:0:20...\")",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []
