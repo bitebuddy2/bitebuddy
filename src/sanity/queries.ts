@@ -526,3 +526,64 @@ export const categorySlugsQuery = groq/* groq */ `
   "slug": slug.current
 }
 `;
+
+// ✅ Get all cooking guides
+export const allGuidesQuery = groq/* groq */ `
+*[_type == "guide"] | order(_createdAt desc){
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  heroImage{
+    asset->{ url, metadata{ lqip, dimensions } },
+    alt
+  },
+  category
+}
+`;
+
+// ✅ Get guide by slug
+export const guideBySlugQuery = groq/* groq */ `
+*[_type == "guide" && slug.current == $slug][0]{
+  _id,
+  _createdAt,
+  _updatedAt,
+  title,
+  "slug": slug.current,
+  description,
+  heroImage{
+    asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    alt
+  },
+  content,
+  steps[]{
+    title,
+    description,
+    image{
+      asset->{ url, metadata{ lqip } },
+      alt
+    }
+  },
+  category,
+  relatedRecipes[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    heroImage{
+      asset->{ url, metadata{ lqip } },
+      alt
+    }
+  }
+}
+`;
+
+// ✅ Get all guide slugs for generateStaticParams
+export const guideSlugsQuery = groq/* groq */ `
+*[_type == "guide" && defined(slug.current)][]{
+  "slug": slug.current
+}
+`;

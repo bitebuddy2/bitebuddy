@@ -16,6 +16,7 @@ import AdPlaceholder from "@/components/AdPlaceholder";
 import CommentSection from "@/components/CommentSection";
 import RecipeViewTracker from "@/components/RecipeViewTracker";
 import PrintButton from "@/components/PrintButton";
+import RecipeShoppingListButton from "@/components/RecipeShoppingListButton";
 import { supabase } from "@/lib/supabase";
 
 // 👇 use ONE of these imports depending on which fix you chose:
@@ -326,6 +327,11 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
           recipeSlug={recipe.slug}
           recipeTitle={recipe.title}
           brand={recipe.brand?.title}
+        />
+        <RecipeShoppingListButton
+          recipeSlug={recipe.slug}
+          recipeTitle={recipe.title}
+          ingredients={recipe.ingredients || []}
         />
       </div>
 
