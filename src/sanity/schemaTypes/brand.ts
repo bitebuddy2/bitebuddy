@@ -19,6 +19,13 @@ export default defineType({
       type: "image",
       options: { hotspot: true },
     }),
+    defineField({
+      name: "description",
+      title: "Description",
+      type: "text",
+      description: "SEO-friendly description of this brand and its recipes (optional)",
+      rows: 3,
+    }),
   ],
   preview: { select: { title: "title", media: "logo" } },
 });
