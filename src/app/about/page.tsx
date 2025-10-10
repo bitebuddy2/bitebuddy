@@ -1,4 +1,18 @@
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Bite Buddy - UK Copycat Recipe Creator | Bite Buddy",
+  description: "Meet Jonathan, the recipe creator behind Bite Buddy. Learn how we help home cooks recreate their favourite UK restaurant dishes with simple, tested recipes.",
+  openGraph: {
+    title: "About Bite Buddy - UK Copycat Recipe Creator | Bite Buddy",
+    description: "Meet Jonathan, the recipe creator behind Bite Buddy. Learn how we help home cooks recreate their favourite UK restaurant dishes with simple, tested recipes.",
+  },
+  twitter: {
+    title: "About Bite Buddy - UK Copycat Recipe Creator | Bite Buddy",
+    description: "Meet Jonathan, the recipe creator behind Bite Buddy. Learn how we help home cooks recreate their favourite UK restaurant dishes with simple, tested recipes.",
+  },
+};
 
 export default function AboutPage() {
   return (

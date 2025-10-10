@@ -3,6 +3,20 @@ import RecipeCard from "@/components/RecipeCard";
 import { client } from "../../sanity/client";
 import { recipesByIngredientNamesQuery } from "../../sanity/queries";
 import SearchBar from "@/components/SearchBar";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Search Recipes by Ingredients - What's in my Fridge? | Bite Buddy",
+  description: "Find recipes based on ingredients you already have. Enter ingredients like chicken, orzo, onion and discover delicious UK copycat recipes you can make right now.",
+  openGraph: {
+    title: "Search Recipes by Ingredients - What's in my Fridge? | Bite Buddy",
+    description: "Find recipes based on ingredients you already have. Enter ingredients like chicken, orzo, onion and discover delicious UK copycat recipes you can make right now.",
+  },
+  twitter: {
+    title: "Search Recipes by Ingredients - What's in my Fridge? | Bite Buddy",
+    description: "Find recipes based on ingredients you already have. Enter ingredients like chicken, orzo, onion and discover delicious UK copycat recipes you can make right now.",
+  },
+};
 
 // Parse ingredients from various formats into clean list
 function parseNames(q?: string): string[] {

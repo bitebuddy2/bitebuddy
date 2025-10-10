@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Get in touch with BiteBuddy for recipe requests, questions, or feedback.",
+  title: "Contact Us - Recipe Requests & Support | Bite Buddy",
+  description: "Get in touch with Bite Buddy for recipe requests, questions, feedback, or partnership opportunities. We typically respond within 24-48 hours.",
+  openGraph: {
+    title: "Contact Us - Recipe Requests & Support | Bite Buddy",
+    description: "Get in touch with Bite Buddy for recipe requests, questions, feedback, or partnership opportunities. We typically respond within 24-48 hours.",
+  },
+  twitter: {
+    title: "Contact Us - Recipe Requests & Support | Bite Buddy",
+    description: "Get in touch with Bite Buddy for recipe requests, questions, feedback, or partnership opportunities. We typically respond within 24-48 hours.",
+  },
 };
 
 export default function ContactPage() {

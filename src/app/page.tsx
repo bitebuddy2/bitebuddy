@@ -11,14 +11,14 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "UK Copycat Recipes & AI Recipe Generator | Bite Buddy",
-  description: "Recreate your favourite UK restaurant dishes from Greggs, Nando's, Wagamama & more. Plus, use our free AI Recipe Generator to create personalized meal ideas in seconds.",
+  description: "Recreate UK restaurant favourites from Greggs, Nando's & Wagamama at home. Plus, use our free AI Recipe Generator for instant personalized meal ideas.",
   openGraph: {
     title: "UK Copycat Recipes & AI Recipe Generator | Bite Buddy",
-    description: "Recreate your favourite UK restaurant dishes from Greggs, Nando's, Wagamama & more. Plus, use our free AI Recipe Generator to create personalized meal ideas in seconds.",
+    description: "Recreate UK restaurant favourites from Greggs, Nando's & Wagamama at home. Plus, use our free AI Recipe Generator for instant personalized meal ideas.",
   },
   twitter: {
     title: "UK Copycat Recipes & AI Recipe Generator | Bite Buddy",
-    description: "Recreate your favourite UK restaurant dishes from Greggs, Nando's, Wagamama & more. Plus, use our free AI Recipe Generator to create personalized meal ideas in seconds.",
+    description: "Recreate UK restaurant favourites from Greggs, Nando's & Wagamama at home. Plus, use our free AI Recipe Generator for instant personalized meal ideas.",
   },
 };
 
