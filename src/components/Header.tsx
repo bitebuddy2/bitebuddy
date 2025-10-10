@@ -8,6 +8,7 @@ import { User } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useSubscription } from "@/hooks/useSubscription";
 import { getUserAvatar } from "@/lib/getUserAvatar";
+import { useShoppingList } from "@/hooks/useShoppingList";
 
 const nav = [
   { href: "/about", label: "About Us" },
@@ -24,6 +25,7 @@ export default function Header() {
   const [user, setUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isPremium } = useSubscription();
+  const { items: shoppingListItems } = useShoppingList();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
@@ -63,19 +65,35 @@ export default function Header() {
     <>
     <header className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900 shadow-lg">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center">
-          <div className="h-12 w-12 rounded-full overflow-hidden bg-white ring-2 ring-emerald-400 flex items-center justify-center p-0.5">
-            <Image
-              src="/bigger-logo.svg"
-              alt="Bite Buddy"
-              width={44}
-              height={44}
-              priority
-              unoptimized
-              className="w-full h-full object-contain"
-            />
-          </div>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link href="/" className="flex items-center">
+            <div className="h-12 w-12 rounded-full overflow-hidden bg-white ring-2 ring-emerald-400 flex items-center justify-center p-0.5">
+              <Image
+                src="/bigger-logo.svg"
+                alt="Bite Buddy"
+                width={44}
+                height={44}
+                priority
+                unoptimized
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </Link>
+
+          {/* Shopping List Icon */}
+          <Link href="/shopping-list" className="relative group">
+            <div className="p-2 rounded-lg hover:bg-gray-800 transition-colors">
+              <svg className="w-6 h-6 text-gray-300 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+              </svg>
+              {shoppingListItems.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {shoppingListItems.length}
+                </span>
+              )}
+            </div>
+          </Link>
+        </div>
 
         {/* Mobile greeting - shown only on mobile when user is logged in */}
         {user && (

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useShoppingList } from "@/hooks/useShoppingList";
 
 export default function ShoppingListPage() {
-  const { items, loading, removeRecipe, clearAll, getConsolidatedIngredients } = useShoppingList();
+  const { items, loading, removeRecipe, clearAll, removeIngredientFromRecipe, removeIngredientGlobally, getConsolidatedIngredients } = useShoppingList();
 
   const consolidated = getConsolidatedIngredients();
 
@@ -38,7 +38,7 @@ export default function ShoppingListPage() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8">
+    <main className="mx-auto max-w-4xl px-4 py-8 shopping-list-print">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold">Shopping List</h1>
@@ -71,25 +71,49 @@ export default function ShoppingListPage() {
       {/* Consolidated ingredients */}
       <div className="bg-white rounded-lg border p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Ingredients</h2>
-        <ul className="space-y-3">
+        <ul className="space-y-4 ingredient-list">
           {consolidated.map((item, idx) => (
-            <li key={idx} className="flex items-start gap-3 pb-3 border-b last:border-b-0">
+            <li key={idx} className="flex items-start gap-3 pb-4 border-b last:border-b-0 ingredient-item">
               <input type="checkbox" className="mt-1 print:hidden" />
               <div className="flex-1">
-                <div className="font-medium">{item.name}</div>
+                <div className="font-semibold text-gray-900">{item.name}</div>
                 {item.quantities.length > 0 && (
-                  <div className="text-sm text-gray-600 mt-1">
-                    {item.quantities.map((q, qIdx) => (
-                      <div key={qIdx}>
-                        {q.quantity} {q.unit} <span className="text-gray-400">({q.from})</span>
-                      </div>
-                    ))}
+                  <div className="text-sm text-gray-600 mt-2 space-y-1 ingredient-quantities">
+                    {item.quantities.map((q, qIdx) => {
+                      // Find the recipe slug for this quantity
+                      const recipe = items.find(r => r.recipeTitle === q.from);
+                      return (
+                        <div key={qIdx} className="flex items-center justify-between gap-2">
+                          <span>
+                            {q.quantity} {q.unit} <span className="text-gray-400 recipe-source">({q.from})</span>
+                          </span>
+                          {recipe && (
+                            <button
+                              onClick={() => removeIngredientFromRecipe(item.name, recipe.recipeSlug)}
+                              className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-600 hover:text-white text-xl font-bold transition-colors print:hidden"
+                              title={`Remove from ${q.from}`}
+                            >
+                              ×
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
                 {item.notes.length > 0 && (
                   <div className="text-xs text-gray-500 mt-1">
                     {item.notes.join(" • ")}
                   </div>
+                )}
+                {/* Remove from All Recipes button */}
+                {item.quantities.length > 1 && (
+                  <button
+                    onClick={() => removeIngredientGlobally(item.name)}
+                    className="mt-2 text-xs text-red-600 hover:text-red-800 font-medium underline print:hidden"
+                  >
+                    Remove from All Recipes
+                  </button>
                 )}
               </div>
             </li>

@@ -67,6 +67,39 @@ export function useShoppingList() {
     return items.some((item) => item.recipeSlug === recipeSlug);
   };
 
+  // Remove a specific ingredient from a specific recipe
+  const removeIngredientFromRecipe = (ingredientName: string, recipeSlug: string) => {
+    setItems((prev) =>
+      prev
+        .map((recipe) => {
+          if (recipe.recipeSlug === recipeSlug) {
+            return {
+              ...recipe,
+              ingredients: recipe.ingredients.filter(
+                (ing) => ing.name.toLowerCase() !== ingredientName.toLowerCase()
+              ),
+            };
+          }
+          return recipe;
+        })
+        .filter((recipe) => recipe.ingredients.length > 0) // Remove recipes with no ingredients
+    );
+  };
+
+  // Remove an ingredient globally from all recipes
+  const removeIngredientGlobally = (ingredientName: string) => {
+    setItems((prev) =>
+      prev
+        .map((recipe) => ({
+          ...recipe,
+          ingredients: recipe.ingredients.filter(
+            (ing) => ing.name.toLowerCase() !== ingredientName.toLowerCase()
+          ),
+        }))
+        .filter((recipe) => recipe.ingredients.length > 0) // Remove recipes with no ingredients
+    );
+  };
+
   // Consolidate ingredients across all recipes
   const getConsolidatedIngredients = () => {
     const consolidated: Record<
@@ -115,6 +148,8 @@ export function useShoppingList() {
     removeRecipe,
     clearAll,
     hasRecipe,
+    removeIngredientFromRecipe,
+    removeIngredientGlobally,
     getConsolidatedIngredients,
   };
 }
