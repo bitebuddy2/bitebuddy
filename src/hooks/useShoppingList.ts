@@ -19,7 +19,7 @@ export function useShoppingList() {
   const [items, setItems] = useState<ShoppingListItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount and poll for changes
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -31,6 +31,25 @@ export function useShoppingList() {
     } finally {
       setLoading(false);
     }
+
+    // Poll localStorage every 500ms to detect changes from other components
+    const interval = setInterval(() => {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        const current = stored ? JSON.parse(stored) : [];
+        setItems((prev) => {
+          // Only update if actually different to avoid unnecessary re-renders
+          if (JSON.stringify(prev) !== JSON.stringify(current)) {
+            return current;
+          }
+          return prev;
+        });
+      } catch (e) {
+        console.error("Failed to poll shopping list:", e);
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
   }, []);
 
   // Save to localStorage whenever items change
