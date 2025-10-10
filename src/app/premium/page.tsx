@@ -133,6 +133,11 @@ export default function PremiumPage() {
                 <td className="px-6 py-4 text-center bg-emerald-50 text-emerald-700">✓</td>
               </tr>
               <tr>
+                <td className="px-6 py-4 font-medium text-gray-900">Shopping List Generator</td>
+                <td className="px-6 py-4 text-center text-emerald-600">✓</td>
+                <td className="px-6 py-4 text-center bg-emerald-50 text-emerald-700">✓</td>
+              </tr>
+              <tr>
                 <td className="px-6 py-4 font-medium text-gray-900">Ad-Free Experience</td>
                 <td className="px-6 py-4 text-center text-gray-400">✗</td>
                 <td className="px-6 py-4 text-center bg-emerald-50 text-emerald-700">✓</td>
