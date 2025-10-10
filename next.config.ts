@@ -19,6 +19,15 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/recipes/pret-a-manger-falafel-mezze-salad',
+        destination: '/recipes/pret-a-manger-humous-and-falafel-mezze-salad',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
 };
 
 // Sentry configuration options

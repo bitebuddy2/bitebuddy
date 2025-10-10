@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import RecipeCard from "@/components/RecipeCard";
+import TopSearch from "@/components/TopSearch";
 import { client } from "../../sanity/client";
 import { allRecipesForCardsQuery, allBrandsQuery, allCategoriesQuery } from "../../sanity/queries";
 
@@ -104,6 +105,11 @@ function RecipesContent() {
 
   return (
     <main className="mx-auto max-w-6xl">
+      {/* Search Bar */}
+      <div className="mb-6">
+        <TopSearch />
+      </div>
+
       {/* Standalone Banner */}
       <header className="p-4 mb-4 md:mb-6">
         <h1 className="text-4xl font-bold tracking-tight">All Recipes</h1>
