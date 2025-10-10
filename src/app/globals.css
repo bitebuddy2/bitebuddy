@@ -186,15 +186,23 @@ html {
   }
 
   /* Shopping List Compact Print Styles */
+  .shopping-list-print {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
   .shopping-list-print h1 {
     font-size: 18pt;
+    margin-top: 0 !important;
     margin-bottom: 0.3cm;
+    page-break-after: avoid;
   }
 
   .shopping-list-print h2 {
     font-size: 14pt;
     margin-top: 0.3cm;
     margin-bottom: 0.2cm;
+    page-break-after: avoid;
   }
 
   .shopping-list-print .ingredient-list {
@@ -202,6 +210,7 @@ html {
     column-gap: 1cm;
     font-size: 10pt;
     line-height: 1.2;
+    page-break-inside: auto !important; /* Override global ul setting */
   }
 
   .shopping-list-print .ingredient-item {
@@ -216,5 +225,10 @@ html {
   .shopping-list-print .ingredient-quantities {
     font-size: 9pt;
     color: #444;
+  }
+
+  /* Hide BiteBuddy footer for shopping lists */
+  .shopping-list-print:after {
+    display: none !important;
   }
 }
