@@ -422,3 +422,107 @@ export const communityRecipeBySlugQuery = groq/* groq */ `
   createdBy
 }
 `;
+
+// ✅ Get brand by slug
+export const brandBySlugQuery = groq/* groq */ `
+*[_type == "brand" && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  logo{
+    asset->{ url, metadata{ lqip } },
+    alt
+  }
+}
+`;
+
+// ✅ Get recipes by brand slug
+export const recipesByBrandQuery = groq/* groq */ `
+*[_type == "recipe" && brand->slug.current == $brandSlug] | order(_createdAt desc){
+  "slug": slug.current,
+  title,
+  description,
+  introText,
+  servings,
+  prepMin,
+  cookMin,
+  ratingSum,
+  ratingCount,
+  heroImage{
+    asset->{ url, metadata { lqip, dimensions } },
+    alt
+  },
+  brand->{
+    _id,
+    title,
+    "slug": slug.current,
+    logo{
+      asset->{ url, metadata { lqip } },
+      alt
+    }
+  },
+  categories[]->{
+    _id,
+    title,
+    "slug": slug.current
+  }
+}
+`;
+
+// ✅ Get category by slug
+export const categoryBySlugQuery = groq/* groq */ `
+*[_type == "category" && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  description
+}
+`;
+
+// ✅ Get recipes by category slug
+export const recipesByCategoryQuery = groq/* groq */ `
+*[_type == "recipe" && references(*[_type == "category" && slug.current == $categorySlug][0]._id)] | order(_createdAt desc){
+  "slug": slug.current,
+  title,
+  description,
+  introText,
+  servings,
+  prepMin,
+  cookMin,
+  ratingSum,
+  ratingCount,
+  heroImage{
+    asset->{ url, metadata { lqip, dimensions } },
+    alt
+  },
+  brand->{
+    _id,
+    title,
+    "slug": slug.current,
+    logo{
+      asset->{ url, metadata { lqip } },
+      alt
+    }
+  },
+  categories[]->{
+    _id,
+    title,
+    "slug": slug.current
+  }
+}
+`;
+
+// ✅ Get all brand slugs for generateStaticParams
+export const brandSlugsQuery = groq/* groq */ `
+*[_type == "brand" && defined(slug.current)][]{
+  "slug": slug.current
+}
+`;
+
+// ✅ Get all category slugs for generateStaticParams
+export const categorySlugsQuery = groq/* groq */ `
+*[_type == "category" && defined(slug.current)][]{
+  "slug": slug.current
+}
+`;

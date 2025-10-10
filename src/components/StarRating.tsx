@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { trackRateRecipe } from "@/lib/analytics";
 
 type Props = {
   recipeId: string;
   ratingSum?: number;
   ratingCount?: number;
   slug?: string; // for localStorage key
+  recipeTitle?: string; // for analytics tracking
 };
 
-export default function StarRating({ recipeId, ratingSum = 0, ratingCount = 0, slug }: Props) {
+export default function StarRating({ recipeId, ratingSum = 0, ratingCount = 0, slug, recipeTitle }: Props) {
   const average = useMemo(
     () => (ratingCount > 0 ? ratingSum / ratingCount : 0),
     [ratingSum, ratingCount]
@@ -41,6 +43,15 @@ export default function StarRating({ recipeId, ratingSum = 0, ratingCount = 0, s
       setCount(data.ratingCount);
       localStorage.setItem(storageKey, "1");
       setHasRated(true);
+
+      // Track rating event in analytics
+      if (slug) {
+        trackRateRecipe({
+          recipe_slug: slug,
+          recipe_title: recipeTitle,
+          rating: stars,
+        });
+      }
     } catch (e) {
       console.error(e);
       // Optionally show a toast

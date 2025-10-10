@@ -14,6 +14,9 @@ import SaveButton from "@/components/SaveButton";
 import AffiliateButton from "@/components/AffiliateButton";
 import AdPlaceholder from "@/components/AdPlaceholder";
 import CommentSection from "@/components/CommentSection";
+import RecipeViewTracker from "@/components/RecipeViewTracker";
+import PrintButton from "@/components/PrintButton";
+import { supabase } from "@/lib/supabase";
 
 // 👇 use ONE of these imports depending on which fix you chose:
 // Option A: relative import (quick fix)
@@ -152,6 +155,12 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
   if (!recipe) notFound();
 
+  // Get save count for social proof
+  const { count: saveCount } = await supabase
+    .from("saved_recipes")
+    .select("*", { count: "exact", head: true })
+    .eq("recipe_slug", recipe.slug);
+
   const {
     title, description, heroImage, servings, prepMin, cookMin,
     introText, brandContext, ingredients, steps, tips, faqs, nutrition, categories
@@ -208,6 +217,14 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8">
+      {/* Track recipe view for analytics */}
+      <RecipeViewTracker
+        recipeSlug={recipe.slug}
+        recipeTitle={recipe.title}
+        brand={recipe.brand?.title}
+        categories={recipe.categories?.map((c: any) => c.title)}
+      />
+
       <Link href="/recipes" className="text-sm text-emerald-700 underline">
         ← Back to all recipes
       </Link>
@@ -268,6 +285,20 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
       {description && <p className="mt-2 text-gray-700">{description}</p>}
 
+      {/* Social proof - save count */}
+      {saveCount !== null && saveCount > 0 && (
+        <div className="mt-3 flex items-center gap-2">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200 px-3 py-1.5 text-sm">
+            <svg className="w-4 h-4 text-rose-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+            </svg>
+            <span className="font-medium text-rose-900">
+              Saved by <strong>{saveCount}</strong> {saveCount === 1 ? 'person' : 'people'}
+            </span>
+          </div>
+        </div>
+      )}
+
       {categories && categories.length > 0 && (
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {categories.map((category: any) => (
@@ -290,16 +321,32 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <ShareRow title={recipe.title} url={`${SITE_URL}/recipes/${recipe.slug}`} />
-        <SaveButton recipeSlug={recipe.slug} />
+        <SaveButton recipeSlug={recipe.slug} recipeTitle={recipe.title} />
+        <PrintButton
+          recipeSlug={recipe.slug}
+          recipeTitle={recipe.title}
+          brand={recipe.brand?.title}
+        />
       </div>
 
-      <div className="mt-4">
-        <StarRating
-          recipeId={recipe._id}
-          ratingSum={recipe.ratingSum || 0}
-          ratingCount={recipe.ratingCount || 0}
-          slug={recipe.slug}
-        />
+      {/* Rate This Recipe CTA */}
+      <div className="mt-6 rounded-lg bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 p-5">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 text-3xl">⭐</div>
+          <div className="flex-1">
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">Rate This Recipe</h2>
+            <p className="text-sm text-gray-700 mb-3">
+              Tried this recipe? Your rating helps others discover great dishes and appears in Google search results!
+            </p>
+            <StarRating
+              recipeId={recipe._id}
+              ratingSum={recipe.ratingSum || 0}
+              ratingCount={recipe.ratingCount || 0}
+              slug={recipe.slug}
+              recipeTitle={recipe.title}
+            />
+          </div>
+        </div>
       </div>
 
       {heroUrl ? (

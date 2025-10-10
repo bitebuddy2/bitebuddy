@@ -73,3 +73,106 @@ export function trackGenerateAIRecipe(params: {
     diet: params.diet,
   });
 }
+
+/**
+ * Track recipe page views to identify popular recipes
+ */
+export function trackRecipeView(params: {
+  recipe_slug: string;
+  recipe_title: string;
+  brand?: string;
+  categories?: string[];
+}) {
+  trackEvent('view_recipe', {
+    recipe_slug: params.recipe_slug,
+    recipe_title: params.recipe_title,
+    brand: params.brand,
+    categories: params.categories?.join(', '),
+  });
+}
+
+/**
+ * Track when a user rates a recipe
+ */
+export function trackRateRecipe(params: {
+  recipe_slug: string;
+  recipe_title?: string;
+  rating: number;
+}) {
+  trackEvent('rate_recipe', {
+    recipe_slug: params.recipe_slug,
+    recipe_title: params.recipe_title,
+    rating: params.rating,
+  });
+}
+
+/**
+ * Track when a user prints a recipe
+ */
+export function trackPrintRecipe(params: {
+  recipe_slug: string;
+  recipe_title: string;
+  brand?: string;
+}) {
+  trackEvent('print_recipe', {
+    recipe_slug: params.recipe_slug,
+    recipe_title: params.recipe_title,
+    brand: params.brand,
+  });
+}
+
+/**
+ * Track shopping list generation from recipe
+ */
+export function trackGenerateShoppingList(params: {
+  recipe_slugs: string[];
+  recipe_count: number;
+}) {
+  trackEvent('generate_shopping_list', {
+    recipe_slugs: params.recipe_slugs.join(', '),
+    recipe_count: params.recipe_count,
+  });
+}
+
+/**
+ * Track cooking guide views
+ */
+export function trackViewCookingGuide(params: {
+  guide_slug: string;
+  guide_title: string;
+}) {
+  trackEvent('view_cooking_guide', {
+    guide_slug: params.guide_slug,
+    guide_title: params.guide_title,
+  });
+}
+
+/**
+ * Track brand landing page views
+ */
+export function trackViewBrandPage(params: {
+  brand_slug: string;
+  brand_title: string;
+  recipe_count: number;
+}) {
+  trackEvent('view_brand_page', {
+    brand_slug: params.brand_slug,
+    brand_title: params.brand_title,
+    recipe_count: params.recipe_count,
+  });
+}
+
+/**
+ * Track category landing page views
+ */
+export function trackViewCategoryPage(params: {
+  category_slug: string;
+  category_title: string;
+  recipe_count: number;
+}) {
+  trackEvent('view_category_page', {
+    category_slug: params.category_slug,
+    category_title: params.category_title,
+    recipe_count: params.recipe_count,
+  });
+}

@@ -52,3 +52,136 @@ html {
     scroll-behavior: auto;
   }
 }
+
+/* Print styles for recipe pages */
+@media print {
+  /* Hide non-essential elements */
+  header,
+  nav,
+  footer,
+  .print\\:hidden,
+  button:not(.print-show),
+  [aria-label="Share on social media"],
+  aside,
+  script,
+  noscript {
+    display: none !important;
+  }
+
+  /* Page setup */
+  @page {
+    margin: 1.5cm;
+    size: A4 portrait;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* Recipe title */
+  h1 {
+    font-size: 24pt;
+    margin-bottom: 0.5cm;
+    color: black;
+    page-break-after: avoid;
+  }
+
+  /* Recipe metadata (servings, prep time, etc.) */
+  h2 {
+    font-size: 16pt;
+    margin-top: 0.5cm;
+    margin-bottom: 0.25cm;
+    color: black;
+    page-break-after: avoid;
+  }
+
+  /* Prevent page breaks inside critical sections */
+  .rounded-2xl,
+  section,
+  ul,
+  ol,
+  table {
+    page-break-inside: avoid;
+  }
+
+  /* Image optimization for print */
+  img {
+    max-width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  /* Ingredients and method sections */
+  .grid {
+    display: block !important;
+  }
+
+  .grid > section {
+    margin-bottom: 0.5cm;
+  }
+
+  /* Lists */
+  ul,
+  ol {
+    margin-left: 0.5cm;
+  }
+
+  li {
+    margin-bottom: 0.15cm;
+  }
+
+  /* Links - show URL after text */
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+    color: #666;
+  }
+
+  /* Remove link styling for internal navigation */
+  a {
+    color: black;
+    text-decoration: none;
+  }
+
+  /* Borders and backgrounds - simplify for print */
+  * {
+    border-color: #333 !important;
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  /* Tables (for nutrition info) */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 0.25cm;
+  }
+
+  th,
+  td {
+    border: 1px solid #333;
+    padding: 0.2cm;
+    text-align: left;
+  }
+
+  /* Add BiteBuddy footer on print */
+  main:after {
+    content: "Recipe from BiteBuddy.co.uk";
+    display: block;
+    margin-top: 1cm;
+    padding-top: 0.5cm;
+    border-top: 1px solid #ccc;
+    font-size: 10pt;
+    color: #666;
+    text-align: center;
+  }
+}
