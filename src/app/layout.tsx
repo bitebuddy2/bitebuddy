@@ -96,6 +96,49 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8361515961087484"
           crossOrigin="anonymous"
         />
+        {/* JSON-LD: Organization Schema - helps establish brand identity with Google */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: SITE.name,
+              alternateName: "Bite Buddy UK",
+              url: SITE.url,
+              logo: `${SITE.url}/logo.png`,
+              description: "UK copycat recipes from your favourite restaurants and brands. Easy, tested recipes you can make at home.",
+              sameAs: [
+                SITE.twitter ? `https://twitter.com/${SITE.twitter.replace('@', '')}` : null,
+              ].filter(Boolean),
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "Customer Service",
+                url: `${SITE.url}/contact`,
+              },
+            }),
+          }}
+        />
+        {/* JSON-LD: WebSite Schema - enables Google sitelinks search box */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: SITE.name,
+              url: SITE.url,
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: `${SITE.url}/search?q={search_term_string}`,
+                },
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-900 bg-green-50 pb-20`}

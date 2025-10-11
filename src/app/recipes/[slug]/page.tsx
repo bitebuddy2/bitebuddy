@@ -565,6 +565,27 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
           }),
         }}
       />
+
+      {/* JSON-LD: FAQ Schema - helps with featured snippets in Google */}
+      {faqs && faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: faqs.map((faq: { question: string; answer: string }) => ({
+                "@type": "Question",
+                name: faq.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: faq.answer,
+                },
+              })),
+            }),
+          }}
+        />
+      )}
     </main>
   );
 }

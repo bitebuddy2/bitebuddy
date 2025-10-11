@@ -278,6 +278,21 @@ export const allBrandsQuery = groq/* groq */ `
 }
 `;
 
+// ✅ Get all brands with recipe counts for the brands listing page
+export const allBrandsWithRecipeCountQuery = groq/* groq */ `
+*[_type == "brand"] | order(title asc){
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  logo{
+    asset->{ url, metadata{ lqip } },
+    alt
+  },
+  "recipeCount": count(*[_type == "recipe" && references(^._id)])
+}
+`;
+
 // ✅ Get all categories for filtering
 export const allCategoriesQuery = groq/* groq */ `
 *[_type == "category"] | order(title asc){
