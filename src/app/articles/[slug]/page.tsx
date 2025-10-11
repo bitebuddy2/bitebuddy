@@ -10,6 +10,8 @@ import { articleBySlugQuery, articleSlugsQuery, relatedArticlesQuery } from "@/s
 import ShareRow from "@/components/ShareRow";
 import ArticleCard from "@/components/ArticleCard";
 import AdPlaceholder from "@/components/AdPlaceholder";
+import ArticleRecipeCard from "@/components/ArticleRecipeCard";
+import ArticleProductCard from "@/components/ArticleProductCard";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bitebuddy.co.uk";
 
@@ -220,9 +222,85 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <PortableText
           value={article.content}
           components={{
+            block: {
+              h2: ({ children }: any) => (
+                <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6 pb-3 border-b-2 border-emerald-600">
+                  {children}
+                </h2>
+              ),
+              h3: ({ children }: any) => (
+                <h3 className="text-2xl font-bold text-gray-900 mt-10 mb-4 flex items-center gap-3">
+                  <span className="w-1 h-8 bg-emerald-600 rounded-full"></span>
+                  {children}
+                </h3>
+              ),
+              h4: ({ children }: any) => (
+                <h4 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
+                  {children}
+                </h4>
+              ),
+              blockquote: ({ children }: any) => (
+                <blockquote className="border-l-4 border-emerald-600 pl-6 py-2 my-8 bg-emerald-50 rounded-r-lg italic text-gray-700">
+                  {children}
+                </blockquote>
+              ),
+              normal: ({ children }: any) => (
+                <p className="text-gray-700 leading-relaxed mb-6">
+                  {children}
+                </p>
+              ),
+            },
+            list: {
+              bullet: ({ children }: any) => (
+                <ul className="space-y-3 my-6 ml-6">
+                  {children}
+                </ul>
+              ),
+              number: ({ children }: any) => (
+                <ol className="space-y-3 my-6 ml-6 list-decimal">
+                  {children}
+                </ol>
+              ),
+            },
+            listItem: {
+              bullet: ({ children }: any) => (
+                <li className="flex items-start gap-3">
+                  <span className="text-emerald-600 text-xl leading-none mt-1">•</span>
+                  <span className="flex-1">{children}</span>
+                </li>
+              ),
+              number: ({ children }: any) => (
+                <li className="text-gray-700 ml-2">
+                  {children}
+                </li>
+              ),
+            },
+            marks: {
+              strong: ({ children }: any) => (
+                <strong className="font-bold text-gray-900">{children}</strong>
+              ),
+              em: ({ children }: any) => (
+                <em className="italic text-gray-700">{children}</em>
+              ),
+              code: ({ children }: any) => (
+                <code className="bg-gray-100 text-emerald-700 px-2 py-1 rounded text-sm font-mono">
+                  {children}
+                </code>
+              ),
+              link: ({ children, value }: any) => (
+                <a
+                  href={value?.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-600 hover:text-emerald-700 underline font-medium"
+                >
+                  {children}
+                </a>
+              ),
+            },
             types: {
               image: ({ value }: any) => (
-                <div className="relative my-8 rounded-lg overflow-hidden">
+                <div className="relative my-8 rounded-lg overflow-hidden shadow-md">
                   <Image
                     src={value.asset.url}
                     alt={value.alt || "Article image"}
@@ -231,8 +309,45 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     className="w-full"
                   />
                   {value.caption && (
-                    <p className="text-center text-sm text-gray-600 mt-2">{value.caption}</p>
+                    <p className="text-center text-sm text-gray-600 mt-3 italic">{value.caption}</p>
                   )}
+                </div>
+              ),
+              table: ({ value }: any) => (
+                <div className="my-8 overflow-x-auto">
+                  {value.caption && (
+                    <p className="text-sm font-semibold text-gray-700 mb-3">{value.caption}</p>
+                  )}
+                  <table className="min-w-full border-collapse border border-gray-300 shadow-sm">
+                    {value.hasHeader && value.rows?.length > 0 && (
+                      <thead>
+                        <tr className="bg-emerald-600">
+                          {value.rows[0].cells?.map((cell: string, idx: number) => (
+                            <th
+                              key={idx}
+                              className="border border-emerald-700 px-6 py-3 text-left text-sm font-bold text-white"
+                            >
+                              {cell}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                    )}
+                    <tbody>
+                      {value.rows?.slice(value.hasHeader ? 1 : 0).map((row: any, rowIdx: number) => (
+                        <tr key={rowIdx} className={rowIdx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                          {row.cells?.map((cell: string, cellIdx: number) => (
+                            <td
+                              key={cellIdx}
+                              className="border border-gray-300 px-6 py-4 text-sm text-gray-700"
+                            >
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               ),
             },
@@ -255,6 +370,34 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </span>
           ))}
         </div>
+      )}
+
+      {/* Featured Recipes */}
+      {article.relatedRecipes && article.relatedRecipes.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">Recipes Featured in This Article</h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {article.relatedRecipes.map((recipe: any) => (
+              <ArticleRecipeCard key={recipe._id} recipe={recipe} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Affiliate Products */}
+      {article.affiliateProducts && article.affiliateProducts.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">Recommended Products</h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {article.affiliateProducts.map((product: any) => (
+              <ArticleProductCard key={product._id} product={product} />
+            ))}
+          </div>
+          <p className="text-sm text-gray-600 mt-4 italic">
+            We may earn a commission from purchases made through these links at no extra cost to you.
+            This helps us continue creating great content for you!
+          </p>
+        </section>
       )}
 
       {/* Bottom Ad - Before Related Articles */}

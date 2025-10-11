@@ -670,7 +670,49 @@ export const articleBySlugQuery = groq/* groq */ `
     bio
   },
   seoTitle,
-  seoDescription
+  seoDescription,
+  relatedRecipes[]->{
+    _id,
+    _type,
+    title,
+    "slug": slug.current,
+    description,
+    introText,
+    servings,
+    prepMin,
+    cookMin,
+    ratingSum,
+    ratingCount,
+    heroImage{
+      asset->{ url, metadata{ lqip, dimensions } },
+      alt
+    },
+    brand->{
+      _id,
+      title,
+      "slug": slug.current,
+      logo{
+        asset->{ url, metadata{ lqip } },
+        alt
+      }
+    },
+    createdBy
+  },
+  affiliateProducts[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    description,
+    image{
+      asset->{ url, metadata{ lqip, dimensions } },
+      alt
+    },
+    category,
+    price,
+    affiliateLink,
+    retailer,
+    rating
+  }
 }
 `;
 

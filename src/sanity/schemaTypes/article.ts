@@ -80,9 +80,9 @@ export default defineType({
           type: "block",
           styles: [
             { title: "Normal", value: "normal" },
-            { title: "H2", value: "h2" },
-            { title: "H3", value: "h3" },
-            { title: "H4", value: "h4" },
+            { title: "Heading 2", value: "h2" },
+            { title: "Heading 3", value: "h3" },
+            { title: "Heading 4", value: "h4" },
             { title: "Quote", value: "blockquote" },
           ],
           lists: [
@@ -124,6 +124,44 @@ export default defineType({
               name: "caption",
               type: "string",
               title: "Caption",
+            },
+          ],
+        },
+        {
+          type: "object",
+          name: "table",
+          title: "Table",
+          fields: [
+            {
+              name: "caption",
+              type: "string",
+              title: "Caption",
+              description: "Optional table caption",
+            },
+            {
+              name: "rows",
+              type: "array",
+              title: "Table Rows",
+              of: [
+                {
+                  type: "object",
+                  name: "tableRow",
+                  fields: [
+                    {
+                      name: "cells",
+                      type: "array",
+                      title: "Cells",
+                      of: [{ type: "string" }],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: "hasHeader",
+              type: "boolean",
+              title: "First row is header",
+              initialValue: true,
             },
           ],
         },
@@ -175,6 +213,30 @@ export default defineType({
       description: "Meta description for search engines (120-160 characters)",
       rows: 3,
       validation: (Rule) => Rule.max(170),
+    }),
+    defineField({
+      name: "relatedRecipes",
+      title: "Related Recipes",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "recipe" }, { type: "communityRecipe" }],
+        },
+      ],
+      description: "Link recipes mentioned or featured in this article",
+    }),
+    defineField({
+      name: "affiliateProducts",
+      title: "Affiliate Products",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "product" }],
+        },
+      ],
+      description: "Link affiliate products mentioned in this article",
     }),
   ],
   preview: {
