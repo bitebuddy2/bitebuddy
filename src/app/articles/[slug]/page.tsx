@@ -9,6 +9,7 @@ import { client } from "@/sanity/client";
 import { articleBySlugQuery, articleSlugsQuery, relatedArticlesQuery } from "@/sanity/queries";
 import ShareRow from "@/components/ShareRow";
 import ArticleCard from "@/components/ArticleCard";
+import AdPlaceholder from "@/components/AdPlaceholder";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bitebuddy.co.uk";
 
@@ -196,6 +197,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <ShareRow title={article.title} url={`${SITE_URL}/articles/${article.slug}`} />
       </div>
 
+      {/* Top Ad - After Share Row */}
+      <div className="mb-8">
+        <AdPlaceholder size="leaderboard" />
+      </div>
+
       {/* Hero Image */}
       {article.heroImage?.asset?.url && (
         <div className="relative aspect-[16/9] mb-8 rounded-2xl overflow-hidden">
@@ -234,6 +240,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         />
       </article>
 
+      {/* Mid-Content Ad - After Article Content */}
+      <div className="mb-12">
+        <AdPlaceholder size="rectangle" className="mx-auto" />
+      </div>
+
       {/* Tags */}
       {article.tags && article.tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-12 pb-8 border-b">
@@ -245,6 +256,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           ))}
         </div>
       )}
+
+      {/* Bottom Ad - Before Related Articles */}
+      <div className="mb-12">
+        <AdPlaceholder size="leaderboard" />
+      </div>
 
       {/* Related Articles */}
       {relatedArticles.length > 0 && (

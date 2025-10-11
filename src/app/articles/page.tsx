@@ -6,6 +6,7 @@ import { client } from "@/sanity/client";
 import { allArticlesQuery } from "@/sanity/queries";
 import ArticleCard from "@/components/ArticleCard";
 import ArticleSearch from "@/components/ArticleSearch";
+import AdPlaceholder from "@/components/AdPlaceholder";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bitebuddy.co.uk";
 
@@ -90,6 +91,11 @@ function ArticlesContent() {
         <ArticleSearch />
       </div>
 
+      {/* Top Leaderboard Ad */}
+      <div className="px-4">
+        <AdPlaceholder size="leaderboard" className="mb-6" />
+      </div>
+
       <div className="px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold tracking-tight mb-2">Food & Cooking Articles</h1>
@@ -126,11 +132,26 @@ function ArticlesContent() {
             <section className="mb-12">
               <h2 className="text-2xl font-bold mb-6">Featured Articles</h2>
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {featuredArticles.map((article) => (
-                  <ArticleCard key={article._id} article={article} />
+                {featuredArticles.map((article, index) => (
+                  <React.Fragment key={article._id}>
+                    <ArticleCard article={article} />
+                    {/* Ad after every 3rd featured article */}
+                    {(index + 1) % 3 === 0 && index !== featuredArticles.length - 1 && (
+                      <div className="md:col-span-2 lg:col-span-3">
+                        <AdPlaceholder size="banner" className="my-4" />
+                      </div>
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
             </section>
+          )}
+
+          {/* Mid-Content Ad (between featured and regular) */}
+          {featuredArticles.length > 0 && regularArticles.length > 0 && (
+            <div className="mb-12">
+              <AdPlaceholder size="leaderboard" />
+            </div>
           )}
 
           {/* Regular Articles */}
@@ -140,8 +161,16 @@ function ArticlesContent() {
                 <h2 className="text-2xl font-bold mb-6">Latest Articles</h2>
               )}
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {regularArticles.map((article) => (
-                  <ArticleCard key={article._id} article={article} />
+                {regularArticles.map((article, index) => (
+                  <React.Fragment key={article._id}>
+                    <ArticleCard article={article} />
+                    {/* Ad after every 6th regular article */}
+                    {(index + 1) % 6 === 0 && index !== regularArticles.length - 1 && (
+                      <div className="md:col-span-2 lg:col-span-3">
+                        <AdPlaceholder size="banner" className="my-4" />
+                      </div>
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
             </section>
