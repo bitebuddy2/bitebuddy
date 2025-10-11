@@ -3,7 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import { User } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useSubscription } from "@/hooks/useSubscription";
@@ -19,6 +20,110 @@ const nav = [
   { href: "/ai-recipe-generator", label: "AI Recipe Generator" },
   { href: "/products", label: "Products" },
 ];
+
+function RecipesDropdown({ pathname }: { pathname: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout>();
+
+  // Calculate dropdown position
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY + 8,
+        left: rect.left + window.scrollX,
+      });
+    }
+  }, [isOpen]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 150);
+  };
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <button
+        ref={buttonRef}
+        className={`text-sm hover:text-emerald-400 transition-colors flex items-center gap-1 ${
+          pathname === "/recipes" || pathname === "/community-recipes"
+            ? "font-semibold text-white"
+            : "text-gray-300"
+        }`}
+      >
+        Recipes
+        <svg
+          className={`w-3 h-3 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isOpen &&
+        typeof window !== "undefined" &&
+        createPortal(
+          <div
+            className="fixed w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden"
+            style={{
+              top: `${dropdownPosition.top}px`,
+              left: `${dropdownPosition.left}px`,
+              zIndex: 9999,
+            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <Link
+              href="/recipes"
+              className={`block px-4 py-3 text-sm hover:bg-gray-700 transition-colors ${
+                pathname === "/recipes" ? "font-semibold text-white bg-gray-700" : "text-gray-300"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              Regular Recipes
+            </Link>
+            <div className="h-px bg-gray-700" />
+            <Link
+              href="/community-recipes"
+              className={`block px-4 py-3 text-sm hover:bg-gray-700 transition-colors ${
+                pathname === "/community-recipes"
+                  ? "font-semibold text-white bg-gray-700"
+                  : "text-gray-300"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              Community Recipes
+            </Link>
+          </div>,
+          document.body
+        )}
+    </div>
+  );
+}
 
 export default function Header() {
   const pathname = usePathname();
@@ -119,17 +224,22 @@ export default function Header() {
         )}
 
         <nav className="hidden md:flex items-center gap-4">
-          {nav.map((n) => (
-            <Link
-              key={n.href}
-              href={n.href}
-              className={`text-sm hover:text-emerald-400 transition-colors ${
-                pathname === n.href ? "font-semibold text-white" : "text-gray-300"
-              }`}
-            >
-              {n.label}
-            </Link>
-          ))}
+          {nav
+            .filter((n) => n.href !== "/recipes" && n.href !== "/community-recipes")
+            .map((n) => (
+              <Link
+                key={n.href}
+                href={n.href}
+                className={`text-sm hover:text-emerald-400 transition-colors ${
+                  pathname === n.href ? "font-semibold text-white" : "text-gray-300"
+                }`}
+              >
+                {n.label}
+              </Link>
+            ))}
+
+          {/* Recipes Dropdown */}
+          <RecipesDropdown pathname={pathname} />
           {!isPremium && (
             <Link
               href="/premium"

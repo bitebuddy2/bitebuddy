@@ -333,6 +333,26 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
           recipeTitle={recipe.title}
           ingredients={recipe.ingredients || []}
         />
+        {recipe.brand && (
+          <Link
+            href={`/recipes/brands/${recipe.brand.slug}`}
+            className="inline-flex items-center gap-2 rounded-lg border-2 border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-all hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-700"
+          >
+            {recipe.brand.logo?.asset?.url && (
+              <Image
+                src={recipe.brand.logo.asset.url}
+                alt={recipe.brand.logo.alt || recipe.brand.title}
+                width={20}
+                height={20}
+                className="object-contain"
+              />
+            )}
+            <span>More {recipe.brand.title} Recipes</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        )}
       </div>
 
       {/* Rate This Recipe CTA */}
