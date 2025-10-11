@@ -15,7 +15,6 @@ const nav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/recipes", label: "Recipes" },
-  { href: "/community-recipes", label: "Community Recipes" },
   { href: "/articles", label: "Articles" },
   { href: "/search", label: "Ingredient Search" },
   { href: "/ai-recipe-generator", label: "AI Recipe Generator" },
@@ -245,7 +244,7 @@ export default function Header() {
 
           {/* Articles and remaining links */}
           {nav
-            .filter((n) => !["/", "/about", "/recipes", "/community-recipes"].includes(n.href))
+            .filter((n) => !["/", "/about", "/recipes"].includes(n.href))
             .map((n) => (
               <Link
                 key={n.href}
@@ -385,6 +384,18 @@ export default function Header() {
               {n.label}
             </Link>
           ))}
+
+          {/* Community Recipes - separate link for mobile only */}
+          <Link
+            href="/community-recipes"
+            className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              pathname === '/community-recipes'
+                ? 'bg-emerald-600 text-white'
+                : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+            }`}
+          >
+            Community Recipes
+          </Link>
 
           {/* Divider */}
           <div className="border-t border-gray-700 my-2" />
