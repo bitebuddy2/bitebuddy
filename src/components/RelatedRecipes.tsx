@@ -21,6 +21,8 @@ type RelatedRecipe = {
   categories?: Array<{
     _id: string;
     title: string;
+    slug: string;
+    description?: string;
   }>;
   ratingSum?: number;
   ratingCount?: number;
