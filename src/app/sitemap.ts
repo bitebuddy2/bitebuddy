@@ -4,7 +4,7 @@ import { SITE } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all content types in parallel
-  const [recipes, brands, categories, communityRecipes, guides] = await Promise.all([
+  const [recipes, brands, categories, communityRecipes, guides, articles] = await Promise.all([
     client.fetch<{ slug: { current: string }; _updatedAt: string }[]>(
       `*[_type=="recipe" && defined(slug.current)]{ "slug": slug, _updatedAt }`
     ),
@@ -20,6 +20,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     client.fetch<{ slug: { current: string }; _updatedAt: string }[]>(
       `*[_type=="guide" && defined(slug.current)]{ "slug": slug, _updatedAt }`
     ),
+    client.fetch<{ slug: { current: string }; _updatedAt: string }[]>(
+      `*[_type=="article" && defined(slug.current)]{ "slug": slug, _updatedAt }`
+    ),
   ]);
 
   const staticUrls: MetadataRoute.Sitemap = [
@@ -28,6 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/recipes`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE.url}/recipes/brands`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
     { url: `${SITE.url}/community-recipes`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.85 },
+    { url: `${SITE.url}/articles`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.85 },
     { url: `${SITE.url}/guides`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE.url}/search`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE.url}/products`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
@@ -78,5 +82,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     })) || [];
 
-  return [...staticUrls, ...recipeUrls, ...brandUrls, ...categoryUrls, ...communityRecipeUrls, ...guideUrls];
+  const articleUrls: MetadataRoute.Sitemap =
+    articles.map((a) => ({
+      url: `${SITE.url}/articles/${a.slug.current}`,
+      lastModified: new Date(a._updatedAt),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    })) || [];
+
+  return [...staticUrls, ...recipeUrls, ...brandUrls, ...categoryUrls, ...communityRecipeUrls, ...guideUrls, ...articleUrls];
 }

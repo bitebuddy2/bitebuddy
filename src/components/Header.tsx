@@ -16,6 +16,7 @@ const nav = [
   { href: "/about", label: "About Us" },
   { href: "/recipes", label: "Recipes" },
   { href: "/community-recipes", label: "Community Recipes" },
+  { href: "/articles", label: "Articles" },
   { href: "/search", label: "Ingredient Search" },
   { href: "/ai-recipe-generator", label: "AI Recipe Generator" },
   { href: "/products", label: "Products" },
@@ -224,8 +225,9 @@ export default function Header() {
         )}
 
         <nav className="hidden md:flex items-center gap-4">
+          {/* Home and About Us */}
           {nav
-            .filter((n) => n.href !== "/recipes" && n.href !== "/community-recipes")
+            .filter((n) => ["/", "/about"].includes(n.href))
             .map((n) => (
               <Link
                 key={n.href}
@@ -240,6 +242,21 @@ export default function Header() {
 
           {/* Recipes Dropdown */}
           <RecipesDropdown pathname={pathname} />
+
+          {/* Articles and remaining links */}
+          {nav
+            .filter((n) => !["/", "/about", "/recipes", "/community-recipes"].includes(n.href))
+            .map((n) => (
+              <Link
+                key={n.href}
+                href={n.href}
+                className={`text-sm hover:text-emerald-400 transition-colors ${
+                  pathname === n.href ? "font-semibold text-white" : "text-gray-300"
+                }`}
+              >
+                {n.label}
+              </Link>
+            ))}
           {!isPremium && (
             <Link
               href="/premium"

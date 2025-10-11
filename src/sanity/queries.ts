@@ -602,3 +602,97 @@ export const guideSlugsQuery = groq/* groq */ `
   "slug": slug.current
 }
 `;
+
+// ✅ Get all articles for listing page
+export const allArticlesQuery = groq/* groq */ `
+*[_type == "article"] | order(publishedAt desc){
+  _id,
+  title,
+  "slug": slug.current,
+  excerpt,
+  category,
+  tags,
+  publishedAt,
+  featured,
+  heroImage{
+    asset->{ url, metadata{ lqip, dimensions } },
+    alt
+  },
+  author{
+    name
+  }
+}
+`;
+
+// ✅ Get articles by category
+export const articlesByCategoryQuery = groq/* groq */ `
+*[_type == "article" && category == $category] | order(publishedAt desc){
+  _id,
+  title,
+  "slug": slug.current,
+  excerpt,
+  category,
+  tags,
+  publishedAt,
+  heroImage{
+    asset->{ url, metadata{ lqip, dimensions } },
+    alt
+  },
+  author{
+    name
+  }
+}
+`;
+
+// ✅ Get article by slug
+export const articleBySlugQuery = groq/* groq */ `
+*[_type == "article" && slug.current == $slug][0]{
+  _id,
+  _createdAt,
+  _updatedAt,
+  title,
+  "slug": slug.current,
+  excerpt,
+  category,
+  tags,
+  publishedAt,
+  content,
+  heroImage{
+    asset->{
+      _id,
+      url,
+      metadata { lqip, dimensions }
+    },
+    alt
+  },
+  author{
+    name,
+    bio
+  },
+  seoTitle,
+  seoDescription
+}
+`;
+
+// ✅ Get all article slugs for generateStaticParams
+export const articleSlugsQuery = groq/* groq */ `
+*[_type == "article" && defined(slug.current)][]{
+  "slug": slug.current
+}
+`;
+
+// ✅ Get related articles (same category, exclude current)
+export const relatedArticlesQuery = groq/* groq */ `
+*[_type == "article" && category == $category && slug.current != $currentSlug] | order(publishedAt desc)[0...3]{
+  _id,
+  title,
+  "slug": slug.current,
+  excerpt,
+  category,
+  publishedAt,
+  heroImage{
+    asset->{ url, metadata{ lqip } },
+    alt
+  }
+}
+`;
