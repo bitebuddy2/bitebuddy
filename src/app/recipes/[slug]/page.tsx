@@ -239,14 +239,6 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
             worstRating: "1",
           }
         : undefined,
-    video: recipe.videoUrl ? {
-      "@type": "VideoObject",
-      name: recipe.title,
-      description: recipe.description || recipe.introText,
-      thumbnailUrl: recipe.heroImage?.asset?.url,
-      contentUrl: recipe.videoUrl,
-      uploadDate: (recipe as any)._createdAt,
-    } : undefined,
     isAccessibleForFree: true,
     suitableForDiet: recipe.categories?.some((c: any) => c.title.toLowerCase().includes('vegan')) ? "https://schema.org/VeganDiet" :
                       recipe.categories?.some((c: any) => c.title.toLowerCase().includes('vegetarian')) ? "https://schema.org/VegetarianDiet" :
