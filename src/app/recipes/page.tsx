@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import RecipeCard from "@/components/RecipeCard";
 import TopSearch from "@/components/TopSearch";
+import RecipeListSchema from "@/components/RecipeListSchema";
 import { client } from "../../sanity/client";
 import { allRecipesForCardsQuery, allBrandsQuery, allCategoriesQuery } from "../../sanity/queries";
 
@@ -105,6 +106,9 @@ function RecipesContent() {
 
   return (
     <main className="mx-auto max-w-6xl">
+      {/* Structured Data */}
+      <RecipeListSchema recipes={filteredRecipes} />
+
       {/* Search Bar */}
       <div className="mb-6">
         <TopSearch />

@@ -6,7 +6,7 @@ import { PortableText } from "next-sanity";
 import type { Metadata } from "next";
 
 import { client } from "@/sanity/client";
-import { recipeBySlugQuery, recipeSlugsQuery } from "@/sanity/queries";
+import { recipeBySlugQuery, recipeSlugsQuery, relatedRecipesQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/image";
 import StarRating from "@/components/StarRating";
 import ShareRow from "@/components/ShareRow";
@@ -19,6 +19,7 @@ import PrintButton from "@/components/PrintButton";
 import RecipeShoppingListButton from "@/components/RecipeShoppingListButton";
 import MobileRecipeActions from "@/components/MobileRecipeActions";
 import StickyRecipeHeader from "@/components/StickyRecipeHeader";
+import RelatedRecipes from "@/components/RelatedRecipes";
 import { supabase } from "@/lib/supabase";
 
 // 👇 use ONE of these imports depending on which fix you chose:
@@ -164,6 +165,13 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
     .select("*", { count: "exact", head: true })
     .eq("recipe_slug", recipe.slug);
 
+  // Fetch related recipes from same brand or categories
+  const relatedRecipes = await client.fetch<any[]>(relatedRecipesQuery, {
+    currentSlug: recipe.slug,
+    brandId: recipe.brand?._id,
+    categoryIds: recipe.categories?.map((c: any) => c._id) || [],
+  });
+
   const {
     title, description, heroImage, servings, prepMin, cookMin,
     introText, brandContext, ingredients, steps, tips, faqs, nutrition, categories
@@ -183,14 +191,26 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
     datePublished: (recipe as any)._createdAt,
     dateModified: (recipe as any)._updatedAt,
     recipeCuisine: "British",
-    recipeCategory: "Main course",
+    recipeCategory: recipe.categories?.[0]?.title || "Main course",
     recipeYield: recipe.servings ? String(recipe.servings) : undefined,
     prepTime: recipe.prepMin ? `PT${recipe.prepMin}M` : undefined,
     cookTime: recipe.cookMin ? `PT${recipe.cookMin}M` : undefined,
     totalTime: totalTimeISO(recipe.prepMin, recipe.cookMin),
     image: recipe.heroImage?.asset?.url ? [recipe.heroImage.asset.url] : undefined,
-    author: { "@type": "Organization", name: "Bite Buddy" },
-    publisher: { "@type": "Organization", name: "Bite Buddy" },
+    author: {
+      "@type": "Organization",
+      name: "Bite Buddy",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Bite Buddy",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo.png`,
+      }
+    },
     recipeIngredient: toPlainIngredients(recipe.ingredients),
     recipeInstructions: (recipe.steps || []).map((s, idx: number) => ({
       "@type": "HowToStep",
@@ -207,6 +227,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       proteinContent: recipe.nutrition?.protein ? `${recipe.nutrition.protein} g` : undefined,
       fatContent: recipe.nutrition?.fat ? `${recipe.nutrition.fat} g` : undefined,
       carbohydrateContent: recipe.nutrition?.carbs ? `${recipe.nutrition.carbs} g` : undefined,
+      servingSize: recipe.servings ? `${recipe.servings} servings` : undefined,
     } : undefined,
     aggregateRating:
       typeof recipe.ratingSum === "number" && typeof recipe.ratingCount === "number" && recipe.ratingCount > 0
@@ -214,8 +235,22 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
             "@type": "AggregateRating",
             ratingValue: (recipe.ratingSum / recipe.ratingCount).toFixed(1),
             ratingCount: recipe.ratingCount,
+            bestRating: "5",
+            worstRating: "1",
           }
         : undefined,
+    video: recipe.videoUrl ? {
+      "@type": "VideoObject",
+      name: recipe.title,
+      description: recipe.description || recipe.introText,
+      thumbnailUrl: recipe.heroImage?.asset?.url,
+      contentUrl: recipe.videoUrl,
+      uploadDate: (recipe as any)._createdAt,
+    } : undefined,
+    isAccessibleForFree: true,
+    suitableForDiet: recipe.categories?.some((c: any) => c.title.toLowerCase().includes('vegan')) ? "https://schema.org/VeganDiet" :
+                      recipe.categories?.some((c: any) => c.title.toLowerCase().includes('vegetarian')) ? "https://schema.org/VegetarianDiet" :
+                      undefined,
   };
 
   return (
@@ -578,6 +613,9 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       <div className="mt-8">
         <AdPlaceholder size="rectangle" />
       </div>
+
+      {/* Related Recipes for internal linking */}
+      <RelatedRecipes recipes={relatedRecipes} title={recipe.brand ? `More ${recipe.brand.title} Recipes` : "You Might Also Like"} />
 
       {/* Comment Section */}
       <section className="mt-12">
