@@ -12,6 +12,7 @@ import ArticleCard from "@/components/ArticleCard";
 import AdPlaceholder from "@/components/AdPlaceholder";
 import ArticleRecipeCard from "@/components/ArticleRecipeCard";
 import ArticleProductCard from "@/components/ArticleProductCard";
+import JumpToRecipeButton from "@/components/JumpToRecipeButton";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bitebuddy.co.uk";
 
@@ -137,6 +138,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8">
+      {/* Jump to Recipe button - only shows if article has recipes */}
+      {article.relatedRecipes && article.relatedRecipes.length > 0 && (
+        <JumpToRecipeButton />
+      )}
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-gray-600">
         <Link href="/" className="hover:text-emerald-600">Home</Link>
@@ -374,7 +379,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       {/* Featured Recipes */}
       {article.relatedRecipes && article.relatedRecipes.length > 0 && (
-        <section className="mb-12">
+        <section className="mb-12" data-recipes-section>
           <h2 className="text-3xl font-bold mb-6">Recipes Featured in This Article</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {article.relatedRecipes.map((recipe: any) => (

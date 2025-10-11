@@ -17,6 +17,8 @@ import CommentSection from "@/components/CommentSection";
 import RecipeViewTracker from "@/components/RecipeViewTracker";
 import PrintButton from "@/components/PrintButton";
 import RecipeShoppingListButton from "@/components/RecipeShoppingListButton";
+import MobileRecipeActions from "@/components/MobileRecipeActions";
+import StickyRecipeHeader from "@/components/StickyRecipeHeader";
 import { supabase } from "@/lib/supabase";
 
 // 👇 use ONE of these imports depending on which fix you chose:
@@ -226,11 +228,25 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         categories={recipe.categories?.map((c: any) => c.title)}
       />
 
+      {/* Mobile floating action buttons */}
+      <MobileRecipeActions
+        recipeSlug={recipe.slug}
+        recipeTitle={recipe.title}
+        brand={recipe.brand?.title}
+      />
+
+      {/* Sticky header with key actions (desktop only) */}
+      <StickyRecipeHeader
+        recipeSlug={recipe.slug}
+        recipeTitle={recipe.title}
+        brand={recipe.brand?.title}
+      />
+
       <Link href="/recipes" className="text-sm text-emerald-700 underline">
         ← Back to all recipes
       </Link>
 
-      <h1 className="mt-2 text-3xl font-bold">{title}</h1>
+      <h1 className="mt-2 text-3xl md:text-4xl lg:text-5xl font-bold">{title}</h1>
 
       {/* User credit for AI-generated community recipes */}
       {(recipe as any).createdBy && (
@@ -320,7 +336,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         {totalMin ? <span>Total: {totalMin} mins</span> : null}
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3">
+      <div className="mt-4 flex flex-wrap items-center gap-3 md:gap-4">
         <ShareRow title={recipe.title} url={`${SITE_URL}/recipes/${recipe.slug}`} />
         <SaveButton recipeSlug={recipe.slug} recipeTitle={recipe.title} />
         <PrintButton
@@ -376,13 +392,16 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       </div>
 
       {heroUrl ? (
-        <Image
-          src={heroUrl}
-          alt={heroImage?.alt || title}
-          width={1200}
-          height={700}
-          className="mt-6 w-full rounded-2xl border object-cover"
-        />
+        <div className="mt-6 relative aspect-[4/3] md:aspect-[16/9] w-full rounded-2xl overflow-hidden border">
+          <Image
+            src={heroUrl}
+            alt={heroImage?.alt || title}
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        </div>
       ) : null}
 
       {introText ? (

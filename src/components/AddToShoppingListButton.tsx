@@ -32,7 +32,7 @@ export default function AddToShoppingListButton({ recipe }: AddToShoppingListBut
       <button
         onClick={handleAdd}
         disabled={isAdded}
-        className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
+        className={`flex items-center gap-2 rounded-lg border px-4 py-3 min-h-[44px] text-sm font-medium transition-colors ${
           isAdded
             ? "border-emerald-300 bg-emerald-50 text-emerald-700 cursor-not-allowed"
             : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"

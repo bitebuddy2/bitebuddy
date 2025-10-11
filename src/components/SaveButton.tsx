@@ -72,7 +72,7 @@ export default function SaveButton({ recipeSlug, recipeTitle }: SaveButtonProps)
     <button
       onClick={toggleSave}
       disabled={loading}
-      className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+      className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-3 min-h-[44px] text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
       title={isSaved ? "Remove from saved recipes" : "Save recipe"}
     >
       {loading ? (

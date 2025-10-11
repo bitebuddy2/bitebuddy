@@ -23,10 +23,10 @@ export default function ShareRow({ title, url }: ShareRowProps) {
 
   return (
     <div className="flex gap-2">
-      <button onClick={print} className="rounded-full border px-3 py-1.5 text-sm hover:bg-gray-50">
+      <button onClick={print} className="rounded-full border px-4 py-2.5 min-h-[44px] text-sm hover:bg-gray-50 transition-colors">
         Print
       </button>
-      <button onClick={share} className="rounded-full border px-3 py-1.5 text-sm hover:bg-gray-50">
+      <button onClick={share} className="rounded-full border px-4 py-2.5 min-h-[44px] text-sm hover:bg-gray-50 transition-colors">
         Share
       </button>
     </div>
