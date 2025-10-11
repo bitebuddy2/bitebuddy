@@ -1,27 +1,13 @@
-import React from "react";
-import type { Metadata } from "next";
+"use client";
+
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { client } from "@/sanity/client";
 import { allArticlesQuery } from "@/sanity/queries";
 import ArticleCard from "@/components/ArticleCard";
+import ArticleSearch from "@/components/ArticleSearch";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bitebuddy.co.uk";
-
-export const metadata: Metadata = {
-  title: "Food & Cooking Articles - Tips, Trends & Techniques | Bite Buddy",
-  description: "Discover food trends, cooking techniques, ingredient guides, and restaurant copycat secrets. Expert articles to improve your cooking skills.",
-  alternates: {
-    canonical: `${SITE_URL}/articles`,
-  },
-  openGraph: {
-    title: "Food & Cooking Articles - Tips, Trends & Techniques | Bite Buddy",
-    description: "Discover food trends, cooking techniques, ingredient guides, and restaurant copycat secrets. Expert articles to improve your cooking skills.",
-    url: `${SITE_URL}/articles`,
-    siteName: "Bite Buddy",
-    type: "website",
-  },
-};
-
-export const revalidate = 60;
 
 interface Article {
   _id: string;
@@ -55,13 +41,25 @@ const CATEGORIES = [
   { value: "seasonal-cooking", label: "Seasonal Cooking" },
 ];
 
-export default async function ArticlesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string }>;
-}) {
-  const { category } = await searchParams;
-  const articles = await client.fetch<Article[]>(allArticlesQuery);
+function ArticlesContent() {
+  const searchParams = useSearchParams();
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+  const category = searchParams.get('category');
+
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        const data = await client.fetch<Article[]>(allArticlesQuery);
+        setArticles(data || []);
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchArticles();
+  }, []);
 
   // Filter by category if specified
   const filteredArticles = category && category !== "all"
@@ -72,31 +70,50 @@ export default async function ArticlesPage({
   const featuredArticles = filteredArticles.filter((a) => a.featured);
   const regularArticles = filteredArticles.filter((a) => !a.featured);
 
+  if (loading) {
+    return (
+      <main className="mx-auto max-w-6xl px-4 py-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-gray-600">Loading articles...</span>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">Food & Cooking Articles</h1>
-        <p className="text-gray-600 text-lg">
-          Expert tips, trending topics, and techniques to elevate your cooking
-        </p>
+    <main className="mx-auto max-w-6xl">
+      {/* Search Bar */}
+      <div className="mb-6">
+        <ArticleSearch />
       </div>
 
-      {/* Category Filter */}
-      <div className="mb-8 flex flex-wrap gap-2">
-        {CATEGORIES.map((cat) => (
-          <a
-            key={cat.value}
-            href={cat.value === "all" ? "/articles" : `/articles?category=${cat.value}`}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              (!category && cat.value === "all") || category === cat.value
-                ? "bg-emerald-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-          >
-            {cat.label}
-          </a>
-        ))}
-      </div>
+      <div className="px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold tracking-tight mb-2">Food & Cooking Articles</h1>
+          <p className="text-gray-600 text-lg">
+            Expert tips, trending topics, and techniques to elevate your cooking
+          </p>
+        </div>
+
+        {/* Category Filter */}
+        <div className="mb-8 flex flex-wrap gap-2">
+          {CATEGORIES.map((cat) => (
+            <a
+              key={cat.value}
+              href={cat.value === "all" ? "/articles" : `/articles?category=${cat.value}`}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                (!category && cat.value === "all") || category === cat.value
+                  ? "bg-emerald-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {cat.label}
+            </a>
+          ))}
+        </div>
 
       {filteredArticles.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 rounded-lg">
@@ -132,20 +149,38 @@ export default async function ArticlesPage({
         </>
       )}
 
-      {/* JSON-LD: Breadcrumbs */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}` },
-              { "@type": "ListItem", position: 2, name: "Articles", item: `${SITE_URL}/articles` },
-            ],
-          }),
-        }}
-      />
+        {/* JSON-LD: Breadcrumbs */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}` },
+                { "@type": "ListItem", position: 2, name: "Articles", item: `${SITE_URL}/articles` },
+              ],
+            }),
+          }}
+        />
+      </div>
     </main>
+  );
+}
+
+export default function ArticlesPage() {
+  return (
+    <Suspense fallback={
+      <main className="mx-auto max-w-6xl px-4 py-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-gray-600">Loading articles...</span>
+          </div>
+        </div>
+      </main>
+    }>
+      <ArticlesContent />
+    </Suspense>
   );
 }
