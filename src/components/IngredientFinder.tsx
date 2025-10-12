@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ShareRow from "./ShareRow";
@@ -261,6 +261,9 @@ export default function IngredientFinder() {
   const [showSubstitutionModal, setShowSubstitutionModal] = useState(false);
   const [pendingSubstitutionPrompt, setPendingSubstitutionPrompt] = useState<string>("");
   const { isPremium } = useSubscription();
+
+  // Ref for scrolling to matching recipes section
+  const matchingRecipesRef = useRef<HTMLDivElement>(null);
 
   // preferences (used by AI generation) - Load from localStorage if available
   const [method, setMethod] = useState<(typeof METHODS)[number]>(() => {
@@ -683,6 +686,16 @@ export default function IngredientFinder() {
 
         // Save to localStorage
         localStorage.setItem("lastGeneratedRecipe", JSON.stringify(data.recipe));
+
+        // Scroll to matching recipes section after a brief delay
+        setTimeout(() => {
+          if (matchingRecipesRef.current) {
+            matchingRecipesRef.current.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }, 100);
 
         // Track successful AI recipe generation
         trackGenerateAIRecipe({
@@ -1239,7 +1252,7 @@ export default function IngredientFinder() {
 
         {/* Matching recipes when AI recipe is being generated or shown */}
         {(isGenerating || (generatedRecipe && showGeneratedRecipe)) && results.length > 0 && (
-          <div className="mt-6">
+          <div ref={matchingRecipesRef} className="mt-6">
             <div className="mb-3 flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
