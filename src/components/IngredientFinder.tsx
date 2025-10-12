@@ -241,6 +241,7 @@ export default function IngredientFinder() {
   const [results, setResults] = useState<Recipe[]>([]);
   const [isPending, start] = useTransition();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [loadingStep, setLoadingStep] = useState(0);
   const [generatedRecipe, setGeneratedRecipe] = useState<GeneratedRecipe | null>(null);
   const [lastGeneratedRecipe, setLastGeneratedRecipe] = useState<GeneratedRecipe | null>(null);
   const [showGeneratedRecipe, setShowGeneratedRecipe] = useState(true);
@@ -256,15 +257,96 @@ export default function IngredientFinder() {
   const [publishedSlug, setPublishedSlug] = useState<string | null>(null);
   const [nearMatchRecipe, setNearMatchRecipe] = useState<{ recipe: Recipe; missing: string[] } | null>(null);
   const [showAllMatches, setShowAllMatches] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [showSubstitutionModal, setShowSubstitutionModal] = useState(false);
+  const [pendingSubstitutionPrompt, setPendingSubstitutionPrompt] = useState<string>("");
   const { isPremium } = useSubscription();
 
-  // preferences (used by AI generation)
-  const [method, setMethod] = useState<(typeof METHODS)[number]>("Any");
-  const [portions, setPortions] = useState(2);
-  const [spice, setSpice] = useState<(typeof SPICE)[number]>("None");
-  const [diet, setDiet] = useState<(typeof DIETS)[number]>("None");
-  const [avoid, setAvoid] = useState("");
-  const [ingredientMode, setIngredientMode] = useState<(typeof INGREDIENT_MODES)[number]>("Flexible");
+  // preferences (used by AI generation) - Load from localStorage if available
+  const [method, setMethod] = useState<(typeof METHODS)[number]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('recipePreferences');
+      if (saved) {
+        try {
+          const prefs = JSON.parse(saved);
+          return prefs.method || "Any";
+        } catch (e) {
+          return "Any";
+        }
+      }
+    }
+    return "Any";
+  });
+  const [portions, setPortions] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('recipePreferences');
+      if (saved) {
+        try {
+          const prefs = JSON.parse(saved);
+          return prefs.portions || 2;
+        } catch (e) {
+          return 2;
+        }
+      }
+    }
+    return 2;
+  });
+  const [spice, setSpice] = useState<(typeof SPICE)[number]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('recipePreferences');
+      if (saved) {
+        try {
+          const prefs = JSON.parse(saved);
+          return prefs.spice || "None";
+        } catch (e) {
+          return "None";
+        }
+      }
+    }
+    return "None";
+  });
+  const [diet, setDiet] = useState<(typeof DIETS)[number]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('recipePreferences');
+      if (saved) {
+        try {
+          const prefs = JSON.parse(saved);
+          return prefs.diet || "None";
+        } catch (e) {
+          return "None";
+        }
+      }
+    }
+    return "None";
+  });
+  const [avoid, setAvoid] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('recipePreferences');
+      if (saved) {
+        try {
+          const prefs = JSON.parse(saved);
+          return prefs.avoid || "";
+        } catch (e) {
+          return "";
+        }
+      }
+    }
+    return "";
+  });
+  const [ingredientMode, setIngredientMode] = useState<(typeof INGREDIENT_MODES)[number]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('recipePreferences');
+      if (saved) {
+        try {
+          const prefs = JSON.parse(saved);
+          return prefs.ingredientMode || "Flexible";
+        } catch (e) {
+          return "Flexible";
+        }
+      }
+    }
+    return "Flexible";
+  });
 
   // Get user ID
   useEffect(() => {
@@ -285,6 +367,21 @@ export default function IngredientFinder() {
       }
     }
   }, []);
+
+  // Save preferences to localStorage whenever they change
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const preferences = {
+        method,
+        portions,
+        spice,
+        diet,
+        avoid,
+        ingredientMode
+      };
+      localStorage.setItem('recipePreferences', JSON.stringify(preferences));
+    }
+  }, [method, portions, spice, diet, avoid, ingredientMode]);
 
   async function onSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -432,8 +529,10 @@ export default function IngredientFinder() {
   }
 
   async function onGenerateAI() {
+    setErrorMessage(""); // Clear previous errors
+
     if (!q.trim()) {
-      alert("Please enter a recipe idea or ingredients first!");
+      setErrorMessage("Please enter a recipe idea or ingredients first!");
       return;
     }
 
@@ -444,10 +543,22 @@ export default function IngredientFinder() {
     }
 
     setIsGenerating(true);
+    setLoadingStep(0);
     setGeneratedRecipe(null); // Clear previous recipe
     // DON'T clear search results - we want to show them with AI recipe
     // setResults([]);
     // setSearchedIngredients([]);
+
+    // Simulate progressive loading steps
+    const stepInterval = setInterval(() => {
+      setLoadingStep(prev => {
+        if (prev >= 3) {
+          clearInterval(stepInterval);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 7000); // Change step every 7 seconds
 
     // Search for matching recipes before generating AI recipe
     const names = parseNames(q);
@@ -494,8 +605,9 @@ export default function IngredientFinder() {
         const hasFood = combo.foods.some(food => query.includes(food));
         const hasMethod = combo.methods.includes(selectedMethod);
         if (hasFood && hasMethod && method !== "Any") {
-          alert("Sorry, this combination isn't possible. Please try a different cooking method or recipe idea.");
+          setErrorMessage("Sorry, this combination isn't possible. Please try a different cooking method or recipe idea.");
           setIsGenerating(false);
+          setLoadingStep(0);
           return;
         }
       }
@@ -602,9 +714,9 @@ export default function IngredientFinder() {
         if (errorMsg.toLowerCase().includes("impossible") ||
             errorMsg.toLowerCase().includes("not possible") ||
             errorMsg.toLowerCase().includes("incompatible")) {
-          alert("Sorry, this combination isn't possible. Please try a different cooking method or recipe idea.");
+          setErrorMessage("Sorry, this combination isn't possible. Please try a different cooking method or recipe idea.");
         } else {
-          alert(`Recipe generation failed: ${errorMsg}${errorDetails}`);
+          setErrorMessage(`Recipe generation failed: ${errorMsg}${errorDetails}`);
         }
 
         // Track failed generation
@@ -618,9 +730,11 @@ export default function IngredientFinder() {
       }
     } catch (error) {
       console.error("AI Generation Error:", error);
-      alert("Failed to generate recipe. Please try again.");
+      setErrorMessage("Failed to generate recipe. Please try again.");
     } finally {
       setIsGenerating(false);
+      setLoadingStep(0);
+      if (stepInterval) clearInterval(stepInterval);
     }
   }
 
@@ -657,7 +771,7 @@ export default function IngredientFinder() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Enter a recipe idea or ingredients"
-            className="h-11 w-full flex-1 rounded-lg border border-gray-300 sm:border-gray-300 px-3 text-sm focus:border-black sm:focus:border-emerald-400 focus:outline-none"
+            className="h-11 w-full flex-1 rounded-lg border-2 border-gray-300 px-3 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none transition-all shadow-sm hover:shadow-md"
           />
           <div className="flex gap-2">
             <button
@@ -685,31 +799,60 @@ export default function IngredientFinder() {
           Tip: separate ingredients with commas — e.g. <em>chicken, thyme</em>. Use "Find" to search existing recipes (filtered by your preferences below) or "Create with AI" to generate a new recipe.
         </p>
 
+        {/* Error Message Display */}
+        {errorMessage && (
+          <div className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg">
+            <div className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-red-900 mb-1">Error</p>
+                <p className="text-sm text-red-800">{errorMessage}</p>
+              </div>
+              <button
+                onClick={() => setErrorMessage("")}
+                className="text-red-600 hover:text-red-800 transition-colors"
+                aria-label="Close error message"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Ingredient Mode Toggle - Prominent */}
         <div className="mt-4 p-4 bg-gradient-to-r from-emerald-50 to-blue-50 border-2 border-emerald-200 rounded-xl">
-          <div className="mb-2 flex items-center gap-2">
+          <div className="mb-3 flex items-center gap-2">
             <svg className="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z"/>
             </svg>
             <span className="text-sm font-bold text-gray-900">AI Ingredient Mode</span>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {INGREDIENT_MODES.map((mode) => (
               <button
                 key={mode}
                 type="button"
                 onClick={() => setIngredientMode(mode)}
-                className={`rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all ${
+                className={`rounded-lg border-2 px-4 py-3 text-left transition-all ${
                   ingredientMode === mode
-                    ? "bg-emerald-600 text-white border-emerald-600 shadow-md scale-105"
-                    : "bg-white border-gray-300 hover:border-emerald-400 hover:bg-emerald-50"
+                    ? "bg-emerald-600 text-white border-emerald-600 shadow-md scale-[1.02]"
+                    : "bg-white text-gray-900 border-gray-300 hover:border-emerald-400 hover:bg-emerald-50"
                 }`}
               >
-                <div className="font-semibold">{mode}</div>
-                <div className="text-xs opacity-90 mt-0.5">
-                  {mode === "Exact" && "Only your ingredients"}
-                  {mode === "Flexible" && "Add pantry staples"}
-                  {mode === "Creative" && "Full creative freedom"}
+                <div className="font-semibold mb-1">{mode}</div>
+                <div className={`text-xs leading-relaxed ${ingredientMode === mode ? "text-emerald-50" : "text-gray-600"}`}>
+                  {mode === "Exact" && "Uses strictly the ingredients you list. No extras added."}
+                  {mode === "Flexible" && "Adds basic staples like salt, oil, and flour if needed."}
+                  {mode === "Creative" && "AI freely adds complementary ingredients for best results."}
+                </div>
+                <div className={`text-xs mt-2 italic ${ingredientMode === mode ? "text-emerald-100" : "text-gray-500"}`}>
+                  {mode === "Exact" && "e.g., chicken + rice = simple chicken rice bowl"}
+                  {mode === "Flexible" && "e.g., chicken + rice + salt, pepper, garlic powder"}
+                  {mode === "Creative" && "e.g., chicken + rice + herbs, spices, vegetables"}
                 </div>
               </button>
             ))}
@@ -869,8 +1012,8 @@ export default function IngredientFinder() {
                 <button
                   onClick={() => {
                     const substitutionPrompt = `Create a version of "${nearMatchRecipe.recipe.title}" but I'm missing these ingredients: ${nearMatchRecipe.missing.join(', ')}. Suggest substitutions or alternatives I can use instead.`;
-                    setQ(substitutionPrompt);
-                    onGenerateAI();
+                    setPendingSubstitutionPrompt(substitutionPrompt);
+                    setShowSubstitutionModal(true);
                   }}
                   className="text-sm font-medium text-amber-900 underline hover:text-amber-950"
                 >
@@ -1098,9 +1241,22 @@ export default function IngredientFinder() {
         {(isGenerating || (generatedRecipe && showGeneratedRecipe)) && results.length > 0 && (
           <div className="mt-6">
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Our recipes that match your ingredients ({results.length})
-              </h3>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Our recipes that match your ingredients
+                </h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  {results.length} recipe{results.length === 1 ? '' : 's'} found {!showAllMatches && results.length > 3 && `(showing 3)`}
+                </p>
+              </div>
+              {results.length > 3 && (
+                <button
+                  onClick={() => setShowAllMatches(!showAllMatches)}
+                  className="text-sm font-medium text-emerald-600 hover:text-emerald-700 underline"
+                >
+                  {showAllMatches ? 'Show Less' : `Show All ${results.length}`}
+                </button>
+              )}
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {results.slice(0, showAllMatches ? results.length : 3).map((recipe) => (
@@ -1134,30 +1290,6 @@ export default function IngredientFinder() {
                 </div>
               ))}
             </div>
-            {results.length > 3 && (
-              <div className="mt-4 text-center">
-                <button
-                  onClick={() => setShowAllMatches(!showAllMatches)}
-                  className="inline-flex items-center gap-2 rounded-lg border border-emerald-600 bg-white px-4 py-2 text-sm font-medium text-emerald-600 hover:bg-emerald-50 transition"
-                >
-                  {showAllMatches ? (
-                    <>
-                      Show Less
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                      </svg>
-                    </>
-                  ) : (
-                    <>
-                      Show All {results.length} Matching Recipes
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
           </div>
         )}
 
@@ -1450,6 +1582,47 @@ export default function IngredientFinder() {
         )}
       </div>
 
+      {/* Substitution Confirmation Modal */}
+      {showSubstitutionModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-md mx-4">
+            <div className="mb-4">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Generate Recipe with Substitutions?</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                This will replace your current search with an AI recipe request for substitutions. Your original search will be lost.
+              </p>
+              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
+                <p className="text-xs text-gray-700 font-mono break-words">
+                  {pendingSubstitutionPrompt}
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowSubstitutionModal(false);
+                  setPendingSubstitutionPrompt("");
+                }}
+                className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setQ(pendingSubstitutionPrompt);
+                  setShowSubstitutionModal(false);
+                  setPendingSubstitutionPrompt("");
+                  onGenerateAI();
+                }}
+                className="flex-1 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
+              >
+                Generate Recipe
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Upgrade Modal */}
       {showUpgradeModal && userId && (
         <UpgradeModal
@@ -1476,9 +1649,22 @@ export default function IngredientFinder() {
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               AI Chefs Are Cooking! 👨‍🍳
             </h3>
-            <p className="text-gray-600 mb-4">
-              Our digital kitchen is sizzling... This might take up to 30 seconds.
+
+            {/* Progressive status messages */}
+            <p className="text-gray-600 mb-4 min-h-[48px] flex items-center justify-center">
+              {loadingStep === 0 && "Analyzing your ingredients..."}
+              {loadingStep === 1 && "Creating the perfect recipe..."}
+              {loadingStep === 2 && "Adding nutrition information..."}
+              {loadingStep >= 3 && "Almost ready! Finalizing your recipe..."}
             </p>
+
+            {/* Progress bar */}
+            <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div
+                className="bg-emerald-600 h-2 rounded-full transition-all duration-1000 ease-out"
+                style={{ width: `${Math.min(((loadingStep + 1) / 4) * 100, 100)}%` }}
+              />
+            </div>
 
             {/* Loading spinner */}
             <div className="flex justify-center">
@@ -1487,6 +1673,8 @@ export default function IngredientFinder() {
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
             </div>
+
+            <p className="text-xs text-gray-500 mt-4">This may take up to 30 seconds</p>
           </div>
         </div>
       )}
