@@ -6,7 +6,7 @@ import { PortableText } from "next-sanity";
 import type { Metadata } from "next";
 
 import { client } from "@/sanity/client";
-import { recipeBySlugQuery, recipeSlugsQuery, relatedRecipesQuery } from "@/sanity/queries";
+import { recipeBySlugQuery, recipeSlugsQuery, relatedRecipesByBrandQuery, relatedRecipesQuery } from "@/sanity/queries";
 import { urlForImage } from "@/sanity/image";
 import StarRating from "@/components/StarRating";
 import ShareRow from "@/components/ShareRow";
@@ -165,12 +165,17 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
     .select("*", { count: "exact", head: true })
     .eq("recipe_slug", recipe.slug);
 
-  // Fetch related recipes from same brand or categories
-  const relatedRecipes = await client.fetch<any[]>(relatedRecipesQuery, {
-    currentSlug: recipe.slug,
-    brandId: recipe.brand?._id,
-    categoryIds: recipe.categories?.map((c: any) => c._id) || [],
-  });
+  // Fetch related recipes - prioritize brand-only if brand exists
+  const relatedRecipes = recipe.brand
+    ? await client.fetch<any[]>(relatedRecipesByBrandQuery, {
+        currentSlug: recipe.slug,
+        brandId: recipe.brand._id,
+      })
+    : await client.fetch<any[]>(relatedRecipesQuery, {
+        currentSlug: recipe.slug,
+        brandId: undefined,
+        categoryIds: recipe.categories?.map((c: any) => c._id) || [],
+      });
 
   const {
     title, description, heroImage, servings, prepMin, cookMin,

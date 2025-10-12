@@ -739,6 +739,39 @@ export const relatedArticlesQuery = groq/* groq */ `
 }
 `;
 
+// ✅ Get related recipes from the same brand only (exclude current)
+export const relatedRecipesByBrandQuery = groq/* groq */ `
+*[_type == "recipe" && slug.current != $currentSlug && brand._ref == $brandId] | order(_updatedAt desc)[0...6]{
+  "slug": slug.current,
+  title,
+  description,
+  introText,
+  servings,
+  prepMin,
+  cookMin,
+  ratingSum,
+  ratingCount,
+  heroImage{
+    asset->{ url, metadata{ lqip, dimensions } },
+    alt
+  },
+  brand->{
+    _id,
+    title,
+    "slug": slug.current,
+    logo{
+      asset->{ url, metadata{ lqip } },
+      alt
+    }
+  },
+  categories[]->{
+    _id,
+    title,
+    "slug": slug.current
+  }
+}
+`;
+
 // ✅ Get related recipes (same brand or category, exclude current)
 export const relatedRecipesQuery = groq/* groq */ `
 *[_type == "recipe" && slug.current != $currentSlug && (
