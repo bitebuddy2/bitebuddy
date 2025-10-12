@@ -1,0 +1,60 @@
+[
+  {
+    "_type": "ingredient",
+    "name": "Vegan Mince",
+    "allergens": ["soya"],
+    "kcal100": 172,
+    "protein100": 14,
+    "fat100": 7,
+    "carbs100": 11,
+    "synonyms": ["Plant-based mince", "Meat-free mince", "Soya mince"]
+  },
+  {
+    "_type": "ingredient",
+    "name": "Vegan Puff Pastry",
+    "allergens": ["gluten", "wheat"],
+    "kcal100": 430,
+    "protein100": 5,
+    "fat100": 22,
+    "carbs100": 52
+  },
+  {
+    "_type": "ingredient",
+    "name": "Chickpeas",
+    "allergens": [],
+    "kcal100": 164,
+    "protein100": 9,
+    "fat100": 2.6,
+    "carbs100": 27,
+    "synonyms": ["Garbanzo beans", "Chick peas", "Ceci beans"]
+  },
+  {
+    "_type": "ingredient",
+    "name": "Marmite",
+    "allergens": ["yeast", "gluten"],
+    "kcal100": 180,
+    "protein100": 24,
+    "fat100": 0.1,
+    "carbs100": 20,
+    "synonyms": ["Yeast extract"]
+  },
+  {
+    "_type": "ingredient",
+    "name": "Vegetable Stock",
+    "allergens": [],
+    "kcal100": 5,
+    "protein100": 0.3,
+    "fat100": 0.1,
+    "carbs100": 0.8
+  },
+  {
+    "_type": "ingredient",
+    "name": "Soy Sauce",
+    "allergens": ["soya", "gluten", "wheat"],
+    "kcal100": 60,
+    "protein100": 10,
+    "fat100": 0.1,
+    "carbs100": 5,
+    "density_g_per_ml": 1.15
+  }
+]

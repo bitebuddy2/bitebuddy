@@ -1,0 +1,335 @@
+{
+  "_type": "recipe",
+  "title": "West Cornwall Pasty Co Steak Tribute Ale Pasty",
+  "slug": {
+    "_type": "slug",
+    "current": "west-cornwall-steak-tribute-ale-pasty"
+  },
+  "description": "Recreate West Cornwall's premium Steak and Tribute Ale Pasty with tender beef chunks slow-cooked in Cornish ale, vegetables and rich gravy in buttery shortcrust pastry. A proper pub lunch in pasty form.",
+  "introText": "The Steak and Tribute Ale Pasty from West Cornwall Pasty Co is their premium offering - a celebration of Cornish ingredients and brewing heritage. This pasty elevates the traditional format with chunks of quality beef slow-cooked in St Austell Brewery's Tribute Ale, creating a rich, pub-style filling that's both sophisticated and deeply comforting. The ale adds a malty depth and tenderises the meat beautifully, while the vegetables provide texture and the gravy brings it all together. It's like having a proper Cornish pub lunch in portable form. This copycat recipe captures that same premium experience, perfect for special occasions or when you want to treat yourself to something really special.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "West Cornwall Pasty Co has always championed Cornish producers and ingredients. Their Steak and Tribute Ale Pasty represents a collaboration with St Austell Brewery, one of Cornwall's most respected independent breweries, whose Tribute Ale is a beloved local beer."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "This premium pasty showcases what's possible when traditional pasty-making meets quality local ingredients. The beer-braised beef creates a filling that's more complex and flavourful than a standard pasty, while maintaining that authentic Cornish identity. It's a modern classic that honours both brewing and baking traditions."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Making this at home lets you experience that same premium pasty quality. Use a good British ale - Tribute if you can find it, or any quality bitter or pale ale. The result is a pasty worth savouring slowly."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 35,
+  "cookMin": 120,
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Filling",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlxw"
+          },
+          "quantity": "500",
+          "unit": "g",
+          "notes": "diced into 2cm chunks"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMm5v"
+          },
+          "quantity": "330",
+          "unit": "ml",
+          "notes": "Tribute or similar British ale"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmJE"
+          },
+          "quantity": "200",
+          "unit": "g",
+          "notes": "peeled and diced"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.onion"
+          },
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "finely chopped"
+        },
+        {
+          "ingredientText": "Carrot",
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "diced"
+        },
+        {
+          "ingredientText": "Garlic",
+          "quantity": "3",
+          "unit": "clove",
+          "notes": "minced"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmJE"
+          },
+          "quantity": "2",
+          "unit": "tbsp",
+          "notes": "for thickening"
+        },
+        {
+          "ingredientText": "Beef Stock",
+          "quantity": "200",
+          "unit": "ml"
+        },
+        {
+          "ingredientText": "Tomato Puree",
+          "quantity": "1",
+          "unit": "tbsp"
+        },
+        {
+          "ingredientText": "Fresh Thyme",
+          "quantity": "3",
+          "unit": "sprig"
+        },
+        {
+          "ingredientText": "Bay Leaf",
+          "quantity": "1",
+          "unit": "leaf"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "DOyalXpxxR8GcURoHK5YxT"
+          },
+          "quantity": "1",
+          "unit": "tsp"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmLt"
+          },
+          "quantity": "0.5",
+          "unit": "tsp"
+        },
+        {
+          "ingredientText": "Olive Oil",
+          "quantity": "2",
+          "unit": "tbsp"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Pastry",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlsc"
+          },
+          "quantity": "500",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.egg"
+          },
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "beaten, for egg wash"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Heat the olive oil in a large, heavy-based pan or casserole dish over medium-high heat. Season the beef chunks with salt and pepper, then brown them in batches for 2-3 minutes per side until well caramelised. Remove and set aside."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Reduce heat to medium. Add the onion, carrot and garlic to the pan, cooking for 5 minutes until softened. Sprinkle over the flour and stir well to coat, cooking for 1 minute."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Pour in the ale, scraping up any browned bits from the bottom of the pan. Add the beef stock, tomato puree, thyme, bay leaf and browned beef. Bring to a simmer, then reduce heat to low, cover and cook gently for 1.5-2 hours until the beef is very tender and the sauce is thick. Remove thyme and bay leaf. Allow to cool completely (this is essential)."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Meanwhile, parboil the diced potato in salted water for 5-6 minutes until just starting to soften. Drain and cool."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Preheat your oven to 200°C (180°C fan/Gas 6). Roll out the pastry to 3-4mm thickness and cut out 4 circles approximately 20-22cm in diameter."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "For each pasty, place some parboiled potato on one half of a pastry circle, leaving a 2cm border. Top with a generous portion of the cooled ale-braised beef and gravy. Brush edges with beaten egg, fold over and crimp securely."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Place on a lined baking tray and brush all over with beaten egg. Bake for 35-40 minutes until deep golden brown. Allow to rest for 10 minutes before serving. Delicious with mushy peas or a crisp salad."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Make the filling a day ahead - the flavours improve overnight and it makes assembly much easier.",
+    "Use a quality braising steak like chuck or blade - cheaper cuts become wonderfully tender with slow cooking.",
+    "If the filling seems too wet after cooling, simmer uncovered for a few more minutes to reduce the liquid.",
+    "St Austell Tribute Ale is ideal if you can find it, but any good British bitter or pale ale works well.",
+    "Don't skip browning the meat - it's crucial for flavour development.",
+    "These can be frozen before baking. Freeze on a tray, then wrap individually. Bake from frozen, adding 15 minutes."
+  ],
+  "faqs": [
+    {
+      "question": "Can I use a different beer?",
+      "answer": "Yes! Any British bitter, pale ale or amber ale works well. Avoid very dark stouts or IPAs as they can be too bitter. Tribute, London Pride or Timothy Taylor's Landlord are all excellent choices."
+    },
+    {
+      "question": "Why does the filling need to be completely cool?",
+      "answer": "Hot filling will melt the pastry fat and make it difficult to crimp properly. It can also make the bottom soggy. Always cool the filling completely, ideally overnight in the fridge."
+    },
+    {
+      "question": "Can I skip the slow-cooking step?",
+      "answer": "The slow-cooking is what makes this pasty special - it tenderises the beef and develops deep flavour. If you're short on time, use a pressure cooker (40 minutes) or pre-cooked beef, but the result won't be quite as good."
+    },
+    {
+      "question": "What if I don't drink alcohol?",
+      "answer": "Replace the ale with additional beef stock plus a tablespoon of malt vinegar or Worcestershire sauce for depth. The flavour will be different but still delicious."
+    }
+  ],
+  "nutrition": {
+    "calories": 620,
+    "protein": 35,
+    "fat": 28,
+    "carbs": 52
+  },
+  "seoTitle": "Steak & Tribute Ale Pasty Recipe | West Cornwall",
+  "seoDescription": "Make West Cornwall's premium Steak & Tribute Ale Pasty! Tender beef in Cornish ale gravy with vegetables in golden pastry. Pub lunch perfection.",
+  "canonicalUrl": "https://bitebuddyuk.com/recipes/west-cornwall-steak-tribute-ale-pasty",
+  "brand": {
+    "_type": "reference",
+    "_ref": "TYzLq1jkpxBbhvXHiHjxag"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ],
+  "ratingCount": 0,
+  "ratingSum": 0
+}

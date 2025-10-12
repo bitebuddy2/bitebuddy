@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.tortilla-wrap",
+  "name": "Tortilla Wrap",
+  "synonyms": ["flour tortilla", "soft tortilla", "wrap", "tortilla"],
+  "kcal100": 312,
+  "protein100": 8.2,
+  "fat100": 8.5,
+  "carbs100": 50.4,
+  "allergens": ["Gluten (wheat)"]
+}

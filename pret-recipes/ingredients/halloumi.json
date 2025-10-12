@@ -1,0 +1,12 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.halloumi",
+  "name": "Halloumi Cheese",
+  "synonyms": ["halloumi", "grilling cheese", "halloumi block"],
+  "kcal100": 321,
+  "protein100": 21.0,
+  "fat100": 25.0,
+  "carbs100": 2.0,
+  "gramsPerPiece": 250,
+  "allergens": ["Milk"]
+}

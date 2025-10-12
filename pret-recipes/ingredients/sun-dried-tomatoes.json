@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.sun-dried-tomatoes",
+  "name": "Sun-Dried Tomatoes",
+  "synonyms": ["sundried tomatoes", "dried tomatoes", "sun dried tomatoes in oil"],
+  "kcal100": 213,
+  "protein100": 5.1,
+  "fat100": 15.0,
+  "carbs100": 14.0,
+  "allergens": []
+}

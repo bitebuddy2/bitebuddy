@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.tahini-dressing",
+  "name": "Tahini Dressing",
+  "synonyms": ["tahini sauce", "tahini yogurt dressing", "sesame dressing"],
+  "kcal100": 280,
+  "protein100": 8.0,
+  "fat100": 24.0,
+  "carbs100": 10.0,
+  "allergens": ["Sesame"]
+}

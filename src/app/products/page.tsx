@@ -2,6 +2,15 @@ import Image from "next/image";
 import { client } from "@/sanity/client";
 import { allProductsQuery } from "@/sanity/queries";
 import AffiliateButton from "@/components/AffiliateButton";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Recommended Kitchen Products | Bite Buddy",
+  description: "Discover recommended kitchen tools, ingredients, and cookbooks to help you recreate your favourite recipes.",
+  alternates: {
+    canonical: "https://bitebuddy.co.uk/products",
+  },
+};
 
 type Product = {
   _id: string;

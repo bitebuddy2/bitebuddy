@@ -8,6 +8,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Search Recipes by Ingredients - What's in my Fridge? | Bite Buddy",
   description: "Find recipes based on ingredients you already have. Enter ingredients like chicken, orzo, onion and discover delicious UK copycat recipes you can make right now.",
+  alternates: {
+    canonical: "https://bitebuddy.co.uk/search",
+  },
   openGraph: {
     title: "Search Recipes by Ingredients - What's in my Fridge? | Bite Buddy",
     description: "Find recipes based on ingredients you already have. Enter ingredients like chicken, orzo, onion and discover delicious UK copycat recipes you can make right now.",

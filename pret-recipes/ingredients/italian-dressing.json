@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.italian-dressing",
+  "name": "Italian Dressing",
+  "synonyms": ["Italian vinaigrette", "Italian salad dressing", "herb dressing"],
+  "kcal100": 330,
+  "protein100": 0.5,
+  "fat100": 35.0,
+  "carbs100": 4.0,
+  "allergens": ["Mustard (may contain)"]
+}

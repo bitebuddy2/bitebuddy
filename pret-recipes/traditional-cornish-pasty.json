@@ -1,0 +1,299 @@
+{
+  "_type": "recipe",
+  "title": "West Cornwall Pasty Co Traditional Cornish Pasty",
+  "slug": {
+    "_type": "slug",
+    "current": "west-cornwall-traditional-cornish-pasty"
+  },
+  "description": "Master the authentic Traditional Cornish Pasty from West Cornwall Pasty Co with beef skirt, potato, swede and onion in proper shortcrust pastry. The classic crimped pasty recipe perfected at home.",
+  "introText": "The Traditional Cornish Pasty is the cornerstone of West Cornwall Pasty Co's menu and the reason this beloved chain exists. Protected by PGI (Protected Geographical Indication) status, a true Cornish pasty must contain specific ingredients in a particular way: beef, potato, swede (rutabaga), onion, salt and pepper, all encased in a crimped shortcrust pastry. This copycat recipe honours that centuries-old tradition, delivering the same satisfying combination of tender beef and vegetables in a golden, buttery pastry case with the iconic Cornish crimp along the side. It's British comfort food at its finest - hearty, wholesome and deeply flavourful.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "West Cornwall Pasty Co was founded in 1998 by a group of Cornish bakers determined to bring authentic Cornish pasties to the rest of the UK. Based in the heart of Cornwall, they've maintained traditional methods while scaling up to serve hungry customers across the country."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Their Traditional Cornish Pasty adheres strictly to the PGI specification, using only the finest ingredients and the time-honoured crimping technique that seals the pastry and creates that distinctive D-shape. Each pasty is made fresh daily, with the filling placed raw into the pastry so it cooks in its own juices during baking - a crucial detail that gives the traditional pasty its characteristic flavour."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "This homemade version follows the same authentic approach, teaching you the proper Cornish method so you can create genuine pasties in your own kitchen. It's a taste of Cornwall, wherever you are."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 35,
+  "cookMin": 50,
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Filling",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlxw"
+          },
+          "quantity": "350",
+          "unit": "g",
+          "notes": "diced into 1cm cubes (or use chuck steak)"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmJE"
+          },
+          "quantity": "250",
+          "unit": "g",
+          "notes": "peeled and diced into 1cm cubes"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMm0b"
+          },
+          "quantity": "200",
+          "unit": "g",
+          "notes": "peeled and diced into 1cm cubes"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.onion"
+          },
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "finely chopped"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "DOyalXpxxR8GcURoHK5YxT"
+          },
+          "quantity": "1.5",
+          "unit": "tsp"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmLt"
+          },
+          "quantity": "1",
+          "unit": "tsp",
+          "notes": "freshly ground"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.butter"
+          },
+          "quantity": "40",
+          "unit": "g",
+          "notes": "cut into small cubes"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Pastry",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlsc"
+          },
+          "quantity": "500",
+          "unit": "g",
+          "notes": "or see notes for homemade"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.egg"
+          },
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "beaten, for egg wash"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Preheat your oven to 180°C (160°C fan/Gas 4). This lower temperature is key for traditional Cornish pasties as the filling goes in raw."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Prepare all your filling ingredients. Dice the beef, potato and swede into even 1cm cubes. Finely chop the onion. Mix all the vegetables together in a bowl with the salt and pepper. Keep the beef separate for now."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Roll out the shortcrust pastry on a lightly floured surface to about 3-4mm thickness. Cut out 4 circles approximately 20-22cm in diameter (use a side plate or saucer as a guide)."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "For each pasty, place a layer of the seasoned vegetables down the centre of one pastry circle, leaving a 2-3cm border. Top with a layer of raw beef pieces, then another layer of vegetables. Dot with a few cubes of butter."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Brush the edges of the pastry with beaten egg. Bring the edges together at the top, meeting in the middle. Starting at one end, crimp the pastry by folding and twisting the edge over itself repeatedly, creating a rope-like pattern along the top or side of the pasty."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Place the crimped pasties on a lined baking tray. Brush all over with beaten egg. Make a small steam hole in the top with a knife."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Bake for 50-55 minutes until deep golden brown. The lower temperature and longer baking time ensures the raw filling cooks through completely. Allow to rest for 10 minutes before serving."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Use beef skirt steak if you can find it - it's the traditional cut and becomes wonderfully tender during baking.",
+    "Don't pre-cook the filling! Traditional Cornish pasties are filled with raw ingredients which cook in their own steam.",
+    "Cut all vegetables to the same size for even cooking.",
+    "For homemade pastry: 500g plain flour, 125g cold butter, 125g lard, 1 tsp salt, 150ml cold water. Rub fats into flour until breadcrumb-like, add water to form a dough.",
+    "These freeze brilliantly - wrap individually and freeze for up to 3 months. Bake from frozen, adding 15-20 minutes."
+  ],
+  "faqs": [
+    {
+      "question": "What's the difference between beef skirt and other cuts?",
+      "answer": "Beef skirt is a traditional cut from the diaphragm muscle. It's flavourful and becomes tender during the long, slow baking. Chuck steak is a good alternative if you can't find skirt."
+    },
+    {
+      "question": "Do I really need swede? Can I use just potato?",
+      "answer": "Swede is essential for an authentic Cornish pasty - it provides a subtle sweetness and distinct flavour. Using only potato would make it inauthentic, though it would still taste good!"
+    },
+    {
+      "question": "Why does the filling go in raw?",
+      "answer": "This is the traditional Cornish method. The raw ingredients steam inside the sealed pastry, creating tender vegetables and meat that's cooked in its own juices. It's what gives Cornish pasties their characteristic flavour."
+    },
+    {
+      "question": "How do I know when it's cooked through?",
+      "answer": "The pastry should be deep golden brown and if you insert a skewer through the steam hole into the centre, it should come out piping hot. The long baking time at lower temperature ensures everything cooks properly."
+    }
+  ],
+  "nutrition": {
+    "calories": 580,
+    "protein": 28,
+    "fat": 30,
+    "carbs": 48
+  },
+  "seoTitle": "Traditional Cornish Pasty Recipe | West Cornwall",
+  "seoDescription": "Authentic Traditional Cornish Pasty recipe from West Cornwall Pasty Co. Beef, potato, swede & onion in shortcrust pastry. Classic British comfort food.",
+  "canonicalUrl": "https://bitebuddyuk.com/recipes/west-cornwall-traditional-cornish-pasty",
+  "brand": {
+    "_type": "reference",
+    "_ref": "TYzLq1jkpxBbhvXHiHjxag"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ],
+  "ratingCount": 0,
+  "ratingSum": 0
+}

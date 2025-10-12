@@ -1,0 +1,322 @@
+{
+  "_type": "recipe",
+  "title": "West Cornwall Pasty Co Spicy Chilli Beef Pasty",
+  "slug": {
+    "_type": "slug",
+    "current": "west-cornwall-spicy-chilli-beef-pasty"
+  },
+  "description": "Make West Cornwall Pasty Co's fiery Spicy Chilli Beef Pasty at home with seasoned beef mince, kidney beans and a warming chilli kick wrapped in buttery shortcrust pastry. A perfect handheld lunch with proper heat.",
+  "introText": "The Spicy Chilli Beef Pasty from West Cornwall Pasty Co turns up the heat on the traditional pasty with a bold, Mexican-inspired filling. Packed with well-seasoned beef mince, kidney beans, peppers and a generous kick of chilli, this modern pasty variation has become a favourite for those who like their lunch with a bit of spice. The rich, tomatoey filling contrasts beautifully with the buttery shortcrust pastry, creating a satisfying meal that's both comforting and exciting. This copycat recipe captures that same balance of heat and heartiness, perfect for cold days when you need something warming and substantial.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "West Cornwall Pasty Co has been innovating within the traditional pasty format since opening their first shop in 1998. While they honour the classic Cornish pasty, they've never been afraid to push boundaries with bold new flavours that reflect modern British tastes."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Their Spicy Chilli Beef Pasty represents this innovative spirit perfectly. It takes inspiration from chilli con carne - a British favourite - and transforms it into a portable, hand-held format. The result is a pasty that delivers authentic spice and flavour while maintaining the quality and craft that West Cornwall is known for."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "This homemade version lets you control the heat level while enjoying that same satisfying combination of spiced beef, beans and golden pastry that makes this such a popular lunchtime choice."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 25,
+  "cookMin": 45,
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Filling",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmDu"
+          },
+          "quantity": "400",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.onion"
+          },
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "finely chopped"
+        },
+        {
+          "ingredientText": "Red Pepper",
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "diced"
+        },
+        {
+          "ingredientText": "Garlic",
+          "quantity": "3",
+          "unit": "clove",
+          "notes": "minced"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMm3G"
+          },
+          "quantity": "2",
+          "unit": "tsp"
+        },
+        {
+          "ingredientText": "Ground Cumin",
+          "quantity": "1",
+          "unit": "tsp"
+        },
+        {
+          "ingredientText": "Smoked Paprika",
+          "quantity": "1",
+          "unit": "tsp"
+        },
+        {
+          "ingredientText": "Chopped Tomatoes",
+          "quantity": "200",
+          "unit": "g",
+          "notes": "canned"
+        },
+        {
+          "ingredientText": "Tomato Puree",
+          "quantity": "2",
+          "unit": "tbsp"
+        },
+        {
+          "ingredientText": "Kidney Beans",
+          "quantity": "200",
+          "unit": "g",
+          "notes": "drained"
+        },
+        {
+          "ingredientText": "Beef Stock",
+          "quantity": "100",
+          "unit": "ml"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "DOyalXpxxR8GcURoHK5YxT"
+          },
+          "quantity": "1",
+          "unit": "tsp"
+        },
+        {
+          "ingredientText": "Olive Oil",
+          "quantity": "2",
+          "unit": "tbsp"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Pastry",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlsc"
+          },
+          "quantity": "500",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.egg"
+          },
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "beaten, for egg wash"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Heat the olive oil in a large frying pan over medium-high heat. Add the beef mince and cook for 5-6 minutes, breaking it up with a wooden spoon, until browned all over. Drain any excess fat."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Add the onion, red pepper and garlic to the pan. Cook for 5 minutes until softened. Stir in the chilli powder, cumin and smoked paprika, cooking for 1 minute until fragrant."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Add the chopped tomatoes, tomato puree, kidney beans, beef stock and salt. Stir well and bring to a simmer. Cook for 15-20 minutes, stirring occasionally, until the mixture is thick and most of the liquid has evaporated. The filling should be quite dry. Leave to cool completely."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Preheat your oven to 200°C (180°C fan/Gas 6). Roll out the shortcrust pastry on a lightly floured surface to 3-4mm thickness. Cut out 4 circles approximately 20cm in diameter."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Divide the cooled chilli beef filling between the pastry circles, placing it on one half and leaving a 2cm border. Brush the edges with beaten egg, then fold over to create a half-moon shape."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Crimp the edges firmly to seal, creating the traditional Cornish crimp along the side. Place on a lined baking tray and brush generously with beaten egg."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Bake for 35-40 minutes until deep golden brown. Cool for 5 minutes before serving. Enjoy hot with sour cream or eat cold the next day."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Adjust the heat by increasing or decreasing the chilli powder - start with 1 tsp if you prefer milder spice.",
+    "Make the filling a day ahead for easier assembly and better flavour development.",
+    "Add a handful of grated cheese to the filling for extra richness.",
+    "For a smokier flavour, use chipotle chilli powder instead of regular chilli powder.",
+    "These freeze brilliantly - freeze unbaked for up to 3 months and bake from frozen, adding 10-15 minutes to cooking time."
+  ],
+  "faqs": [
+    {
+      "question": "How spicy is this pasty?",
+      "answer": "With 2 tsp of chilli powder, it has a moderate heat - noticeable but not overwhelming. Adjust to your preference by using more or less chilli powder."
+    },
+    {
+      "question": "Can I make this with turkey mince instead?",
+      "answer": "Absolutely! Turkey mince works well as a leaner alternative. You may want to add an extra tablespoon of olive oil as turkey is less fatty than beef."
+    },
+    {
+      "question": "Why does the filling need to be completely dry?",
+      "answer": "Excess liquid will make the pastry soggy. The filling should be thick enough to hold its shape when spooned. If it's too wet, cook it for a few more minutes uncovered."
+    },
+    {
+      "question": "Can I add vegetables to the filling?",
+      "answer": "Yes! Sweetcorn, black beans or diced courgette all work well. Just make sure to cook out any excess moisture before assembling."
+    }
+  ],
+  "nutrition": {
+    "calories": 565,
+    "protein": 30,
+    "fat": 26,
+    "carbs": 52
+  },
+  "seoTitle": "West Cornwall Spicy Chilli Beef Pasty Recipe",
+  "seoDescription": "Recreate West Cornwall Pasty Co's Spicy Chilli Beef Pasty at home! Seasoned beef, kidney beans & heat in golden pastry. Perfect copycat recipe.",
+  "canonicalUrl": "https://bitebuddyuk.com/recipes/west-cornwall-spicy-chilli-beef-pasty",
+  "brand": {
+    "_type": "reference",
+    "_ref": "TYzLq1jkpxBbhvXHiHjxag"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "dbbb051c-6610-4f42-8959-cbe7da379cfa"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ],
+  "ratingCount": 0,
+  "ratingSum": 0
+}

@@ -1,0 +1,282 @@
+{
+  "_type": "recipe",
+  "title": "Pret A Manger Italian Style Chicken and Basil Hot Wrap",
+  "slug": {
+    "_type": "slug",
+    "current": "pret-italian-chicken-basil-hot-wrap"
+  },
+  "description": "A Mediterranean-inspired wrap filled with seasoned chicken breast, mozzarella, sun-dried tomatoes, fresh basil, and Italian dressing.",
+  "servings": 1,
+  "prepMin": 15,
+  "cookMin": 15,
+  "introText": "Transport yourself to the Italian countryside with Pret's Italian Style Chicken and Basil Hot Wrap. This Mediterranean masterpiece combines tender, herb-marinated chicken breast with creamy mozzarella, tangy sun-dried tomatoes, and aromatic fresh basil, all brought together with a zesty Italian dressing. Wrapped in a soft, warm tortilla, this lunch option delivers authentic Italian flavors in a convenient, portable format. The combination of protein-rich chicken, melted cheese, and vibrant vegetables creates a satisfying meal that's both nutritious and indulgent. It's la dolce vita in wrap form.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Pret A Manger's global inspiration extends throughout their menu, with Italian flavors featuring prominently. The chain sources quality ingredients and prepares everything fresh daily, ensuring that classics like this wrap deliver authentic taste."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Their Italian range celebrates the simplicity and quality that Italian cuisine is known for – fresh herbs, premium cheese, and perfectly seasoned proteins. This wrap exemplifies Pret's ability to take international flavors and make them accessible for busy lifestyles."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Chicken",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "YDBJc7YDcXN6vN0pB1IkcO"
+          },
+          "quantity": "150",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.olive-oil"
+          },
+          "quantity": "1",
+          "unit": "tbsp"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.garlic"
+          },
+          "quantity": "1",
+          "unit": "clove",
+          "notes": "minced"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "YDBJc7YDcXN6vN0pB1KdZs"
+          },
+          "quantity": "0.5",
+          "unit": "tsp"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "DOyalXpxxR8GcURoHK5YxT"
+          },
+          "quantity": "0.5",
+          "unit": "tsp"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.black-pepper"
+          },
+          "quantity": "0.25",
+          "unit": "tsp"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "For Assembly",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.tortilla-wrap"
+          },
+          "quantity": "1",
+          "unit": "piece"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "TYzLq1jkpxBbhvXHhm5lCR"
+          },
+          "quantity": "60",
+          "unit": "g",
+          "notes": "torn or sliced"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.sun-dried-tomatoes"
+          },
+          "quantity": "40",
+          "unit": "g",
+          "notes": "drained and chopped"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "TYzLq1jkpxBbhvXHhm27Uq"
+          },
+          "quantity": "10",
+          "unit": "g",
+          "notes": "fresh leaves"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFsR0NvV"
+          },
+          "quantity": "20",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.italian-dressing"
+          },
+          "quantity": "2",
+          "unit": "tbsp"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Slice the chicken breast horizontally to create a thinner piece (or butterfly it). In a bowl, combine olive oil, minced garlic, dried basil, salt, and pepper. Add the chicken and coat thoroughly. Marinate for at least 10 minutes, or up to 2 hours in the refrigerator."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Heat a griddle pan or non-stick frying pan over medium-high heat. Cook the chicken for 5-6 minutes on each side until cooked through (internal temperature of 75°C/165°F) and nicely charred. Remove and rest for 3 minutes, then slice into strips."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "While the chicken rests, warm your tortilla wrap in a dry pan or microwave for 10-15 seconds until pliable."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Lay the warm tortilla flat. Drizzle 1 tablespoon of Italian dressing down the center. Layer with rocket, then add the sliced chicken strips."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Top with torn mozzarella, sun-dried tomatoes, and fresh basil leaves. Drizzle with the remaining Italian dressing."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Fold in the sides of the wrap, then roll tightly from bottom to top. If desired, return to the pan seam-side down for 1-2 minutes to seal and create grill marks. Cut in half diagonally and serve immediately."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Marinate the chicken overnight for even more flavor",
+    "Use buffalo mozzarella for authentic Italian taste",
+    "Add a handful of baby spinach for extra nutrients",
+    "Make your own Italian dressing with olive oil, lemon juice, and herbs"
+  ],
+  "faqs": [
+    {
+      "question": "Can I use pre-cooked chicken?",
+      "answer": "Yes! Use leftover roast chicken or a pre-cooked chicken breast. Just warm it through with the Italian seasonings before assembling the wrap."
+    },
+    {
+      "question": "How do I prevent the wrap from becoming soggy?",
+      "answer": "Ensure your chicken isn't too wet after cooking, pat dry the sun-dried tomatoes well, and add the dressing just before eating. You can also keep wet ingredients toward the center of the wrap."
+    }
+  ],
+  "nutrition": {
+    "calories": 545,
+    "protein": 38,
+    "fat": 22,
+    "carbs": 46
+  },
+  "seoTitle": "Pret Italian Chicken & Basil Wrap | Easy Copycat Recipe",
+  "seoDescription": "Make Pret's Italian Chicken and Basil Hot Wrap at home! Herb-marinated chicken, mozzarella, sun-dried tomatoes & fresh basil. Ready in 30 minutes.",
+  "canonicalUrl": "https://bitebuddy.co.uk/recipes/pret-italian-chicken-basil-hot-wrap",
+  "brand": {
+    "_type": "reference",
+    "_ref": "brand-pret-a-manger"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+[
+  {
+    "_type": "ingredient",
+    "name": "Shortcrust Pastry",
+    "allergens": ["gluten", "wheat"],
+    "kcal100": 450,
+    "protein100": 6,
+    "fat100": 25,
+    "carbs100": 50
+  },
+  {
+    "_type": "ingredient",
+    "name": "Chicken Breast",
+    "allergens": [],
+    "kcal100": 165,
+    "protein100": 31,
+    "fat100": 3.6,
+    "carbs100": 0,
+    "gramsPerPiece": 150
+  },
+  {
+    "_type": "ingredient",
+    "name": "Leek",
+    "allergens": [],
+    "kcal100": 61,
+    "protein100": 1.5,
+    "fat100": 0.3,
+    "carbs100": 14,
+    "gramsPerPiece": 200
+  },
+  {
+    "_type": "ingredient",
+    "name": "Beef Mince",
+    "allergens": [],
+    "kcal100": 250,
+    "protein100": 26,
+    "fat100": 17,
+    "carbs100": 0,
+    "synonyms": ["Ground beef", "Minced beef", "Beef mincemeat"]
+  },
+  {
+    "_type": "ingredient",
+    "name": "Chilli Powder",
+    "allergens": [],
+    "kcal100": 282,
+    "protein100": 13,
+    "fat100": 15,
+    "carbs100": 50
+  },
+  {
+    "_type": "ingredient",
+    "name": "Potato",
+    "allergens": [],
+    "kcal100": 77,
+    "protein100": 2,
+    "fat100": 0.1,
+    "carbs100": 17,
+    "gramsPerPiece": 150
+  },
+  {
+    "_type": "ingredient",
+    "name": "Swede",
+    "allergens": [],
+    "kcal100": 38,
+    "protein100": 1.3,
+    "fat100": 0.2,
+    "carbs100": 8,
+    "gramsPerPiece": 300,
+    "synonyms": ["Rutabaga", "Yellow turnip", "Swedish turnip"]
+  },
+  {
+    "_type": "ingredient",
+    "name": "Cheddar Cheese",
+    "allergens": ["milk", "dairy"],
+    "kcal100": 403,
+    "protein100": 25,
+    "fat100": 33,
+    "carbs100": 1.3
+  },
+  {
+    "_type": "ingredient",
+    "name": "Beef Steak",
+    "allergens": [],
+    "kcal100": 271,
+    "protein100": 25,
+    "fat100": 19,
+    "carbs100": 0,
+    "synonyms": ["Steak", "Diced beef", "Braising steak"]
+  },
+  {
+    "_type": "ingredient",
+    "name": "Ale",
+    "allergens": ["gluten", "barley"],
+    "kcal100": 43,
+    "protein100": 0.5,
+    "fat100": 0,
+    "carbs100": 3.6,
+    "density_g_per_ml": 1.0,
+    "synonyms": ["Beer", "Bitter", "Real ale"]
+  },
+  {
+    "_type": "ingredient",
+    "name": "Plain Flour",
+    "allergens": ["gluten", "wheat"],
+    "kcal100": 364,
+    "protein100": 10,
+    "fat100": 1.4,
+    "carbs100": 76
+  },
+  {
+    "_type": "ingredient",
+    "name": "Black Pepper",
+    "allergens": [],
+    "kcal100": 251,
+    "protein100": 10,
+    "fat100": 3.3,
+    "carbs100": 64
+  }
+]

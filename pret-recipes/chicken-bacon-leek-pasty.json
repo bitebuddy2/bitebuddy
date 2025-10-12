@@ -1,0 +1,314 @@
+{
+  "_type": "recipe",
+  "title": "West Cornwall Pasty Co Chicken Bacon and Leek Pasty",
+  "slug": {
+    "_type": "slug",
+    "current": "west-cornwall-chicken-bacon-leek-pasty"
+  },
+  "description": "Recreate West Cornwall Pasty Co's creamy Chicken, Bacon and Leek Pasty at home with tender chicken, crispy bacon and buttery leeks wrapped in golden shortcrust pastry. Perfect for lunch boxes or a comforting dinner.",
+  "introText": "The Chicken, Bacon and Leek Pasty from West Cornwall Pasty Co is a modern twist on the traditional Cornish pasty, combining succulent chicken pieces with smoky bacon rashers and tender leeks in a rich, creamy sauce. This copycat recipe captures that same hearty comfort with a buttery shortcrust pastry case that bakes to a perfect golden crimp. Unlike the classic beef and vegetable filling, this version offers a lighter yet equally satisfying flavour profile that's become a lunchtime favourite across the UK. Whether you're packing lunch for work or enjoying a cosy dinner at home, these homemade pasties deliver authentic West Cornwall flavour with every bite.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "West Cornwall Pasty Co has been bringing authentic Cornish pasties to high streets across the UK since 1998. Founded in Cornwall, the birthplace of the pasty, they've stayed true to traditional baking methods while creating innovative new flavours that appeal to modern tastes."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Their Chicken, Bacon and Leek Pasty represents the perfect balance between honouring Cornish heritage and meeting contemporary flavour preferences. Made fresh daily in their shops, each pasty features locally-sourced ingredients wrapped in proper shortcrust pastry with the iconic Cornish crimp along the side."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Now you can recreate this popular pasty at home, using quality ingredients and simple techniques to achieve that same golden, flaky pastry and rich, savoury filling that makes West Cornwall Pasty Co a British institution."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 30,
+  "cookMin": 45,
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Filling",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlvH"
+          },
+          "quantity": "300",
+          "unit": "g",
+          "notes": "diced into 1cm cubes"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "e0b86c31-b04f-4f82-88b8-8c1e0d26c808"
+          },
+          "quantity": "150",
+          "unit": "g",
+          "notes": "chopped"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlxw"
+          },
+          "quantity": "2",
+          "unit": "piece",
+          "notes": "sliced"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.onion"
+          },
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "finely chopped"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.butter"
+          },
+          "quantity": "30",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmJE"
+          },
+          "quantity": "2",
+          "unit": "tbsp"
+        },
+        {
+          "ingredientText": "Chicken Stock",
+          "quantity": "200",
+          "unit": "ml"
+        },
+        {
+          "ingredientText": "Double Cream",
+          "quantity": "100",
+          "unit": "ml"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "DOyalXpxxR8GcURoHK5YxT"
+          },
+          "quantity": "1",
+          "unit": "tsp"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmLt"
+          },
+          "quantity": "0.5",
+          "unit": "tsp"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Pastry",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlsc"
+          },
+          "quantity": "500",
+          "unit": "g",
+          "notes": "or homemade"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.egg"
+          },
+          "quantity": "1",
+          "unit": "piece",
+          "notes": "beaten, for egg wash"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Preheat your oven to 200°C (180°C fan/Gas 6). In a large frying pan, melt the butter over medium heat and cook the bacon until starting to crisp, about 5 minutes. Add the onion and leeks, cooking for another 5-6 minutes until softened."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Add the diced chicken to the pan and cook for 3-4 minutes until lightly browned. Sprinkle over the flour and stir well to coat everything. Cook for 1 minute."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Gradually pour in the chicken stock, stirring constantly to avoid lumps. Add the cream, salt and pepper. Simmer for 8-10 minutes until the sauce thickens and the chicken is cooked through. Remove from heat and allow to cool completely (this is essential to prevent soggy pastry)."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Roll out the shortcrust pastry on a lightly floured surface to about 3-4mm thickness. Cut out 4 circles approximately 20cm in diameter (use a side plate as a guide)."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Divide the cooled filling between the pastry circles, placing it on one half of each circle and leaving a 2cm border. Brush the edges with beaten egg, then fold the pastry over to create a half-moon shape."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Crimp the edges by folding and twisting the pastry edge to create the traditional Cornish crimp along the side of the pasty. Place on a lined baking tray and brush all over with beaten egg."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Bake for 35-40 minutes until deep golden brown. Allow to cool for 5 minutes before serving. Enjoy hot or take cold for lunch the next day."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Make sure your filling is completely cool before assembling the pasties to prevent soggy bottoms.",
+    "Freeze uncooked pasties for up to 3 months. Bake from frozen, adding 10-15 minutes to the cooking time.",
+    "For a richer filling, add a tablespoon of wholegrain mustard or a handful of grated mature cheddar.",
+    "If the pastry feels too firm to crimp, let it sit at room temperature for 5 minutes to become more pliable."
+  ],
+  "faqs": [
+    {
+      "question": "Can I make these pasties ahead of time?",
+      "answer": "Yes! Assemble the pasties up to 24 hours in advance, cover with cling film and refrigerate. Brush with egg wash just before baking. You can also freeze them unbaked for up to 3 months."
+    },
+    {
+      "question": "What's the best way to reheat a pasty?",
+      "answer": "Reheat in a preheated oven at 180°C for 15-20 minutes until piping hot throughout. Avoid microwaving as this makes the pastry soggy."
+    },
+    {
+      "question": "Can I use puff pastry instead of shortcrust?",
+      "answer": "While traditional Cornish pasties use shortcrust, you can use puff pastry for a lighter, flakier result. Reduce the baking temperature to 190°C to prevent over-browning."
+    },
+    {
+      "question": "How do I know when the pasty is cooked through?",
+      "answer": "The pastry should be deep golden brown and the filling should reach 75°C internally. If you're unsure, insert a skewer into the centre - it should come out piping hot."
+    }
+  ],
+  "nutrition": {
+    "calories": 520,
+    "protein": 28,
+    "fat": 28,
+    "carbs": 42
+  },
+  "seoTitle": "West Cornwall Chicken Bacon & Leek Pasty Recipe",
+  "seoDescription": "Make West Cornwall Pasty Co's Chicken, Bacon & Leek Pasty at home! Creamy filling in golden shortcrust. Perfect copycat recipe for lunch or dinner.",
+  "canonicalUrl": "https://bitebuddyuk.com/recipes/west-cornwall-chicken-bacon-leek-pasty",
+  "brand": {
+    "_type": "reference",
+    "_ref": "TYzLq1jkpxBbhvXHiHjxag"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ],
+  "ratingCount": 0,
+  "ratingSum": 0
+}

@@ -1,0 +1,324 @@
+{
+  "_type": "recipe",
+  "title": "Pret A Manger Falafel and Halloumi Hot Wrap",
+  "slug": {
+    "_type": "slug",
+    "current": "pret-falafel-halloumi-hot-wrap"
+  },
+  "description": "A vibrant vegetarian wrap combining crispy falafel, grilled halloumi, hummus, pickled vegetables, and fresh salad in a soft tortilla.",
+  "servings": 1,
+  "prepMin": 15,
+  "cookMin": 20,
+  "introText": "Pret's Falafel and Halloumi Hot Wrap is a vegetarian dream that celebrates Middle Eastern flavors. Crispy, herb-packed falafel meets squeaky grilled halloumi cheese, creating a textural and flavor combination that satisfies even the heartiest appetite. Creamy hummus, tangy pickled vegetables, fresh salad leaves, and a drizzle of tahini dressing complete this nutrient-dense wrap. Whether you're vegetarian, looking to reduce meat consumption, or simply love bold Mediterranean flavors, this wrap delivers on all fronts. It's proof that meat-free meals can be exciting, satisfying, and absolutely delicious.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Pret A Manger has long championed vegetarian and vegan options, even launching an entire separate chain called Veggie Pret. Their commitment to plant-based eating reflects changing consumer preferences and demonstrates that vegetarian food can be mainstream and exciting."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "The Falafel and Halloumi Hot Wrap showcases Pret's skill in combining international ingredients to create something unique. By pairing traditional Middle Eastern falafel with Cypriot halloumi, they've created a fusion that works beautifully, delivering protein, flavor, and satisfaction in every bite."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Falafel",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.chickpeas"
+          },
+          "quantity": "200",
+          "unit": "g",
+          "notes": "cooked or tinned, drained"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.garlic"
+          },
+          "quantity": "1",
+          "unit": "clove"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.onion"
+          },
+          "quantity": "30",
+          "unit": "g",
+          "notes": "roughly chopped"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "YDBJc7YDcXN6vN0pB0l88Y"
+          },
+          "quantity": "10",
+          "unit": "g",
+          "notes": "fresh, chopped"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "21cf0a2f-16c2-466f-bf2b-9df2d2bcb6b7"
+          },
+          "quantity": "5",
+          "unit": "g",
+          "notes": "fresh, chopped"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ccedb9b4-9528-4b25-b184-1e963f6f782a"
+          },
+          "quantity": "1",
+          "unit": "tsp"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "e54ccbd6-a518-4fbf-86c8-2f8d4a916394"
+          },
+          "quantity": "0.5",
+          "unit": "tsp"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.plain-flour"
+          },
+          "quantity": "20",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ab97318c-7b7c-444c-8b9b-0f54caaa1af2"
+          },
+          "quantity": "0.5",
+          "unit": "tsp"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "DOyalXpxxR8GcURoHK5YxT"
+          },
+          "quantity": "0.5",
+          "unit": "tsp"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "For Assembly",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.tortilla-wrap"
+          },
+          "quantity": "1",
+          "unit": "piece"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.halloumi"
+          },
+          "quantity": "80",
+          "unit": "g",
+          "notes": "sliced"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "a769fe12-cfd3-4009-9583-a64d99e025ac"
+          },
+          "quantity": "50",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "fdd0af8b-83f9-4e94-8030-82b8f2e68757"
+          },
+          "quantity": "30",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "e3e3680a-b5cc-459e-95d5-c1590b74a81a"
+          },
+          "quantity": "40",
+          "unit": "g",
+          "notes": "sliced"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "e0d92a62-1d52-435d-9440-887f372ba4f2"
+          },
+          "quantity": "20",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.tahini-dressing"
+          },
+          "quantity": "2",
+          "unit": "tbsp"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "In a food processor, combine chickpeas, garlic, onion, coriander, parsley, curry powder, turmeric, flour, baking powder, and salt. Pulse until the mixture comes together but still has some texture (not a smooth paste). Shape into 4-5 small patties."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Heat 2-3 tablespoons of vegetable oil in a frying pan over medium heat. Shallow fry the falafel for 3-4 minutes on each side until golden brown and crispy. Drain on kitchen paper."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "In the same pan, add a little more oil if needed and fry the halloumi slices for 2 minutes on each side until golden. Set aside."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Warm the tortilla wrap in a dry pan or microwave for 10-15 seconds. Lay flat and spread the hummus generously down the center."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Layer the salad leaves on top of the hummus, then add the falafel and halloumi slices. Top with cucumber slices and pickled red onion."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Drizzle generously with tahini dressing. Fold in the sides of the wrap and roll tightly from bottom to top. Cut in half diagonally and serve immediately."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Use dried chickpeas soaked overnight for the most authentic falafel texture",
+    "Don't over-process the falafel mixture - it should be coarse, not smooth",
+    "Make extra falafel and freeze uncooked for quick future meals",
+    "Add a sprinkle of za'atar or sumac for extra Middle Eastern flavor"
+  ],
+  "faqs": [
+    {
+      "question": "Can I bake the falafel instead of frying?",
+      "answer": "Yes! Brush the falafel with oil and bake at 200°C (400°F) for 25-30 minutes, flipping halfway through. They won't be quite as crispy but will still be delicious and lighter."
+    },
+    {
+      "question": "Is this wrap vegan?",
+      "answer": "The falafel is vegan, but the halloumi cheese is not. To make it vegan, omit the halloumi and double up on falafel, or use a vegan cheese alternative."
+    }
+  ],
+  "nutrition": {
+    "calories": 595,
+    "protein": 26,
+    "fat": 28,
+    "carbs": 58
+  },
+  "seoTitle": "Pret Falafel & Halloumi Wrap Recipe | Vegetarian",
+  "seoDescription": "Recreate Pret's Falafel and Halloumi Hot Wrap at home! Crispy falafel, grilled halloumi, hummus & pickles in a soft tortilla. Veggie perfection!",
+  "canonicalUrl": "https://bitebuddy.co.uk/recipes/pret-falafel-halloumi-hot-wrap",
+  "brand": {
+    "_type": "reference",
+    "_ref": "brand-pret-a-manger"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "f42c344d-2114-4e20-9331-ba0a99eda367"
+    }
+  ]
+}

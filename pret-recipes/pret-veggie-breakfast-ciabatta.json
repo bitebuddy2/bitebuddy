@@ -1,0 +1,250 @@
+{
+  "_type": "recipe",
+  "title": "Pret A Manger Veggie Breakfast Ciabatta",
+  "slug": {
+    "_type": "slug",
+    "current": "pret-veggie-breakfast-ciabatta"
+  },
+  "description": "A hearty vegetarian breakfast with grilled halloumi, roasted tomatoes, spinach, and scrambled eggs in a toasted ciabatta roll.",
+  "servings": 1,
+  "prepMin": 10,
+  "cookMin": 15,
+  "introText": "Start your morning right with Pret's Veggie Breakfast Ciabatta, a vegetarian powerhouse that delivers satisfaction without compromise. This delicious breakfast features golden grilled halloumi cheese with its distinctive squeaky texture, perfectly seasoned scrambled eggs, sweet roasted tomatoes, and fresh spinach, all tucked into a crispy-on-the-outside, fluffy-on-the-inside toasted ciabatta. It's a protein-rich breakfast that keeps you energized throughout the morning while delivering the comforting flavors you crave. Whether you're vegetarian or simply looking for a meat-free breakfast option, this ciabatta hits all the right notes.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Pret A Manger has been at the forefront of offering substantial vegetarian options since its inception. Their breakfast range caters to modern dietary preferences while maintaining their commitment to fresh, quality ingredients prepared daily."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "The Veggie Breakfast Ciabatta showcases Pret's understanding that vegetarian food should be satisfying and flavorful, not just an afterthought. With the inclusion of halloumi – a cheese beloved for its grillability and texture – this breakfast delivers on both taste and substance."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "heading": "Main Ingredients",
+      "items": [
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "TYzLq1jkpxBbhvXHheNl9K"
+          },
+          "quantity": "1",
+          "unit": "piece"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.halloumi"
+          },
+          "quantity": "80",
+          "unit": "g",
+          "notes": "sliced into 3-4 pieces"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "TYzLq1jkpxBbhvXHhm5IFr"
+          },
+          "quantity": "2",
+          "unit": "piece"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "TYzLq1jkpxBbhvXHhm27J2"
+          },
+          "quantity": "40",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "TYzLq1jkpxBbhvXHhm26yN"
+          },
+          "quantity": "4",
+          "unit": "piece",
+          "notes": "halved"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.butter"
+          },
+          "quantity": "10",
+          "unit": "g"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "DOyalXpxxR8GcURoHK5YxT"
+          },
+          "quantity": "1",
+          "unit": "pinch"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.black-pepper"
+          },
+          "quantity": "1",
+          "unit": "pinch"
+        },
+        {
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.olive-oil"
+          },
+          "quantity": "1",
+          "unit": "tbsp"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Preheat your grill to medium-high. Place the halved cherry tomatoes on a baking tray, drizzle with half the olive oil, and season with salt and pepper. Grill for 8-10 minutes until softened and slightly charred."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "While the tomatoes are cooking, heat a non-stick frying pan over medium heat with the remaining olive oil. Add the halloumi slices and cook for 2-3 minutes on each side until golden brown. Set aside."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "In a bowl, whisk the eggs with a pinch of salt and pepper. Melt the butter in the same pan over low-medium heat. Pour in the eggs and gently stir with a spatula, creating soft curds. Cook until just set but still creamy (about 3-4 minutes)."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "In the final minute of cooking the eggs, add the baby spinach to the pan and gently fold through until just wilted."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Slice the ciabatta roll in half horizontally and toast cut-side down in a dry pan or under the grill until golden and crispy."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Build your breakfast: Place the scrambled eggs with spinach on the bottom half of the ciabatta, top with grilled halloumi slices, then add the roasted tomatoes. Place the ciabatta top on and serve immediately while hot."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Don't overcook the eggs - they should be soft and creamy when removed from heat",
+    "Pat halloumi dry before grilling for the best golden color",
+    "Add a drizzle of hot sauce or sriracha for extra kick",
+    "Toast the ciabatta well to prevent it becoming soggy"
+  ],
+  "faqs": [
+    {
+      "question": "Can I make this vegan?",
+      "answer": "Yes! Substitute the eggs with tofu scramble, use vegan cheese instead of halloumi, and ensure your ciabatta is egg-free. The result is still delicious and protein-rich."
+    },
+    {
+      "question": "What cheese can I use instead of halloumi?",
+      "answer": "While halloumi has a unique texture, you could use thick slices of mozzarella, provolone, or even grilled paneer as alternatives."
+    }
+  ],
+  "nutrition": {
+    "calories": 485,
+    "protein": 28,
+    "fat": 24,
+    "carbs": 38
+  },
+  "seoTitle": "Pret Veggie Breakfast Ciabatta Recipe | Make at Home",
+  "seoDescription": "Recreate Pret's Veggie Breakfast Ciabatta with grilled halloumi, scrambled eggs, roasted tomatoes & spinach. Perfect vegetarian breakfast in 25 minutes.",
+  "canonicalUrl": "https://bitebuddy.co.uk/recipes/pret-veggie-breakfast-ciabatta",
+  "brand": {
+    "_type": "reference",
+    "_ref": "brand-pret-a-manger"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "c761db68-4f79-4742-b85f-7a7910747398"
+    },
+    {
+      "_type": "reference",
+      "_ref": "f42c344d-2114-4e20-9331-ba0a99eda367"
+    }
+  ]
+}

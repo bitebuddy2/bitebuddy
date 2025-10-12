@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.lingonberry-jam",
+  "name": "Lingonberry Jam",
+  "synonyms": ["lingonberry preserve", "lingonberry sauce", "lingon jam"],
+  "kcal100": 200,
+  "protein100": 0.3,
+  "fat100": 0.1,
+  "carbs100": 50.0,
+  "allergens": []
+}
