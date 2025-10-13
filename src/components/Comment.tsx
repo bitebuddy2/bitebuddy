@@ -215,15 +215,15 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
                 </div>
               </div>
             ) : (
-              <>
-                <p className="text-gray-800 text-sm whitespace-pre-wrap break-words">
+              <div className="flex gap-3 items-start">
+                <p className="text-gray-800 text-sm whitespace-pre-wrap break-words flex-1">
                   {comment.comment_text}
                 </p>
 
                 {/* Comment Image */}
                 {comment.image_url && (
                   <div
-                    className="mt-3 relative w-full max-w-[200px] aspect-[4/3] cursor-pointer overflow-hidden rounded-lg"
+                    className="relative w-[200px] flex-shrink-0 aspect-[4/3] cursor-pointer overflow-hidden rounded-lg"
                     onClick={() => setShowImageModal(true)}
                   >
                     <Image
@@ -236,7 +236,7 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
                     />
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
         </div>
