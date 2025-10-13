@@ -158,11 +158,12 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
 
                 {/* Image Upload */}
                 {(imagePreview || comment.image_url) && (
-                  <div className="relative w-32 h-32">
+                  <div className="relative w-40 h-30 overflow-hidden rounded-lg">
                     <Image
                       src={imagePreview || comment.image_url!}
                       alt="Preview"
-                      fill
+                      width={160}
+                      height={120}
                       className="object-cover rounded-lg"
                     />
                     <button
@@ -222,14 +223,16 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
                 {/* Comment Image */}
                 {comment.image_url && (
                   <div
-                    className="mt-3 relative w-full max-w-md h-48 cursor-pointer"
+                    className="mt-3 relative w-full max-w-sm aspect-[4/3] cursor-pointer overflow-hidden rounded-lg"
                     onClick={() => setShowImageModal(true)}
                   >
                     <Image
                       src={comment.image_url}
                       alt="Comment image"
                       fill
-                      className="object-cover rounded-lg hover:opacity-95 transition-opacity"
+                      sizes="(max-width: 640px) 90vw, 384px"
+                      className="object-cover hover:opacity-95 transition-opacity"
+                      loading="lazy"
                     />
                   </div>
                 )}

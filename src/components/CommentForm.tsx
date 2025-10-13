@@ -74,11 +74,12 @@ export default function CommentForm({ onSubmit }: CommentFormProps) {
 
       {/* Image preview */}
       {imagePreview && (
-        <div className="relative w-32 h-32">
+        <div className="relative w-40 h-30 overflow-hidden rounded-lg">
           <Image
             src={imagePreview}
             alt="Preview"
-            fill
+            width={160}
+            height={120}
             className="object-cover rounded-lg"
           />
           <button
