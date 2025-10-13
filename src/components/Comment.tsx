@@ -216,7 +216,7 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
               </div>
             ) : (
               <div className="flex gap-3 items-start">
-                <p className="text-gray-800 text-sm whitespace-pre-wrap break-words flex-1">
+                <p className="text-gray-800 text-sm whitespace-pre-wrap break-words flex-1 min-w-0 overflow-wrap-anywhere">
                   {comment.comment_text}
                 </p>
 
