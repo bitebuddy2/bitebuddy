@@ -42,7 +42,7 @@ export default function TopSearch() {
             placeholder="Search recipes by name..."
             className="w-full h-12 rounded-full border-2 border-white pl-12 pr-4 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm hover:shadow-md transition-all bg-white"
             onFocus={() => setOpen(results.length > 0)}
-            onBlur={() => setTimeout(() => setOpen(false), 150)}
+            onBlur={() => setTimeout(() => setOpen(false), 300)}
           />
           {isPending && (
             <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -60,6 +60,11 @@ export default function TopSearch() {
                   <Link
                     href={`/recipes/${r.slug}`}
                     className="flex items-center gap-3 p-3 hover:bg-emerald-50 transition-colors"
+                    onMouseDown={(e) => {
+                      // Prevent blur from happening before navigation
+                      e.preventDefault();
+                      window.location.href = `/recipes/${r.slug}`;
+                    }}
                   >
                     {r.heroImage ? (
                       <Image
