@@ -158,12 +158,12 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
 
                 {/* Image Upload */}
                 {(imagePreview || comment.image_url) && (
-                  <div className="relative w-40 h-30 overflow-hidden rounded-lg">
+                  <div className="relative w-24 h-18 overflow-hidden rounded-lg">
                     <Image
                       src={imagePreview || comment.image_url!}
                       alt="Preview"
-                      width={160}
-                      height={120}
+                      width={96}
+                      height={72}
                       className="object-cover rounded-lg"
                     />
                     <button
@@ -172,7 +172,7 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
                         setEditImage(null);
                         setImagePreview(null);
                       }}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 text-sm"
                     >
                       ×
                     </button>
@@ -223,14 +223,14 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
                 {/* Comment Image */}
                 {comment.image_url && (
                   <div
-                    className="mt-3 relative w-full max-w-sm aspect-[4/3] cursor-pointer overflow-hidden rounded-lg"
+                    className="mt-3 relative w-full max-w-[200px] aspect-[4/3] cursor-pointer overflow-hidden rounded-lg"
                     onClick={() => setShowImageModal(true)}
                   >
                     <Image
                       src={comment.image_url}
                       alt="Comment image"
                       fill
-                      sizes="(max-width: 640px) 90vw, 384px"
+                      sizes="(max-width: 640px) 50vw, 200px"
                       className="object-cover hover:opacity-95 transition-opacity"
                       loading="lazy"
                     />

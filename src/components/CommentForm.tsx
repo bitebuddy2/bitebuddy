@@ -74,12 +74,12 @@ export default function CommentForm({ onSubmit }: CommentFormProps) {
 
       {/* Image preview */}
       {imagePreview && (
-        <div className="relative w-40 h-30 overflow-hidden rounded-lg">
+        <div className="relative w-24 h-18 overflow-hidden rounded-lg">
           <Image
             src={imagePreview}
             alt="Preview"
-            width={160}
-            height={120}
+            width={96}
+            height={72}
             className="object-cover rounded-lg"
           />
           <button
@@ -88,7 +88,7 @@ export default function CommentForm({ onSubmit }: CommentFormProps) {
               setImage(null);
               setImagePreview(null);
             }}
-            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 text-sm"
             disabled={isSubmitting}
           >
             ×
