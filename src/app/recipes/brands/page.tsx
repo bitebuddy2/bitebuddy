@@ -45,8 +45,8 @@ interface Brand {
 export default async function BrandsPage() {
   const brands = await client.fetch<Brand[]>(allBrandsWithRecipeCountQuery);
 
-  // Filter out brands with no recipes
-  const brandsWithRecipes = brands.filter((brand) => brand.recipeCount > 0);
+  // Filter out brands with no recipes or missing titles
+  const brandsWithRecipes = brands.filter((brand) => brand.recipeCount > 0 && brand.title);
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8">
@@ -84,7 +84,7 @@ export default async function BrandsPage() {
                 ) : (
                   <div className="w-[60px] h-[60px] rounded-lg bg-gray-100 flex items-center justify-center">
                     <span className="text-2xl font-bold text-gray-400">
-                      {brand.title.charAt(0)}
+                      {brand.title?.charAt(0) || "?"}
                     </span>
                   </div>
                 )}
