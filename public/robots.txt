@@ -3,5 +3,6 @@ Allow: /
 Disallow: /go/
 Disallow: /api/
 Disallow: /admin/
+Disallow: /studio/
 
 Sitemap: https://bitebuddy.co.uk/sitemap.xml
