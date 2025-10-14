@@ -274,9 +274,22 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         brand={recipe.brand?.title}
       />
 
-      <Link href="/recipes" className="text-sm text-emerald-700 underline">
-        ← Back to all recipes
-      </Link>
+      {/* Breadcrumb Navigation */}
+      <nav className="mb-4 text-sm text-gray-600">
+        <Link href="/" className="hover:text-emerald-600">Home</Link>
+        {" / "}
+        <Link href="/recipes" className="hover:text-emerald-600">Recipes</Link>
+        {recipe.brand && (
+          <>
+            {" / "}
+            <Link href={`/recipes/brands/${recipe.brand.slug}`} className="hover:text-emerald-600">
+              {recipe.brand.title}
+            </Link>
+          </>
+        )}
+        {" / "}
+        <span className="text-gray-900">{title}</span>
+      </nav>
 
       <h1 className="mt-2 text-3xl md:text-4xl lg:text-5xl font-bold">{title}</h1>
 
@@ -333,6 +346,17 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       )}
 
       {description && <p className="mt-2 text-gray-700">{description}</p>}
+
+      {/* Last Updated Date */}
+      {(recipe as any)._updatedAt && (
+        <p className="mt-2 text-sm text-gray-500">
+          Last updated: {new Date((recipe as any)._updatedAt).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          })}
+        </p>
+      )}
 
       {/* Social proof - save count */}
       {saveCount !== null && saveCount > 0 && (

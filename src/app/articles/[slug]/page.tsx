@@ -115,25 +115,37 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     "@type": "Article",
     headline: article.title,
     description: article.excerpt,
-    image: article.heroImage?.asset?.url,
+    image: article.heroImage?.asset?.url ? [article.heroImage.asset.url] : undefined,
     datePublished: article.publishedAt,
     dateModified: article._updatedAt,
     author: {
       "@type": "Person",
       name: article.author?.name || "Bite Buddy Team",
       description: article.author?.bio,
+      url: `${SITE_URL}/about`,
     },
     publisher: {
       "@type": "Organization",
       name: "Bite Buddy",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
         url: `${SITE_URL}/logo.png`,
       },
     },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/articles/${article.slug}`,
+    },
     articleSection: categoryLabel,
     keywords: article.tags?.join(", "),
     wordCount,
+    inLanguage: "en-GB",
+    isAccessibleForFree: true,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["article", "h1"],
+    },
   };
 
   return (

@@ -73,13 +73,8 @@ export default async function BrandPage({ params }: { params: Promise<{ brandSlu
     itemListElement: recipes.map((recipe, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      item: {
-        "@type": "Recipe",
-        name: recipe.title,
-        url: `${SITE_URL}/recipes/${recipe.slug}`,
-        image: recipe.heroImage?.asset?.url,
-        description: recipe.description || recipe.introText,
-      },
+      url: `${SITE_URL}/recipes/${recipe.slug}`,
+      name: recipe.title,
     })),
   };
 

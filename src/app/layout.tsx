@@ -28,6 +28,11 @@ export const metadata: Metadata = {
   },
   description: "Recreate your favourite UK restaurant & bakery dishes at home.",
   alternates: { canonical: "/" },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  },
   openGraph: {
     siteName: SITE.name,
     type: "website",
