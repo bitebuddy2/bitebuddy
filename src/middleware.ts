@@ -16,6 +16,19 @@ function cleanupRateLimitMap() {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Protect /studio routes with password
+  if (pathname.startsWith('/studio')) {
+    const isAuthenticated = request.cookies.get('studio-auth')?.value === 'true';
+
+    if (!isAuthenticated) {
+      // Redirect to password page
+      const url = request.nextUrl.clone();
+      url.pathname = '/studio-login';
+      url.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(url);
+    }
+  }
+
   // Only apply to auth API routes
   if (pathname.startsWith('/api/auth/')) {
     // Get IP from headers (Vercel provides this)
@@ -60,5 +73,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/api/auth/:path*',
+  matcher: ['/api/auth/:path*', '/studio/:path*'],
 };
