@@ -24,6 +24,7 @@ import RecipeViewPrompt from "@/components/RecipeViewPrompt";
 import ExitIntentPrompt from "@/components/ExitIntentPrompt";
 import RecipeIngredients from "@/components/RecipeInteractions";
 import CookingModeToggle from "@/components/CookingModeToggle";
+import AddToCollectionButton from "@/components/AddToCollectionButton";
 import { supabase } from "@/lib/supabase";
 
 // 👇 use ONE of these imports depending on which fix you chose:
@@ -399,6 +400,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       <div className="mt-4 flex flex-wrap items-center gap-3 md:gap-4">
         <ShareRow title={recipe.title} url={`${SITE_URL}/recipes/${recipe.slug}`} />
         <SaveButton recipeSlug={recipe.slug} recipeTitle={recipe.title} />
+        <AddToCollectionButton recipeSlug={recipe.slug} />
         <CookingModeToggle />
         <PrintButton
           recipeSlug={recipe.slug}
