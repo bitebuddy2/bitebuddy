@@ -1,0 +1,148 @@
+/* Cooking Mode Styles - Large text, high contrast, distraction-free */
+
+body.cooking-mode {
+  /* Remove background patterns/images */
+  background: white !important;
+}
+
+/* Hide non-essential elements in cooking mode */
+body.cooking-mode nav,
+body.cooking-mode footer,
+body.cooking-mode aside,
+body.cooking-mode .ad-placeholder,
+body.cooking-mode .related-recipes,
+body.cooking-mode .comment-section,
+body.cooking-mode .breadcrumb,
+body.cooking-mode .share-row,
+body.cooking-mode .exit-intent-prompt,
+body.cooking-mode .recipe-view-prompt {
+  display: none !important;
+}
+
+/* Enlarge text for easy reading from a distance */
+body.cooking-mode h1 {
+  font-size: 3rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 2rem !important;
+}
+
+body.cooking-mode h2 {
+  font-size: 2.5rem !important;
+  line-height: 1.3 !important;
+  margin: 2rem 0 1.5rem !important;
+  color: #059669 !important;
+}
+
+body.cooking-mode h3,
+body.cooking-mode h4 {
+  font-size: 2rem !important;
+  margin: 1.5rem 0 1rem !important;
+}
+
+body.cooking-mode p,
+body.cooking-mode li,
+body.cooking-mode td,
+body.cooking-mode span {
+  font-size: 1.75rem !important;
+  line-height: 1.8 !important;
+}
+
+/* Ingredients list - extra large and spaced */
+body.cooking-mode .ingredients-section li {
+  font-size: 2rem !important;
+  line-height: 2 !important;
+  margin-bottom: 1.5rem !important;
+  padding: 1rem !important;
+  background: #f0fdf4 !important;
+  border-radius: 0.5rem !important;
+}
+
+/* Method steps - numbered and prominent */
+body.cooking-mode .method-section ol {
+  counter-reset: step-counter;
+  list-style: none !important;
+  padding: 0 !important;
+}
+
+body.cooking-mode .method-section ol li {
+  counter-increment: step-counter;
+  position: relative;
+  font-size: 2rem !important;
+  line-height: 1.8 !important;
+  margin-bottom: 2rem !important;
+  padding: 2rem !important;
+  padding-left: 5rem !important;
+  background: #f9fafb !important;
+  border-left: 6px solid #059669 !important;
+  border-radius: 0.75rem !important;
+}
+
+body.cooking-mode .method-section ol li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 1rem;
+  top: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  background: #059669;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.75rem;
+}
+
+/* Timings - make prominent */
+body.cooking-mode .recipe-timings {
+  font-size: 1.75rem !important;
+  padding: 1.5rem !important;
+  background: #fef3c7 !important;
+  border-radius: 0.75rem !important;
+  margin: 2rem 0 !important;
+}
+
+/* Buttons - larger hit targets */
+body.cooking-mode button {
+  font-size: 1.5rem !important;
+  padding: 1.5rem 2rem !important;
+  min-height: 4rem !important;
+}
+
+/* Keep cooking mode toggle visible and fixed */
+body.cooking-mode .cooking-mode-toggle {
+  position: fixed !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  z-index: 9999 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Maximize readability */
+body.cooking-mode {
+  color: #111827 !important;
+}
+
+body.cooking-mode main {
+  max-width: 100% !important;
+  padding: 2rem !important;
+}
+
+/* Images - keep but make smaller in cooking mode */
+body.cooking-mode img {
+  max-width: 400px !important;
+  height: auto !important;
+  margin: 1rem 0 !important;
+}
+
+/* Tables - enlarge text */
+body.cooking-mode table {
+  font-size: 1.5rem !important;
+}
+
+body.cooking-mode th,
+body.cooking-mode td {
+  padding: 1.5rem !important;
+  font-size: 1.5rem !important;
+}

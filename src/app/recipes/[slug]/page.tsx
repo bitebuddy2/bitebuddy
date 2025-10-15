@@ -22,6 +22,8 @@ import StickyRecipeHeader from "@/components/StickyRecipeHeader";
 import RelatedRecipes from "@/components/RelatedRecipes";
 import RecipeViewPrompt from "@/components/RecipeViewPrompt";
 import ExitIntentPrompt from "@/components/ExitIntentPrompt";
+import RecipeIngredients from "@/components/RecipeInteractions";
+import CookingModeToggle from "@/components/CookingModeToggle";
 import { supabase } from "@/lib/supabase";
 
 // 👇 use ONE of these imports depending on which fix you chose:
@@ -387,7 +389,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         </div>
       )}
 
-      <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
+      <div className="recipe-timings mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
         {servings ? <span>Serves: {servings}</span> : null}
         {prepMin != null ? <span>Prep: {prepMin} mins</span> : null}
         {cookMin != null ? <span>Cook: {cookMin} mins</span> : null}
@@ -397,6 +399,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       <div className="mt-4 flex flex-wrap items-center gap-3 md:gap-4">
         <ShareRow title={recipe.title} url={`${SITE_URL}/recipes/${recipe.slug}`} />
         <SaveButton recipeSlug={recipe.slug} recipeTitle={recipe.title} />
+        <CookingModeToggle />
         <PrintButton
           recipeSlug={recipe.slug}
           recipeTitle={recipe.title}
@@ -489,69 +492,14 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       </div>
 
       <div className="mt-8 grid gap-8 md:grid-cols-2">
-        <section className="rounded-2xl border p-4">
-          <h2 className="mb-3 text-xl font-semibold tracking-tight">Ingredients</h2>
+        <RecipeIngredients
+          originalServings={recipe.servings}
+          ingredientGroups={recipe.ingredients || []}
+          recipeSlug={recipe.slug}
+          brandTitle={recipe.brand?.title}
+        />
 
-          {Array.isArray(ingredients) && ingredients.length > 0 ? (
-            <div className="space-y-5">
-              {ingredients.map((group: IngredientGroup, gi: number) => (
-                <div key={gi}>
-                  {group.heading ? <h4 className="mb-2 font-semibold">{group.heading}</h4> : null}
-                  <ul className="space-y-2 text-sm">
-                    {group.items?.map((it, ii: number) => {
-                      const name = it.ingredientText || it.ingredientRef?.name || "Ingredient";
-                      const qtyUnit = [it.quantity, it.unit].filter(Boolean).join(" ");
-                      const label = [qtyUnit, name].filter(Boolean).join(" ");
-
-                      // Debug: warn in development if ingredient data is missing
-                      if (process.env.NODE_ENV === 'development' && name === "Ingredient") {
-                        console.warn(`Missing ingredient data for item ${ii + 1} in ${recipe.title}:`, {
-                          ingredientText: it.ingredientText,
-                          ingredientRef: it.ingredientRef,
-                          quantity: it.quantity,
-                          unit: it.unit
-                        });
-                      }
-
-                      return (
-                        <li key={ii} className="flex items-start gap-2">
-                          <span className="mt-1 h-2 w-2 rounded-full bg-emerald-600 flex-shrink-0" />
-                          <div className="flex-1">
-                            <div>
-                              <strong>{label}</strong>
-                              {it.notes ? ` — ${it.notes}` : ""}
-                            </div>
-
-                            {/* Affiliate retailer buttons */}
-                            {it.ingredientRef?.retailerLinks && it.ingredientRef.retailerLinks.length > 0 && (
-                              <div className="mt-2 flex flex-wrap gap-2">
-                                {it.ingredientRef.retailerLinks.map((link, linkIdx: number) => (
-                                  <AffiliateButton
-                                    key={linkIdx}
-                                    url={link.url}
-                                    retailer={link.retailer}
-                                    ingredient={name}
-                                    recipe={recipe.slug}
-                                    brand={recipe.brand?.title}
-                                    label={link.label || `Buy at ${link.retailer}`}
-                                  />
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-600">No ingredients listed.</p>
-          )}
-        </section>
-
-        <section className="rounded-2xl border p-4">
+        <section className="method-section rounded-2xl border p-4">
           <h2 className="mb-3 text-xl font-semibold tracking-tight">Method</h2>
           {Array.isArray(steps) && steps.length > 0 ? (
             <ol className="list-decimal space-y-5 pl-5 text-sm">
@@ -579,7 +527,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       </div>
 
       {!!(tips && tips.length) && (
-        <section className="mt-8">
+        <section className="tips-section mt-8">
           <h2 className="mb-2 text-xl font-semibold tracking-tight">Tips & Variations</h2>
           <ul className="list-disc pl-5 text-sm text-gray-800">
             {tips.map((t: string, i: number) => <li key={i}>{t}</li>)}
@@ -588,7 +536,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       )}
 
       {!!(faqs && faqs.length) && (
-        <section className="mt-8">
+        <section className="faqs-section mt-8">
           <h2 className="mb-2 text-xl font-semibold tracking-tight">FAQs</h2>
           <dl className="text-sm">
             {faqs.map((f: { question: string; answer: string }, i: number) => (
@@ -602,7 +550,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       )}
 
       {hasNutrition(nutrition) && (
-        <section className="mt-8">
+        <section className="nutrition-section mt-8">
           <h2 className="mb-2 text-xl font-semibold tracking-tight">Nutrition (per serving)</h2>
           <table className="min-w-full border text-sm">
             <tbody>

@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "../styles/print.css";
+@import "../styles/cooking-mode.css";
 
 :root {
   --background: #D0EDCC;

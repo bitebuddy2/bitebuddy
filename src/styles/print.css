@@ -1,0 +1,249 @@
+/* Print Styles - Clean, printer-friendly recipe layout */
+
+@media print {
+  /* Hide non-essential elements */
+  nav,
+  footer,
+  aside,
+  button:not(.print-keep),
+  .ad-placeholder,
+  .share-row,
+  .save-button,
+  .print-button,
+  .shopping-list-button,
+  .cooking-mode-toggle,
+  .comment-section,
+  .related-recipes,
+  .breadcrumb,
+  .recipe-view-prompt,
+  .exit-intent-prompt,
+  .mobile-recipe-actions,
+  .sticky-recipe-header,
+  .rating-widget,
+  .affiliate-button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset page */
+  * {
+    background: white !important;
+    color: black !important;
+  }
+
+  body {
+    margin: 0;
+    padding: 20px;
+    font-size: 12pt;
+    line-height: 1.6;
+  }
+
+  /* Page breaks */
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  ul, ol, img {
+    page-break-inside: avoid;
+  }
+
+  /* Title */
+  h1 {
+    font-size: 24pt;
+    font-weight: bold;
+    margin-bottom: 10pt;
+    border-bottom: 2pt solid black;
+    padding-bottom: 10pt;
+  }
+
+  h2 {
+    font-size: 16pt;
+    font-weight: bold;
+    margin: 20pt 0 10pt 0;
+    border-bottom: 1pt solid #ccc;
+    padding-bottom: 5pt;
+  }
+
+  h3, h4 {
+    font-size: 14pt;
+    font-weight: bold;
+    margin: 15pt 0 8pt 0;
+  }
+
+  /* Recipe metadata */
+  .recipe-timings,
+  .recipe-meta {
+    font-size: 11pt;
+    margin: 10pt 0;
+    padding: 10pt;
+    border: 1pt solid #ccc;
+    border-radius: 3pt;
+  }
+
+  /* Categories/tags */
+  .category-badge {
+    display: inline-block;
+    padding: 2pt 8pt;
+    margin: 2pt;
+    border: 1pt solid #ccc;
+    border-radius: 3pt;
+    font-size: 9pt;
+  }
+
+  /* Ingredients and Method - side by side if space allows */
+  .ingredients-section,
+  .method-section {
+    width: 48%;
+    float: left;
+    margin-right: 4%;
+  }
+
+  .method-section {
+    margin-right: 0;
+  }
+
+  /* Clear floats after ingredients/method */
+  .ingredients-section::after,
+  .method-section::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Ingredients list */
+  .ingredients-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ingredients-section li {
+    padding: 4pt 0;
+    border-bottom: 0.5pt dotted #ccc;
+    font-size: 11pt;
+  }
+
+  .ingredients-section li:last-child {
+    border-bottom: none;
+  }
+
+  /* Checkbox for ingredients */
+  .ingredients-section li::before {
+    content: "☐ ";
+    margin-right: 5pt;
+  }
+
+  /* Method steps */
+  .method-section ol {
+    padding-left: 20pt;
+    margin: 0;
+  }
+
+  .method-section li {
+    margin-bottom: 12pt;
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+
+  /* Tips, FAQs, Nutrition */
+  .tips-section,
+  .faqs-section,
+  .nutrition-section {
+    clear: both;
+    margin-top: 20pt;
+    page-break-inside: avoid;
+  }
+
+  .tips-section ul,
+  .faqs-section dl {
+    font-size: 10pt;
+  }
+
+  /* Nutrition table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10pt 0;
+  }
+
+  th, td {
+    padding: 6pt;
+    border: 1pt solid #ccc;
+    text-align: left;
+    font-size: 10pt;
+  }
+
+  th {
+    font-weight: bold;
+    background: #f0f0f0 !important;
+  }
+
+  /* Images - keep but optimize */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10pt 0;
+  }
+
+  /* Hero image - smaller on print */
+  .hero-image {
+    max-width: 60%;
+    margin: 15pt auto;
+  }
+
+  /* Step images - even smaller */
+  .step-image {
+    max-width: 40%;
+    margin: 8pt 0;
+  }
+
+  /* Footer with source */
+  .print-footer {
+    margin-top: 30pt;
+    padding-top: 15pt;
+    border-top: 1pt solid #ccc;
+    font-size: 9pt;
+    color: #666 !important;
+    text-align: center;
+  }
+
+  /* Add URL after links */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #666 !important;
+  }
+
+  /* Don't show URL for internal/relative links */
+  a[href^="#"]:after,
+  a[href^="/"]:after {
+    content: "";
+  }
+
+  /* Brand context */
+  .brand-context {
+    font-size: 10pt;
+    font-style: italic;
+    margin: 10pt 0;
+    padding: 10pt;
+    border-left: 3pt solid #ccc;
+  }
+
+  /* Page numbering */
+  @page {
+    margin: 2cm;
+    size: A4;
+
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 9pt;
+    }
+  }
+
+  /* Avoid orphans and widows */
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+}
