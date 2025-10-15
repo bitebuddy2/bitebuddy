@@ -215,22 +215,22 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
                 </div>
               </div>
             ) : (
-              <div className="flex gap-3 items-start">
-                <p className="text-gray-800 text-sm whitespace-pre-wrap break-words flex-1 min-w-0 overflow-wrap-anywhere">
+              <div className="space-y-3">
+                <p className="text-gray-800 text-sm whitespace-pre-wrap break-words">
                   {comment.comment_text}
                 </p>
 
                 {/* Comment Image */}
                 {comment.image_url && (
                   <div
-                    className="relative w-[200px] flex-shrink-0 aspect-[4/3] cursor-pointer overflow-hidden rounded-lg"
+                    className="relative w-full sm:w-[200px] sm:float-right sm:ml-3 aspect-[4/3] cursor-pointer overflow-hidden rounded-lg"
                     onClick={() => setShowImageModal(true)}
                   >
                     <Image
                       src={comment.image_url}
                       alt="Comment image"
                       fill
-                      sizes="(max-width: 640px) 50vw, 200px"
+                      sizes="(max-width: 640px) 100vw, 200px"
                       className="object-cover hover:opacity-95 transition-opacity"
                       loading="lazy"
                     />
