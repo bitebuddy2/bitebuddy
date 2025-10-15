@@ -74,7 +74,12 @@ export default async function AIRecipePage({ params }: { params: Promise<{ id: s
   const { id } = await params;
   const { data: recipe, error } = await supabase
     .from("saved_ai_recipes")
-    .select("*")
+    .select(`
+      *,
+      user:user_id (
+        email
+      )
+    `)
     .eq("id", id)
     .single();
 
@@ -82,8 +87,11 @@ export default async function AIRecipePage({ params }: { params: Promise<{ id: s
     notFound();
   }
 
-  const aiRecipe = recipe as AIRecipe;
+  const aiRecipe = recipe as AIRecipe & { user?: { email: string } };
   const shareUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bitebuddy.uk'}/ai-recipe/${aiRecipe.id}`;
+
+  // Extract user name from email (before @)
+  const userName = aiRecipe.user?.email ? aiRecipe.user.email.split('@')[0] : 'Anonymous';
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8">
@@ -96,9 +104,17 @@ export default async function AIRecipePage({ params }: { params: Promise<{ id: s
       <div className="border rounded-2xl p-6 bg-white shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <div className="inline-flex items-center space-x-2 text-sm text-emerald-700 bg-emerald-50 rounded-full px-3 py-1 mb-2">
-              <span>🤖</span>
-              <span>AI Generated Recipe</span>
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <div className="inline-flex items-center space-x-2 text-sm text-emerald-700 bg-emerald-50 rounded-full px-3 py-1">
+                <span>🤖</span>
+                <span>AI Generated Recipe</span>
+              </div>
+              <div className="inline-flex items-center space-x-2 text-sm text-gray-700 bg-gray-100 rounded-full px-3 py-1">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                </svg>
+                <span>Created by <strong>{userName}</strong> on Bite Buddy</span>
+              </div>
             </div>
             <h1 className="text-3xl font-bold text-gray-900">{aiRecipe.title}</h1>
           </div>

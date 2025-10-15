@@ -5,7 +5,10 @@
       "Bash(git push:*)",
       "Bash(git commit:*)",
       "Bash(npx sanity documents query:*)",
-      "Bash(npx sanity documents create:*)"
+      "Bash(npx sanity documents create:*)",
+      "Bash(npx tsx:*)",
+      "WebSearch",
+      "Bash(npm run build)"
     ],
     "deny": [],
     "ask": []

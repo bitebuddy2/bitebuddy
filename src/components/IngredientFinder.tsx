@@ -13,6 +13,8 @@ import { supabase } from "@/lib/supabase";
 import { useSubscription } from "@/hooks/useSubscription";
 import UpgradeModal from "./UpgradeModal";
 import { trackGenerateAIRecipe } from "@/lib/analytics";
+import { useActivityTracking } from "@/hooks/useActivityTracking";
+import ContextualSignupPrompt from "./ContextualSignupPrompt";
 
 type Recipe = {
   slug: string;
@@ -261,6 +263,10 @@ export default function IngredientFinder() {
   const [showSubstitutionModal, setShowSubstitutionModal] = useState(false);
   const [pendingSubstitutionPrompt, setPendingSubstitutionPrompt] = useState<string>("");
   const { isPremium } = useSubscription();
+  const { searchCount, aiGenerationCount, trackSearch, trackAIGeneration } = useActivityTracking();
+  const [showSearchPrompt, setShowSearchPrompt] = useState(false);
+  const [showAIPrompt, setShowAIPrompt] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Ref for scrolling to matching recipes section
   const matchingRecipesRef = useRef<HTMLDivElement>(null);
@@ -351,10 +357,15 @@ export default function IngredientFinder() {
     return "Flexible";
   });
 
-  // Get user ID
+  // Get user ID and check authentication
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
-      if (data.user) setUserId(data.user.id);
+      if (data.user) {
+        setUserId(data.user.id);
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
     });
   }, []);
 
@@ -392,6 +403,15 @@ export default function IngredientFinder() {
     if (!query) return;
 
     start(async () => {
+      // Track search activity for non-authenticated users
+      if (!isAuthenticated) {
+        trackSearch();
+        // Show prompt after 3 searches
+        if (searchCount + 1 >= 3) {
+          setShowSearchPrompt(true);
+        }
+      }
+
       // Parse ingredients using the same logic as search page
       const names = parseNames(query);
       setSearchedIngredients(names);
@@ -670,6 +690,15 @@ export default function IngredientFinder() {
       console.log("API Response status:", response.status);
 
       const data = await response.json();
+
+      // Track AI generation for non-authenticated users
+      if (!isAuthenticated) {
+        trackAIGeneration();
+        // Show prompt after 1 AI generation
+        if (aiGenerationCount + 1 >= 1) {
+          setShowAIPrompt(true);
+        }
+      }
 
       if (response.ok && data.ok) {
         // Move current recipe to "last" and display new one
@@ -987,6 +1016,22 @@ export default function IngredientFinder() {
               </li>
             ))}
           </ul>
+        )}
+
+        {/* Contextual Signup Prompts - Only for non-authenticated users */}
+        {!isAuthenticated && showSearchPrompt && (
+          <ContextualSignupPrompt
+            type="search"
+            count={searchCount}
+            onDismiss={() => setShowSearchPrompt(false)}
+          />
+        )}
+
+        {!isAuthenticated && showAIPrompt && !showSearchPrompt && (
+          <ContextualSignupPrompt
+            type="ai-generation"
+            onDismiss={() => setShowAIPrompt(false)}
+          />
         )}
 
         {/* Searched ingredients display */}

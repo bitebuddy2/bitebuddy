@@ -2,20 +2,90 @@
 
 import Link from "next/link";
 import { useShoppingList } from "@/hooks/useShoppingList";
+import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
+import ContextualSignupPrompt from "@/components/ContextualSignupPrompt";
 
 export default function ShoppingListPage() {
   const { items, loading, removeRecipe, clearAll, removeIngredientFromRecipe, removeIngredientGlobally, getConsolidatedIngredients } = useShoppingList();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   const consolidated = getConsolidatedIngredients();
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setIsAuthenticated(!!data.user);
+      setCheckingAuth(false);
+    });
+  }, []);
 
   const handlePrint = () => {
     window.print();
   };
 
-  if (loading) {
+  if (loading || checkingAuth) {
     return (
       <main className="mx-auto max-w-4xl px-4 py-8">
         <p className="text-gray-500">Loading shopping list...</p>
+      </main>
+    );
+  }
+
+  // Show signup prompt for non-authenticated users
+  if (!isAuthenticated) {
+    return (
+      <main className="mx-auto max-w-4xl px-4 py-8">
+        <h1 className="text-3xl font-bold mb-4">Shopping List</h1>
+
+        {/* Contextual signup prompt */}
+        <ContextualSignupPrompt type="shopping-list" />
+
+        {/* Preview with blur - show 3 sample items */}
+        <div className="relative">
+          {/* Blur overlay */}
+          <div className="absolute inset-0 backdrop-blur-sm bg-white/30 z-10 rounded-lg flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md text-center">
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign Up to Access</h2>
+              <p className="text-gray-600 mb-6">
+                Create a free account to save your shopping list and access it from any device
+              </p>
+              <Link
+                href="/account"
+                className="inline-block bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors"
+              >
+                Create Free Account
+              </Link>
+            </div>
+          </div>
+
+          {/* Blurred preview content */}
+          <div className="pointer-events-none select-none">
+            <div className="bg-white rounded-lg border p-6 mb-6">
+              <h2 className="text-xl font-semibold mb-4">Ingredients</h2>
+              <ul className="space-y-4">
+                {[
+                  { name: "Chicken breast", quantity: "500g" },
+                  { name: "Olive oil", quantity: "2 tbsp" },
+                  { name: "Garlic", quantity: "3 cloves" }
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 pb-4 border-b">
+                    <input type="checkbox" className="mt-1" disabled />
+                    <div className="flex-1">
+                      <div className="font-semibold text-gray-900">{item.name}</div>
+                      <div className="text-sm text-gray-600 mt-1">{item.quantity}</div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       </main>
     );
   }

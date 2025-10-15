@@ -20,6 +20,8 @@ import RecipeShoppingListButton from "@/components/RecipeShoppingListButton";
 import MobileRecipeActions from "@/components/MobileRecipeActions";
 import StickyRecipeHeader from "@/components/StickyRecipeHeader";
 import RelatedRecipes from "@/components/RelatedRecipes";
+import RecipeViewPrompt from "@/components/RecipeViewPrompt";
+import ExitIntentPrompt from "@/components/ExitIntentPrompt";
 import { supabase } from "@/lib/supabase";
 
 // 👇 use ONE of these imports depending on which fix you chose:
@@ -427,6 +429,9 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         )}
       </div>
 
+      {/* Recipe View Prompt for non-authenticated users */}
+      <RecipeViewPrompt />
+
       {/* Rate This Recipe CTA */}
       <div className="mt-6 rounded-lg bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 p-5">
         <div className="flex items-start gap-3">
@@ -642,6 +647,9 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       <section className="mt-12">
         <CommentSection recipeSlug={recipe.slug} />
       </section>
+
+      {/* Exit Intent Prompt for non-authenticated users */}
+      <ExitIntentPrompt recipeTitle={recipe.title} />
 
       {/* JSON-LD: Recipe */}
       <script
