@@ -39,6 +39,11 @@ export default function CookingModeToggle({ onToggle }: CookingModeToggleProps) 
           : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
       }`}
       aria-label={cookingMode ? "Exit cooking mode" : "Enter cooking mode"}
+      title={
+        cookingMode
+          ? "Exit cooking mode"
+          : "Cooking Mode: Enlarge text, hide distractions, and keep screen awake while you cook"
+      }
     >
       {cookingMode ? (
         <>
