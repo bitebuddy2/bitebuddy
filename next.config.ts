@@ -37,9 +37,28 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Pret falafel recipe redirect (already existed)
       {
         source: '/recipes/pret-a-manger-falafel-mezze-salad',
         destination: '/recipes/pret-a-manger-humous-and-falafel-mezze-salad',
+        permanent: true, // 301 redirect
+      },
+      // Spicy chickpea stir-fry redirect to West Cornwall pasty recipe
+      {
+        source: '/recipes/spicy-chickpea-and-mushroom-stir-fry',
+        destination: '/recipes/west-cornwall-spicy-chickpea-roll-pasty',
+        permanent: true, // 301 redirect
+      },
+      // Caprese salad redirect to main recipes page (no similar recipe found)
+      {
+        source: '/recipes/caprese-salad-with-pesto-and-pine-nuts',
+        destination: '/recipes',
+        permanent: true, // 301 redirect
+      },
+      // Malformed URL redirect (bot/crawler issue)
+      {
+        source: '/$',
+        destination: '/',
         permanent: true, // 301 redirect
       },
     ];

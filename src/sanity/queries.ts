@@ -452,6 +452,15 @@ export const brandBySlugQuery = groq/* groq */ `
 }
 `;
 
+// ✅ Get brand by ID
+export const brandByIdQuery = groq/* groq */ `
+*[_type == "brand" && _id == $id][0]{
+  _id,
+  title,
+  "slug": slug.current
+}
+`;
+
 // ✅ Get recipes by brand slug
 export const recipesByBrandQuery = groq/* groq */ `
 *[_type == "recipe" && brand->slug.current == $brandSlug] | order(_createdAt desc){
