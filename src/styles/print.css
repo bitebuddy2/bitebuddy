@@ -53,16 +53,25 @@
   /* Force page break before ingredients */
   .ingredients-method-container {
     page-break-before: always;
+    page-break-inside: avoid;
   }
 
   /* Keep ingredients and method together */
   .ingredients-section,
   .method-section {
     page-break-inside: avoid;
+    break-inside: avoid;
   }
 
+  /* Allow lists to break if needed */
   ul, ol {
     page-break-inside: auto;
+  }
+
+  /* But keep individual list items together */
+  li {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   img {
@@ -112,24 +121,37 @@
     font-size: 9pt;
   }
 
-  /* Ingredients and Method - side by side if space allows */
-  .ingredients-section,
-  .method-section {
-    width: 48%;
-    float: left;
-    margin-right: 4%;
+  /* Ingredients and Method container - side by side */
+  .ingredients-method-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5cm;
+    /* Allow container to break if content is too long */
+  }
+
+  /* Stack on narrow pages if needed */
+  @media print and (max-width: 18cm) {
+    .ingredients-method-container {
+      grid-template-columns: 1fr;
+      gap: 0.3cm;
+    }
+  }
+
+  /* Try to keep individual sections together, but allow breaking if necessary */
+  .ingredients-section {
+    page-break-inside: auto;
+    break-inside: auto;
   }
 
   .method-section {
-    margin-right: 0;
+    page-break-inside: auto;
+    break-inside: auto;
   }
 
-  /* Clear floats after ingredients/method */
-  .ingredients-section::after,
-  .method-section::after {
-    content: "";
-    display: table;
-    clear: both;
+  /* Keep section headers with their content */
+  .ingredients-section h2,
+  .method-section h2 {
+    page-break-after: avoid;
   }
 
   /* Ingredients list */

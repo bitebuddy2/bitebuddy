@@ -30,7 +30,10 @@ body.cooking-mode .comment-section,
 body.cooking-mode .breadcrumb,
 body.cooking-mode .share-row,
 body.cooking-mode .exit-intent-prompt,
-body.cooking-mode .recipe-view-prompt {
+body.cooking-mode .recipe-view-prompt,
+body.cooking-mode .rounded-lg.bg-gradient-to-r,
+body.cooking-mode [class*="gradient"],
+body.cooking-mode .rating-widget {
   display: none !important;
 }
 
@@ -154,6 +157,14 @@ body.cooking-mode {
 body.cooking-mode main {
   max-width: 100% !important;
   padding: 1rem !important;
+  overflow-x: hidden !important;
+}
+
+/* Ensure all containers respect viewport width */
+body.cooking-mode div,
+body.cooking-mode section {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
 }
 
 /* Images - keep but make smaller in cooking mode */
