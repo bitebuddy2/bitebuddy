@@ -3,6 +3,21 @@
 body.cooking-mode {
   /* Remove background patterns/images */
   background: white !important;
+  overflow-x: hidden !important;
+}
+
+/* Keep grid layout for ingredients/method on larger screens */
+body.cooking-mode .ingredients-method-container {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 1rem !important;
+}
+
+@media (min-width: 768px) {
+  body.cooking-mode .ingredients-method-container {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.5rem !important;
+  }
 }
 
 /* Hide non-essential elements in cooking mode */
@@ -21,40 +36,50 @@ body.cooking-mode .recipe-view-prompt {
 
 /* Enlarge text for easy reading from a distance */
 body.cooking-mode h1 {
-  font-size: 3rem !important;
+  font-size: 2rem !important;
   line-height: 1.2 !important;
-  margin-bottom: 2rem !important;
+  margin-bottom: 1.5rem !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 body.cooking-mode h2 {
-  font-size: 2.5rem !important;
+  font-size: 1.75rem !important;
   line-height: 1.3 !important;
-  margin: 2rem 0 1.5rem !important;
+  margin: 1.5rem 0 1rem !important;
   color: #059669 !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 body.cooking-mode h3,
 body.cooking-mode h4 {
-  font-size: 2rem !important;
-  margin: 1.5rem 0 1rem !important;
+  font-size: 1.5rem !important;
+  margin: 1.25rem 0 0.75rem !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 body.cooking-mode p,
 body.cooking-mode li,
 body.cooking-mode td,
 body.cooking-mode span {
-  font-size: 1.75rem !important;
-  line-height: 1.8 !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 /* Ingredients list - extra large and spaced */
 body.cooking-mode .ingredients-section li {
-  font-size: 2rem !important;
-  line-height: 2 !important;
-  margin-bottom: 1.5rem !important;
-  padding: 1rem !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+  margin-bottom: 1rem !important;
+  padding: 0.75rem !important;
   background: #f0fdf4 !important;
   border-radius: 0.5rem !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 /* Method steps - numbered and prominent */
@@ -67,23 +92,25 @@ body.cooking-mode .method-section ol {
 body.cooking-mode .method-section ol li {
   counter-increment: step-counter;
   position: relative;
-  font-size: 2rem !important;
-  line-height: 1.8 !important;
-  margin-bottom: 2rem !important;
-  padding: 2rem !important;
-  padding-left: 5rem !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+  margin-bottom: 1.25rem !important;
+  padding: 1rem !important;
+  padding-left: 3.5rem !important;
   background: #f9fafb !important;
-  border-left: 6px solid #059669 !important;
-  border-radius: 0.75rem !important;
+  border-left: 4px solid #059669 !important;
+  border-radius: 0.5rem !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 body.cooking-mode .method-section ol li::before {
   content: counter(step-counter);
   position: absolute;
-  left: 1rem;
-  top: 1.5rem;
-  width: 3rem;
-  height: 3rem;
+  left: 0.75rem;
+  top: 1rem;
+  width: 2rem;
+  height: 2rem;
   background: #059669;
   color: white;
   border-radius: 50%;
@@ -91,23 +118,23 @@ body.cooking-mode .method-section ol li::before {
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 1.75rem;
+  font-size: 1.125rem;
 }
 
 /* Timings - make prominent */
 body.cooking-mode .recipe-timings {
-  font-size: 1.75rem !important;
-  padding: 1.5rem !important;
+  font-size: 1.125rem !important;
+  padding: 1rem !important;
   background: #fef3c7 !important;
-  border-radius: 0.75rem !important;
-  margin: 2rem 0 !important;
+  border-radius: 0.5rem !important;
+  margin: 1.5rem 0 !important;
 }
 
 /* Buttons - larger hit targets */
 body.cooking-mode button {
-  font-size: 1.5rem !important;
-  padding: 1.5rem 2rem !important;
-  min-height: 4rem !important;
+  font-size: 1.125rem !important;
+  padding: 1rem 1.5rem !important;
+  min-height: 3rem !important;
 }
 
 /* Keep cooking mode toggle visible and fixed */
@@ -126,23 +153,23 @@ body.cooking-mode {
 
 body.cooking-mode main {
   max-width: 100% !important;
-  padding: 2rem !important;
+  padding: 1rem !important;
 }
 
 /* Images - keep but make smaller in cooking mode */
 body.cooking-mode img {
-  max-width: 400px !important;
+  max-width: 100% !important;
   height: auto !important;
   margin: 1rem 0 !important;
 }
 
 /* Tables - enlarge text */
 body.cooking-mode table {
-  font-size: 1.5rem !important;
+  font-size: 1.125rem !important;
 }
 
 body.cooking-mode th,
 body.cooking-mode td {
-  padding: 1.5rem !important;
-  font-size: 1.5rem !important;
+  padding: 1rem !important;
+  font-size: 1.125rem !important;
 }
