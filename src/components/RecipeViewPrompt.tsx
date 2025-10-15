@@ -25,16 +25,17 @@ export default function RecipeViewPrompt() {
           // Track this recipe view
           trackRecipeView();
 
-          // Show prompt after 3+ recipe views (only once per session)
-          const newCount = recipeViews + 1;
-          if (newCount >= 3) {
+          // Get the updated count from localStorage to check threshold
+          const currentCount = parseInt(localStorage.getItem('recipe_views_count') || '0', 10);
+          if (currentCount >= 3) {
             setShowPrompt(true);
             sessionStorage.setItem(PROMPT_SHOWN_KEY, 'true');
           }
         }
       }
     });
-  }, [recipeViews, trackRecipeView]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   const handleDismiss = () => {
     setShowPrompt(false);
