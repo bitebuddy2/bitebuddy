@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { useActivityTracking } from "@/hooks/useActivityTracking";
 import ContextualSignupPrompt from "./ContextualSignupPrompt";
 
 const PROMPT_SHOWN_KEY = 'recipe_view_prompt_shown';
@@ -10,7 +9,7 @@ const PROMPT_SHOWN_KEY = 'recipe_view_prompt_shown';
 export default function RecipeViewPrompt() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
-  const { recipeViews, trackRecipeView } = useActivityTracking();
+  const [viewCount, setViewCount] = useState(0);
 
   useEffect(() => {
     // Check authentication
@@ -22,16 +21,22 @@ export default function RecipeViewPrompt() {
         const promptShown = sessionStorage.getItem(PROMPT_SHOWN_KEY);
 
         if (!promptShown) {
-          // Track this recipe view
-          trackRecipeView();
-
-          // Get the updated count from localStorage to check threshold
+          // Get current count from localStorage, increment it, and save
           const currentCount = parseInt(localStorage.getItem('recipe_views_count') || '0', 10);
-          if (currentCount >= 3) {
+          const newCount = currentCount + 1;
+          localStorage.setItem('recipe_views_count', newCount.toString());
+          setViewCount(newCount);
+
+          // Check if we should show the prompt
+          if (newCount >= 3) {
             setShowPrompt(true);
             sessionStorage.setItem(PROMPT_SHOWN_KEY, 'true');
           }
         }
+      } else {
+        // For authenticated users, just load the count for display purposes
+        const currentCount = parseInt(localStorage.getItem('recipe_views_count') || '0', 10);
+        setViewCount(currentCount);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +53,7 @@ export default function RecipeViewPrompt() {
   return (
     <ContextualSignupPrompt
       type="recipe-views"
-      count={recipeViews}
+      count={viewCount}
       onDismiss={handleDismiss}
     />
   );
