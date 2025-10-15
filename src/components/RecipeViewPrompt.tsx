@@ -17,21 +17,19 @@ export default function RecipeViewPrompt() {
       setIsAuthenticated(!!data.user);
 
       if (!data.user) {
+        // Always increment the view count
+        const currentCount = parseInt(localStorage.getItem('recipe_views_count') || '0', 10);
+        const newCount = currentCount + 1;
+        localStorage.setItem('recipe_views_count', newCount.toString());
+        setViewCount(newCount);
+
         // Check if prompt has already been shown in this session
         const promptShown = sessionStorage.getItem(PROMPT_SHOWN_KEY);
 
-        if (!promptShown) {
-          // Get current count from localStorage, increment it, and save
-          const currentCount = parseInt(localStorage.getItem('recipe_views_count') || '0', 10);
-          const newCount = currentCount + 1;
-          localStorage.setItem('recipe_views_count', newCount.toString());
-          setViewCount(newCount);
-
-          // Check if we should show the prompt
-          if (newCount >= 3) {
-            setShowPrompt(true);
-            sessionStorage.setItem(PROMPT_SHOWN_KEY, 'true');
-          }
+        // Show prompt if count >= 3 and not already shown
+        if (newCount >= 3 && !promptShown) {
+          setShowPrompt(true);
+          sessionStorage.setItem(PROMPT_SHOWN_KEY, 'true');
         }
       } else {
         // For authenticated users, just load the count for display purposes
