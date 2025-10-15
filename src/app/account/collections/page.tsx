@@ -18,7 +18,11 @@ export default function CollectionsPage() {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [editingCollection, setEditingCollection] = useState<Collection | null>(null);
+  const [editingCollection, setEditingCollection] = useState<{
+    id: string;
+    name: string;
+    description?: string;
+  } | null>(null);
 
   useEffect(() => {
     fetchCollections();
