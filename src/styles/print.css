@@ -33,9 +33,9 @@
 
   body {
     margin: 0;
-    padding: 20px;
-    font-size: 12pt;
-    line-height: 1.6;
+    padding: 15px;
+    font-size: 11pt;
+    line-height: 1.4;
   }
 
   /* Page breaks */
@@ -43,39 +43,61 @@
     page-break-after: avoid;
   }
 
-  ul, ol, img {
+  /* Keep intro sections on page 1 */
+  .intro-section,
+  .brand-context-section {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Force page break before ingredients */
+  .ingredients-method-container {
+    page-break-before: always;
+  }
+
+  /* Keep ingredients and method together */
+  .ingredients-section,
+  .method-section {
+    page-break-inside: avoid;
+  }
+
+  ul, ol {
+    page-break-inside: auto;
+  }
+
+  img {
     page-break-inside: avoid;
   }
 
   /* Title */
   h1 {
-    font-size: 24pt;
+    font-size: 20pt;
     font-weight: bold;
-    margin-bottom: 10pt;
+    margin-bottom: 8pt;
     border-bottom: 2pt solid black;
-    padding-bottom: 10pt;
+    padding-bottom: 8pt;
   }
 
   h2 {
-    font-size: 16pt;
+    font-size: 14pt;
     font-weight: bold;
-    margin: 20pt 0 10pt 0;
+    margin: 12pt 0 6pt 0;
     border-bottom: 1pt solid #ccc;
-    padding-bottom: 5pt;
+    padding-bottom: 4pt;
   }
 
   h3, h4 {
-    font-size: 14pt;
+    font-size: 12pt;
     font-weight: bold;
-    margin: 15pt 0 8pt 0;
+    margin: 10pt 0 5pt 0;
   }
 
   /* Recipe metadata */
   .recipe-timings,
   .recipe-meta {
-    font-size: 11pt;
-    margin: 10pt 0;
-    padding: 10pt;
+    font-size: 10pt;
+    margin: 6pt 0;
+    padding: 6pt;
     border: 1pt solid #ccc;
     border-radius: 3pt;
   }
@@ -183,19 +205,22 @@
     max-width: 100%;
     height: auto;
     display: block;
-    margin: 10pt 0;
+    margin: 6pt 0;
   }
 
   /* Hero image - smaller on print */
-  .hero-image {
-    max-width: 60%;
-    margin: 15pt auto;
+  .hero-image,
+  article > div > div > div:first-of-type img {
+    max-width: 40%;
+    max-height: 8cm;
+    margin: 8pt auto;
+    object-fit: cover;
   }
 
   /* Step images - even smaller */
   .step-image {
-    max-width: 40%;
-    margin: 8pt 0;
+    max-width: 30%;
+    margin: 5pt 0;
   }
 
   /* Footer with source */

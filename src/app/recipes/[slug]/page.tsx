@@ -469,14 +469,14 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       ) : null}
 
       {introText ? (
-        <section className="mt-8">
-          <h2 className="mb-2 text-xl font-semibold tracking-tight">Why you’ll love it</h2>
+        <section className="intro-section mt-8">
+          <h2 className="mb-2 text-xl font-semibold tracking-tight">Why you'll love it</h2>
           <p className="text-gray-800">{introText}</p>
         </section>
       ) : null}
 
       {brandContext && brandContext.length > 0 ? (
-        <section className="mt-6">
+        <section className="brand-context-section mt-6">
           <h2 className="mb-2 text-xl font-semibold tracking-tight">About the original</h2>
           <div className="prose prose-neutral">
             <PortableText value={brandContext} />
@@ -491,7 +491,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         <AdPlaceholder size="leaderboard" />
       </div>
 
-      <div className="mt-8 grid gap-8 md:grid-cols-2">
+      <div className="ingredients-method-container mt-8 grid gap-8 md:grid-cols-2">
         <RecipeIngredients
           originalServings={recipe.servings}
           ingredientGroups={recipe.ingredients || []}
