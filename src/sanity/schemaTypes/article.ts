@@ -247,7 +247,7 @@ export default defineType({
       publishedAt: "publishedAt",
     },
     prepare(selection) {
-      const { title, category, publishedAt } = selection;
+      const { category, publishedAt } = selection;
       const date = publishedAt ? new Date(publishedAt).toLocaleDateString() : "Not published";
       return {
         ...selection,

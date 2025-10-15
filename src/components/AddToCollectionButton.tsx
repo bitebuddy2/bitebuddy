@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import CreateCollectionModal from "./CreateCollectionModal";
 
@@ -202,13 +203,13 @@ export default function AddToCollectionButton({ recipeSlug }: AddToCollectionBut
               {/* Manage Collections Link */}
               {collections.length > 0 && (
                 <div className="border-t border-gray-200">
-                  <a
+                  <Link
                     href="/account/collections"
                     className="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors text-center"
                     onClick={() => setShowDropdown(false)}
                   >
                     Manage Collections →
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { trackRateRecipe } from "@/lib/analytics";
 
 type Props = {
@@ -12,11 +12,6 @@ type Props = {
 };
 
 export default function StarRating({ recipeId, ratingSum = 0, ratingCount = 0, slug, recipeTitle }: Props) {
-  const average = useMemo(
-    () => (ratingCount > 0 ? ratingSum / ratingCount : 0),
-    [ratingSum, ratingCount]
-  );
-
   const storageKey = `bb-rated-${slug || recipeId}`;
   const [hasRated, setHasRated] = useState(false);
   const [hover, setHover] = useState<number | null>(null);

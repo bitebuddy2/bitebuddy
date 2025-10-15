@@ -60,8 +60,6 @@ export function checkRateLimit(
   }
 
   // Entry exists and is still valid
-  const remaining = config.maxAttempts - entry.attempts;
-
   if (entry.attempts >= config.maxAttempts) {
     return {
       isLimited: true,

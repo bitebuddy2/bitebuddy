@@ -27,7 +27,7 @@ export function useSubscription() {
         return;
       }
 
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("user_subscriptions")
         .select("*")
         .eq("user_id", user.id)
