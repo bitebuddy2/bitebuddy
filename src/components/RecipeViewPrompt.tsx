@@ -5,48 +5,51 @@ import { supabase } from "@/lib/supabase";
 import ContextualSignupPrompt from "./ContextualSignupPrompt";
 
 const PROMPT_SHOWN_KEY = 'recipe_view_prompt_shown';
+const PROMPT_DISMISSED_KEY = 'recipe_view_prompt_dismissed';
 
 export default function RecipeViewPrompt() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [viewCount, setViewCount] = useState(0);
 
   useEffect(() => {
     // Check authentication
     supabase.auth.getUser().then(({ data }) => {
-      setIsAuthenticated(!!data.user);
+      const isAuth = !!data.user;
+      setIsAuthenticated(isAuth);
 
-      if (!data.user) {
+      // Only proceed if user is NOT authenticated
+      if (!isAuth) {
         // Always increment the view count
         const currentCount = parseInt(localStorage.getItem('recipe_views_count') || '0', 10);
         const newCount = currentCount + 1;
         localStorage.setItem('recipe_views_count', newCount.toString());
         setViewCount(newCount);
 
-        // Check if prompt has already been shown in this session
+        // Check if prompt was dismissed by user
+        const promptDismissed = sessionStorage.getItem(PROMPT_DISMISSED_KEY);
         const promptShown = sessionStorage.getItem(PROMPT_SHOWN_KEY);
 
-        // Show prompt if count >= 3 and not already shown
-        if (newCount >= 3 && !promptShown) {
+        // Show prompt if count >= 3, already shown before, and not dismissed
+        // OR if count >= 3 and never shown before
+        if (newCount >= 3 && !promptDismissed) {
           setShowPrompt(true);
-          sessionStorage.setItem(PROMPT_SHOWN_KEY, 'true');
+          if (!promptShown) {
+            sessionStorage.setItem(PROMPT_SHOWN_KEY, 'true');
+          }
         }
-      } else {
-        // For authenticated users, just load the count for display purposes
-        const currentCount = parseInt(localStorage.getItem('recipe_views_count') || '0', 10);
-        setViewCount(currentCount);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only run once on mount
+  }, []); // Runs on every component mount (each new recipe page)
 
   const handleDismiss = () => {
     setShowPrompt(false);
-    // Keep the flag set so it doesn't show again this session
+    sessionStorage.setItem(PROMPT_DISMISSED_KEY, 'true');
   };
 
-  // Don't show for authenticated users
-  if (isAuthenticated || !showPrompt) return null;
+  // Don't render anything while checking auth or if authenticated
+  if (isAuthenticated === null || isAuthenticated || !showPrompt) return null;
 
   return (
     <ContextualSignupPrompt
