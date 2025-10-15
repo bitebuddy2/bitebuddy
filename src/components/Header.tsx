@@ -397,6 +397,18 @@ export default function Header() {
             Community Recipes
           </Link>
 
+          {/* Features link */}
+          <Link
+            href="/features"
+            className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              pathname === '/features'
+                ? 'bg-emerald-600 text-white'
+                : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+            }`}
+          >
+            Features
+          </Link>
+
           {/* Divider */}
           <div className="border-t border-gray-700 my-2" />
 
