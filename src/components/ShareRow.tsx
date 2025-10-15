@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ShareRowProps {
   title: string;
@@ -10,6 +10,12 @@ interface ShareRowProps {
 export default function ShareRow({ title, url }: ShareRowProps) {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [canShare, setCanShare] = useState(false);
+
+  // Check if Web Share API is available
+  useEffect(() => {
+    setCanShare(typeof navigator !== 'undefined' && 'share' in navigator);
+  }, []);
 
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
@@ -67,7 +73,7 @@ export default function ShareRow({ title, url }: ShareRowProps) {
           {/* Menu */}
           <div className="absolute left-0 top-full mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
             {/* Native Share (if supported) */}
-            {navigator.share && (
+            {canShare && (
               <button
                 onClick={handleNativeShare}
                 className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
