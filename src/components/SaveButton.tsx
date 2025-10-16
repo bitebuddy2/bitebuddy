@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getSupabaseBrowserClient } from "@/lib/supabase";
 import { trackSaveRecipe } from "@/lib/analytics";
+import Confetti from "./Confetti";
 
 // Get properly configured Supabase client with auth session
 const supabase = getSupabaseBrowserClient();
@@ -17,6 +18,7 @@ export default function SaveButton({ recipeSlug, recipeTitle }: SaveButtonProps)
   const [isSaved, setIsSaved] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     async function checkSaved() {
@@ -60,6 +62,10 @@ export default function SaveButton({ recipeSlug, recipeTitle }: SaveButtonProps)
         .insert({ user_id: user.id, recipe_slug: recipeSlug });
       setIsSaved(true);
 
+      // Trigger confetti celebration
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 100);
+
       // Track save event
       trackSaveRecipe({
         recipe_slug: recipeSlug,
@@ -70,15 +76,17 @@ export default function SaveButton({ recipeSlug, recipeTitle }: SaveButtonProps)
   }
 
   return (
-    <div className="relative">
-      <button
-        onClick={toggleSave}
-        onMouseEnter={() => !user && setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
-        disabled={loading}
-        className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-3 min-h-[44px] text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
-        title={isSaved ? "Remove from saved recipes" : "Save recipe"}
-      >
+    <>
+      <Confetti trigger={showConfetti} />
+      <div className="relative">
+        <button
+          onClick={toggleSave}
+          onMouseEnter={() => !user && setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+          disabled={loading}
+          className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-3 min-h-[44px] text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+          title={isSaved ? "Remove from saved recipes" : "Save recipe"}
+        >
         {loading ? (
           <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -108,5 +116,6 @@ export default function SaveButton({ recipeSlug, recipeTitle }: SaveButtonProps)
         </div>
       )}
     </div>
+    </>
   );
 }

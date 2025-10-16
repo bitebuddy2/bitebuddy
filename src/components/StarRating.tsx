@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { trackRateRecipe } from "@/lib/analytics";
+import Confetti from "./Confetti";
 
 type Props = {
   recipeId: string;
@@ -18,6 +19,7 @@ export default function StarRating({ recipeId, ratingSum = 0, ratingCount = 0, s
   const [sum, setSum] = useState(ratingSum);
   const [count, setCount] = useState(ratingCount);
   const [busy, setBusy] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     setHasRated(localStorage.getItem(storageKey) === "1");
@@ -39,6 +41,12 @@ export default function StarRating({ recipeId, ratingSum = 0, ratingCount = 0, s
       localStorage.setItem(storageKey, "1");
       setHasRated(true);
 
+      // Trigger confetti for 4 or 5 star ratings
+      if (stars >= 4) {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 100);
+      }
+
       // Track rating event in analytics
       if (slug) {
         trackRateRecipe({
@@ -59,8 +67,10 @@ export default function StarRating({ recipeId, ratingSum = 0, ratingCount = 0, s
   const label = count > 0 ? `${avg.toFixed(1)} (${count})` : "No ratings yet";
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="inline-flex" aria-label={`Average rating ${avg.toFixed(1)} out of 5`}>
+    <>
+      <Confetti trigger={showConfetti} />
+      <div className="flex items-center gap-2">
+        <div className="inline-flex" aria-label={`Average rating ${avg.toFixed(1)} out of 5`}>
         {[1, 2, 3, 4, 5].map((i) => {
           const filled = (hover ?? avg) >= i - 0.25; // gives partial feel on hover
           return (
@@ -82,6 +92,7 @@ export default function StarRating({ recipeId, ratingSum = 0, ratingCount = 0, s
       </div>
       <span className="text-sm text-gray-600">{busy ? "Saving…" : label}</span>
     </div>
+    </>
   );
 }
 

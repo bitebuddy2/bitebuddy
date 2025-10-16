@@ -8,7 +8,11 @@
       "Bash(npx sanity documents create:*)",
       "Bash(npx tsx:*)",
       "WebSearch",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "WebFetch(domain:subwaymenu.co.uk)",
+      "WebFetch(domain:www.simplyrecipes.com)",
+      "WebFetch(domain:thebigmansworld.com)",
+      "WebFetch(domain:www.pret.co.uk)"
     ],
     "deny": [],
     "ask": []

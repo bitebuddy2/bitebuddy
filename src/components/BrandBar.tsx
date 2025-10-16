@@ -24,10 +24,10 @@ export default function BrandBar({ brands }: { brands: Brand[] }) {
             <Link
               key={brand._id}
               href={`/recipes?brand=${brand._id}`}
-              className="flex items-center gap-3 flex-shrink-0 group hover:opacity-80 transition-opacity"
+              className="flex items-center gap-3 flex-shrink-0 group"
             >
               {brand.logo?.asset?.url ? (
-                <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
+                <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-lg">
                   <Image
                     src={brand.logo.asset.url}
                     alt={brand.logo.alt || brand.title}
@@ -37,7 +37,7 @@ export default function BrandBar({ brands }: { brands: Brand[] }) {
                   />
                 </div>
               ) : (
-                <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-lg">
                   <span className="text-lg font-semibold text-gray-500">
                     {brand.title?.charAt(0) || '?'}
                   </span>

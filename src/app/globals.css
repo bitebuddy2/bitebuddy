@@ -14,6 +14,40 @@
   --color-border: var(--border-color);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Warm food-related colors */
+  --color-food-orange-50: #fff7ed;
+  --color-food-orange-100: #ffedd5;
+  --color-food-orange-200: #fed7aa;
+  --color-food-orange-300: #fdba74;
+  --color-food-orange-400: #fb923c;
+  --color-food-orange-500: #f97316;
+  --color-food-orange-600: #ea580c;
+  --color-food-orange-700: #c2410c;
+  --color-food-orange-800: #9a3412;
+  --color-food-orange-900: #7c2d12;
+
+  --color-food-amber-50: #fffbeb;
+  --color-food-amber-100: #fef3c7;
+  --color-food-amber-200: #fde68a;
+  --color-food-amber-300: #fcd34d;
+  --color-food-amber-400: #fbbf24;
+  --color-food-amber-500: #f59e0b;
+  --color-food-amber-600: #d97706;
+  --color-food-amber-700: #b45309;
+  --color-food-amber-800: #92400e;
+  --color-food-amber-900: #78350f;
+
+  --color-food-red-50: #fef2f2;
+  --color-food-red-100: #fee2e2;
+  --color-food-red-200: #fecaca;
+  --color-food-red-300: #fca5a5;
+  --color-food-red-400: #f87171;
+  --color-food-red-500: #ef4444;
+  --color-food-red-600: #dc2626;
+  --color-food-red-700: #b91c1c;
+  --color-food-red-800: #991b1b;
+  --color-food-red-900: #7f1d1d;
 }
 
 body {
@@ -112,12 +146,130 @@ html {
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes checkbox-check {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+}
+
 .animate-slide-down {
   animation: slide-down 0.3s ease-out;
 }
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #e0e0e0 20%,
+    #f0f0f0 40%,
+    #f0f0f0 100%
+  );
+  background-size: 1000px 100%;
+}
+
+.animate-confetti {
+  animation: confetti-fall 3s ease-out forwards;
+}
+
+.animate-checkbox-check {
+  animation: checkbox-check 0.3s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Text shadow utilities */
+.text-shadow-sm {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.text-shadow-md {
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.text-shadow-lg {
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.text-shadow-xl {
+  text-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Decorative corner elements */
+.corner-decor {
+  position: relative;
+}
+
+.corner-decor::before,
+.corner-decor::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #10b981;
+}
+
+.corner-decor::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner-decor::after {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
 }
 
 /* Touch-friendly improvements */

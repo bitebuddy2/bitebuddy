@@ -25,6 +25,7 @@ import ExitIntentPrompt from "@/components/ExitIntentPrompt";
 import RecipeIngredients from "@/components/RecipeInteractions";
 import CookingModeToggle from "@/components/CookingModeToggle";
 import AddToCollectionButton from "@/components/AddToCollectionButton";
+import RecipeSteps from "@/components/RecipeSteps";
 import { supabase } from "@/lib/supabase";
 
 // 👇 use ONE of these imports depending on which fix you chose:
@@ -502,26 +503,9 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         />
 
         <section className="method-section rounded-2xl border p-5 sm:p-6 md:p-4">
-          <h2 className="mb-4 text-xl font-semibold tracking-tight">Method</h2>
+          <h2 className="mb-4 text-xl font-semibold tracking-tight text-shadow-sm">Method</h2>
           {Array.isArray(steps) && steps.length > 0 ? (
-            <ol className="list-decimal space-y-5 pl-5 text-base md:text-sm leading-relaxed">
-              {steps.map((s, i: number) => (
-                <li key={i}>
-                  <div className="prose prose-neutral">
-                    <PortableText value={s.step} />
-                  </div>
-                  {s.stepImage?.asset?.url ? (
-                    <Image
-                      src={s.stepImage.asset.url}
-                      alt={s.stepImage.alt || `Step ${i + 1}`}
-                      width={s.stepImage.asset.metadata?.dimensions?.width || 1200}
-                      height={s.stepImage.asset.metadata?.dimensions?.height || 800}
-                      className="mt-2 rounded-lg"
-                    />
-                  ) : null}
-                </li>
-              ))}
-            </ol>
+            <RecipeSteps steps={steps} />
           ) : (
             <p className="text-gray-600">No instructions yet.</p>
           )}

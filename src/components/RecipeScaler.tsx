@@ -31,6 +31,15 @@ export default function RecipeScaler({ originalServings, onServingsChange }: Rec
         </p>
       </div>
 
+      <button
+        onClick={() => handleServingsChange(originalServings)}
+        disabled={servings === originalServings}
+        className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-white border border-emerald-300 rounded-lg hover:bg-emerald-50 hover:text-emerald-800 disabled:opacity-0 disabled:pointer-events-none transition-opacity whitespace-nowrap"
+        aria-label="Reset to original servings"
+      >
+        Reset
+      </button>
+
       <div className="flex items-center gap-2">
         <button
           onClick={decrement}
@@ -60,15 +69,6 @@ export default function RecipeScaler({ originalServings, onServingsChange }: Rec
           +
         </button>
       </div>
-
-      {servings !== originalServings && (
-        <button
-          onClick={() => handleServingsChange(originalServings)}
-          className="text-xs text-emerald-700 hover:text-emerald-800 underline whitespace-nowrap"
-        >
-          Reset
-        </button>
-      )}
     </div>
   );
 }
