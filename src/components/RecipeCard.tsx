@@ -111,7 +111,7 @@ export default function RecipeCard({ r, isCommunity = false }: { r: CardRecipe; 
 
   const blurb = r.description || r.introText || "";
   const truncated =
-    blurb.length > 220 ? blurb.slice(0, 217).trimEnd() + "…" : blurb;
+    blurb.length > 200 ? blurb.slice(0, 197).trimEnd() + "…" : blurb;
 
   return (
     <li className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
@@ -183,11 +183,11 @@ export default function RecipeCard({ r, isCommunity = false }: { r: CardRecipe; 
         ) : null}
 
         {/* Title & blurb */}
-        <div className="px-5 pb-5 pt-3">
-          <h3 className="mb-2 text-xl font-bold tracking-tight text-gray-900 group-hover:text-emerald-600 transition-colors">
+        <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-3">
+          <h3 className="mb-2 text-lg sm:text-xl font-bold tracking-tight text-gray-900 group-hover:text-emerald-600 transition-colors">
             {r.title}
           </h3>
-          {blurb && <p className="mb-4 text-gray-600 leading-relaxed">{truncated}</p>}
+          {blurb && <p className="mb-4 text-sm sm:text-base text-gray-600 leading-relaxed">{truncated}</p>}
 
           {/* Rating stars */}
           <div className="mb-3">
@@ -195,7 +195,7 @@ export default function RecipeCard({ r, isCommunity = false }: { r: CardRecipe; 
           </div>
 
           {/* Meta pills */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2.5">
             {typeof r.prepMin === "number" && pill(`Prep  ${r.prepMin} mins`)}
             {typeof r.cookMin === "number" && pill(`Cook  ${r.cookMin} mins`)}
             {typeof r.servings === "number" && pill(`Serve  ${r.servings}`)}

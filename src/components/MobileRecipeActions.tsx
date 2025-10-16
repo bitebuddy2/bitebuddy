@@ -19,11 +19,11 @@ export default function MobileRecipeActions({ recipeSlug, recipeTitle, brand }: 
       <div className="fixed bottom-4 right-4 z-50 md:hidden">
         {/* Action menu */}
         {isOpen && (
-          <div className="absolute bottom-16 right-0 flex flex-col gap-2 mb-2">
-            <div className="bg-white rounded-lg shadow-lg border-2 border-emerald-600 overflow-hidden">
+          <div className="absolute bottom-20 right-0 flex flex-col gap-2 mb-2">
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border-2 border-emerald-600 overflow-hidden">
               <SaveButton recipeSlug={recipeSlug} recipeTitle={recipeTitle} />
             </div>
-            <div className="bg-white rounded-lg shadow-lg border-2 border-emerald-600 overflow-hidden">
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border-2 border-emerald-600 overflow-hidden">
               <PrintButton recipeSlug={recipeSlug} recipeTitle={recipeTitle} brand={brand} />
             </div>
           </div>
@@ -32,15 +32,15 @@ export default function MobileRecipeActions({ recipeSlug, recipeTitle, brand }: 
         {/* Toggle button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition-all hover:bg-emerald-700 active:scale-95"
+          className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition-all hover:bg-emerald-700 active:scale-95"
           aria-label="Recipe actions"
         >
           {isOpen ? (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
             </svg>
           )}

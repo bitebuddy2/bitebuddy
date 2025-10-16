@@ -256,7 +256,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
   };
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8">
+    <main className="mx-auto max-w-4xl px-5 md:px-4 py-6 md:py-8">
       {/* Track recipe view for analytics */}
       <RecipeViewTracker
         recipeSlug={recipe.slug}
@@ -280,23 +280,23 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       />
 
       {/* Breadcrumb Navigation */}
-      <nav className="mb-4 text-sm text-gray-600">
+      <nav className="mb-4 text-sm md:text-sm text-gray-600">
         <Link href="/" className="hover:text-emerald-600">Home</Link>
-        {" / "}
+        <span className="hidden sm:inline"> / </span>
+        <span className="sm:hidden"> › </span>
         <Link href="/recipes" className="hover:text-emerald-600">Recipes</Link>
         {recipe.brand && (
           <>
-            {" / "}
-            <Link href={`/recipes/brands/${recipe.brand.slug}`} className="hover:text-emerald-600">
+            <span className="hidden sm:inline"> / </span>
+            <span className="sm:hidden"> › </span>
+            <Link href={`/recipes/brands/${recipe.brand.slug}`} className="hover:text-emerald-600 max-w-[100px] sm:max-w-none inline-block truncate align-bottom">
               {recipe.brand.title}
             </Link>
           </>
         )}
-        {" / "}
-        <span className="text-gray-900">{title}</span>
       </nav>
 
-      <h1 className="mt-2 text-3xl md:text-4xl lg:text-5xl font-bold">{title}</h1>
+      <h1 className="mt-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">{title}</h1>
 
       {/* User credit for AI-generated community recipes */}
       {(recipe as any).createdBy && (
@@ -378,11 +378,11 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
       )}
 
       {categories && categories.length > 0 && (
-        <div className="mt-3 flex flex-wrap items-center gap-2">
+        <div className="mt-3 flex flex-wrap items-center gap-2 sm:gap-2">
           {categories.map((category: any) => (
             <span
               key={category._id}
-              className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800"
+              className="inline-block rounded-full bg-emerald-100 px-3 py-1.5 text-xs sm:text-xs font-medium text-emerald-800"
             >
               {category.title}
             </span>
@@ -390,14 +390,14 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         </div>
       )}
 
-      <div className="recipe-timings mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
+      <div className="recipe-timings mt-4 flex flex-wrap items-center gap-3 sm:gap-4 text-sm sm:text-base text-gray-600">
         {servings ? <span>Serves: {servings}</span> : null}
         {prepMin != null ? <span>Prep: {prepMin} mins</span> : null}
         {cookMin != null ? <span>Cook: {cookMin} mins</span> : null}
-        {totalMin ? <span>Total: {totalMin} mins</span> : null}
+        {totalMin ? <span className="font-semibold">Total: {totalMin} mins</span> : null}
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3 md:gap-4">
+      <div className="mt-5 flex flex-wrap items-center gap-3 sm:gap-3 md:gap-4">
         <ShareRow title={recipe.title} url={`${SITE_URL}/recipes/${recipe.slug}`} />
         <SaveButton recipeSlug={recipe.slug} recipeTitle={recipe.title} />
         <AddToCollectionButton recipeSlug={recipe.slug} />
@@ -493,7 +493,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         <AdPlaceholder size="leaderboard" />
       </div>
 
-      <div className="ingredients-method-container mt-8 grid gap-8 md:grid-cols-2">
+      <div className="ingredients-method-container mt-8 grid gap-6 sm:gap-8 md:gap-10 md:grid-cols-2">
         <RecipeIngredients
           originalServings={recipe.servings}
           ingredientGroups={recipe.ingredients || []}
@@ -501,10 +501,10 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
           brandTitle={recipe.brand?.title}
         />
 
-        <section className="method-section rounded-2xl border p-4">
-          <h2 className="mb-3 text-xl font-semibold tracking-tight">Method</h2>
+        <section className="method-section rounded-2xl border p-5 sm:p-6 md:p-4">
+          <h2 className="mb-4 text-xl font-semibold tracking-tight">Method</h2>
           {Array.isArray(steps) && steps.length > 0 ? (
-            <ol className="list-decimal space-y-5 pl-5 text-sm">
+            <ol className="list-decimal space-y-5 pl-5 text-base md:text-sm leading-relaxed">
               {steps.map((s, i: number) => (
                 <li key={i}>
                   <div className="prose prose-neutral">
@@ -530,8 +530,8 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
       {!!(tips && tips.length) && (
         <section className="tips-section mt-8">
-          <h2 className="mb-2 text-xl font-semibold tracking-tight">Tips & Variations</h2>
-          <ul className="list-disc pl-5 text-sm text-gray-800">
+          <h2 className="mb-3 text-xl font-semibold tracking-tight">Tips & Variations</h2>
+          <ul className="list-disc pl-5 space-y-2 text-base md:text-sm text-gray-800 leading-relaxed">
             {tips.map((t: string, i: number) => <li key={i}>{t}</li>)}
           </ul>
         </section>
@@ -539,12 +539,12 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
       {!!(faqs && faqs.length) && (
         <section className="faqs-section mt-8">
-          <h2 className="mb-2 text-xl font-semibold tracking-tight">FAQs</h2>
-          <dl className="text-sm">
+          <h2 className="mb-3 text-xl font-semibold tracking-tight">FAQs</h2>
+          <dl className="text-base md:text-sm space-y-4">
             {faqs.map((f: { question: string; answer: string }, i: number) => (
               <div key={i} className="mb-3">
-                <dt className="font-semibold">{f.question}</dt>
-                <dd>{f.answer}</dd>
+                <dt className="font-semibold mb-1.5 text-gray-900">{f.question}</dt>
+                <dd className="text-gray-700 leading-relaxed">{f.answer}</dd>
               </div>
             ))}
           </dl>

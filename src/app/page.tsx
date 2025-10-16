@@ -38,7 +38,7 @@ export default async function HomePage() {
       <TopSearch />
 
       {/* HERO */}
-      <section className="relative border-b overflow-hidden min-h-[400px]">
+      <section className="relative border-b overflow-hidden min-h-[350px] sm:min-h-[400px]">
         {/* Background Image */}
         <Image
           src="/Hero.jpg"
@@ -52,17 +52,17 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-black/40" />
 
         {/* Content */}
-        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12 md:py-16 text-center">
+        <div className="relative mx-auto max-w-6xl px-5 sm:px-6 py-10 sm:py-12 md:py-16 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white pb-2 leading-tight drop-shadow-lg">
             UK Copycat Recipes & Smart AI Meal Ideas
           </h1>
-          <p className="mx-auto mt-4 sm:mt-6 max-w-3xl text-sm sm:text-base md:text-lg text-white leading-relaxed px-2 drop-shadow-md">
+          <p className="mx-auto mt-4 sm:mt-6 max-w-3xl text-base sm:text-lg md:text-xl text-white leading-relaxed px-2 drop-shadow-md">
             Recreate your favourite UK restaurant dishes like Greggs, Nando&apos;s, and Wagamama — fast and simple. When you&apos;re out of ideas, our AI Recipe Generator helps you whip up something new in minutes.
           </p>
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4 sm:px-0">
             <Link
               href="/recipes"
-              className="w-full sm:w-auto rounded-full bg-emerald-600 px-8 py-3.5 text-sm font-semibold text-white hover:bg-emerald-700 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="w-full sm:w-auto rounded-full bg-emerald-600 px-8 py-4 text-base font-semibold text-white hover:bg-emerald-700 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               Browse Recipes
             </Link>

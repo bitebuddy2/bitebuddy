@@ -187,8 +187,8 @@ export default function Header() {
 
           {/* Shopping List Icon */}
           <Link href="/shopping-list" className="relative group">
-            <div className="p-2 rounded-lg hover:bg-gray-800 transition-colors">
-              <svg className="w-6 h-6 text-gray-300 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-2 rounded-lg hover:bg-gray-800 transition-colors active:scale-95">
+              <svg className="w-7 h-7 text-gray-300 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
               </svg>
               {shoppingListItems.length > 0 && (
@@ -204,9 +204,9 @@ export default function Header() {
         {user && (
           <Link
             href="/account"
-            className="md:hidden flex items-center gap-2 text-sm text-white font-medium hover:text-emerald-400 transition-colors"
+            className="md:hidden flex items-center gap-2 text-sm text-white font-medium hover:text-emerald-400 transition-colors active:scale-95"
           >
-            <span className="truncate max-w-[120px]">Hi, {userName}</span>
+            <span className="truncate max-w-[150px]">Hi, {userName}</span>
             {avatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -333,7 +333,7 @@ export default function Header() {
 
       {/* Mobile menu drawer */}
       <div
-        className={`md:hidden fixed top-16 right-0 bottom-0 w-64 bg-gray-900 shadow-2xl transform transition-transform duration-300 ease-in-out overflow-y-auto z-50 ${
+        className={`md:hidden fixed top-16 right-0 bottom-0 w-80 bg-gray-900 shadow-2xl transform transition-transform duration-300 ease-in-out overflow-y-auto z-50 ${
           mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -375,7 +375,7 @@ export default function Header() {
             <Link
               key={n.href}
               href={n.href}
-              className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3 py-3.5 rounded-lg text-sm font-medium transition-colors active:scale-95 ${
                 pathname === n.href
                   ? 'bg-emerald-600 text-white'
                   : 'text-gray-300 hover:bg-gray-800 hover:text-white'
@@ -388,7 +388,7 @@ export default function Header() {
           {/* Community Recipes - separate link for mobile only */}
           <Link
             href="/community-recipes"
-            className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-3 py-3.5 rounded-lg text-sm font-medium transition-colors active:scale-95 ${
               pathname === '/community-recipes'
                 ? 'bg-emerald-600 text-white'
                 : 'text-gray-300 hover:bg-gray-800 hover:text-white'
@@ -400,7 +400,7 @@ export default function Header() {
           {/* Features link */}
           <Link
             href="/features"
-            className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-3 py-3.5 rounded-lg text-sm font-medium transition-colors active:scale-95 ${
               pathname === '/features'
                 ? 'bg-emerald-600 text-white'
                 : 'text-gray-300 hover:bg-gray-800 hover:text-white'
@@ -416,7 +416,7 @@ export default function Header() {
           {!isPremium && (
             <Link
               href="/premium"
-              className="px-3 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-semibold hover:from-amber-600 hover:to-orange-600 flex items-center justify-center gap-2"
+              className="px-3 py-3.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-semibold hover:from-amber-600 hover:to-orange-600 active:scale-95 flex items-center justify-center gap-2"
             >
               <span>⭐</span> Upgrade to Premium
             </Link>
@@ -426,14 +426,14 @@ export default function Header() {
           {user ? (
             <Link
               href="/account"
-              className="px-3 py-2.5 rounded-lg border border-emerald-400 text-emerald-400 text-sm font-semibold hover:bg-gray-800 text-center"
+              className="px-3 py-3.5 rounded-lg border border-emerald-400 text-emerald-400 text-sm font-semibold hover:bg-gray-800 active:scale-95 text-center"
             >
               My Account
             </Link>
           ) : (
             <Link
               href="/account"
-              className="px-3 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 text-center"
+              className="px-3 py-3.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 active:scale-95 text-center"
             >
               Sign In/Up
             </Link>
@@ -448,7 +448,7 @@ export default function Header() {
                   window.location.reload();
                 });
               }}
-              className="px-3 py-2.5 rounded-lg border border-gray-600 text-gray-300 text-sm font-medium hover:bg-gray-800 hover:text-white text-center"
+              className="px-3 py-3.5 rounded-lg border border-gray-600 text-gray-300 text-sm font-medium hover:bg-gray-800 hover:text-white active:scale-95 text-center"
             >
               Sign Out
             </button>

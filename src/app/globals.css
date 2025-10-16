@@ -47,11 +47,47 @@ header {
 /* Smooth scrolling performance */
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Better tap highlight color */
+  * {
+    -webkit-tap-highlight-color: rgba(16, 185, 129, 0.2);
+  }
+
+  /* Improve touch scrolling */
+  body {
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+  }
+
+  /* Better line height for readability on small screens */
+  p, li {
+    line-height: 1.6;
+  }
+
+  /* Optimize font sizes for mobile readability */
+  body {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Better focus states for accessibility */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #10b981;
+    outline-offset: 2px;
   }
 }
 
@@ -82,6 +118,31 @@ html {
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger minimum touch targets */
+  button,
+  a,
+  input[type="submit"],
+  input[type="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Remove hover states on touch devices */
+  button:hover,
+  a:hover {
+    transform: none;
+  }
+
+  /* Better active states for touch feedback */
+  button:active,
+  a:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease-out;
+  }
 }
 
 /* Print styles for recipe pages */
