@@ -12,7 +12,8 @@
       "WebFetch(domain:subwaymenu.co.uk)",
       "WebFetch(domain:www.simplyrecipes.com)",
       "WebFetch(domain:thebigmansworld.com)",
-      "WebFetch(domain:www.pret.co.uk)"
+      "WebFetch(domain:www.pret.co.uk)",
+      "WebFetch(domain:thislittlehome.com)"
     ],
     "deny": [],
     "ask": []

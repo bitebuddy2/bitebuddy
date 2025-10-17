@@ -25,7 +25,9 @@ import RecipeIngredients from "@/components/RecipeInteractions";
 import CookingModeToggle from "@/components/CookingModeToggle";
 import AddToCollectionButton from "@/components/AddToCollectionButton";
 import RecipeSteps from "@/components/RecipeSteps";
+import AllergenBadges from "@/components/AllergenBadges";
 import { supabase } from "@/lib/supabase";
+import { aggregateAllergens } from "@/lib/allergens";
 
 // 👇 use ONE of these imports depending on which fix you chose:
 // Option A: relative import (quick fix)
@@ -382,6 +384,9 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         {cookMin != null ? <span>Cook: {cookMin} mins</span> : null}
         {totalMin ? <span className="font-semibold">Total: {totalMin} mins</span> : null}
       </div>
+
+      {/* Allergen warnings */}
+      <AllergenBadges allergens={aggregateAllergens(recipe.ingredients)} />
 
       <div className="mt-5 flex flex-wrap items-center gap-3 sm:gap-3 md:gap-4">
         <ShareRow title={recipe.title} url={`${SITE_URL}/recipes/${recipe.slug}`} />
