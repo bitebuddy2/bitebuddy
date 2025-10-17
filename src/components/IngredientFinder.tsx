@@ -265,6 +265,8 @@ export default function IngredientFinder() {
   const [showSearchPrompt, setShowSearchPrompt] = useState(false);
   const [showAIPrompt, setShowAIPrompt] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isPublished, setIsPublished] = useState(false);
+  const [publishedSlug, setPublishedSlug] = useState<string | null>(null);
 
   // Ref for scrolling to matching recipes section
   const matchingRecipesRef = useRef<HTMLDivElement>(null);
@@ -710,6 +712,8 @@ export default function IngredientFinder() {
         setShowGeneratedRecipe(true);
         // Keep results to show matching recipes above AI recipe
         setSavedRecipeId(null); // Reset saved state for new recipe
+        setIsPublished(false); // Reset published state for new recipe
+        setPublishedSlug(null); // Reset published slug for new recipe
 
         // Save to localStorage
         localStorage.setItem("lastGeneratedRecipe", JSON.stringify(data.recipe));
