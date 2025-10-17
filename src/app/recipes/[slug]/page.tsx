@@ -525,10 +525,12 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
         <section className="faqs-section mt-8">
           <h2 className="mb-3 text-xl font-semibold tracking-tight">FAQs</h2>
           <dl className="text-base md:text-sm space-y-4">
-            {faqs.map((f: { question: string; answer: string }, i: number) => (
+            {faqs.map((f: { question: string; answer: any }, i: number) => (
               <div key={i} className="mb-3">
                 <dt className="font-semibold mb-1.5 text-gray-900">{f.question}</dt>
-                <dd className="text-gray-700 leading-relaxed">{f.answer}</dd>
+                <dd className="text-gray-700 leading-relaxed prose prose-neutral max-w-none">
+                  {typeof f.answer === 'string' ? f.answer : <PortableText value={f.answer} />}
+                </dd>
               </div>
             ))}
           </dl>
