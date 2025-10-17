@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { scaleIngredients } from "@/lib/scaleIngredients";
-import type { IngredientGroup, IngredientItem } from "@/sanity.types";
+import type { IngredientGroup } from "@/sanity.types";
 import AffiliateButton from "./AffiliateButton";
 
 interface RecipeIngredientsProps {

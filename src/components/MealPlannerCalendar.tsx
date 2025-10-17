@@ -47,7 +47,7 @@ export default function MealPlannerCalendar() {
   const [dayNotes, setDayNotes] = useState<Record<string, DayNote>>({});
   const [editingNote, setEditingNote] = useState<string | null>(null);
   const [noteText, setNoteText] = useState("");
-  const { isPremium, loading: subLoading } = useSubscription();
+  const { isPremium } = useSubscription();
 
   const mealTypes: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
   const MAX_NOTE_LENGTH = 100;

@@ -145,7 +145,7 @@ export async function POST(req: Request) {
     });
 
     const raw = completion.choices?.[0]?.message?.content || "{}";
-    let parsed = RecipePreviewSchema.parse(JSON.parse(raw));
+    const parsed = RecipePreviewSchema.parse(JSON.parse(raw));
 
     // Log the generation
     await supabaseAdmin.from("ai_generation_log").insert({

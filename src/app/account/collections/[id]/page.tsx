@@ -31,7 +31,6 @@ interface Recipe {
 
 export default function CollectionViewPage({ params }: { params: Promise<{ id: string }> }) {
   const [collectionId, setCollectionId] = useState<string>("");
-  const [user, setUser] = useState<any>(null);
   const [collection, setCollection] = useState<Collection | null>(null);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,11 +40,11 @@ export default function CollectionViewPage({ params }: { params: Promise<{ id: s
       setCollectionId(p.id);
       fetchCollectionData(p.id);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function fetchCollectionData(id: string) {
     const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
 
     if (!user) {
       window.location.href = "/account";

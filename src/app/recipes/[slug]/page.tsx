@@ -11,7 +11,6 @@ import { urlForImage } from "@/sanity/image";
 import StarRating from "@/components/StarRating";
 import ShareRow from "@/components/ShareRow";
 import SaveButton from "@/components/SaveButton";
-import AffiliateButton from "@/components/AffiliateButton";
 import AdPlaceholder from "@/components/AdPlaceholder";
 import CommentSection from "@/components/CommentSection";
 import RecipeViewTracker from "@/components/RecipeViewTracker";
@@ -31,7 +30,7 @@ import { supabase } from "@/lib/supabase";
 // 👇 use ONE of these imports depending on which fix you chose:
 // Option A: relative import (quick fix)
 // use alias (recommended, since you updated tsconfig)
-import type { Recipe, RecipeSlug, IngredientGroup, IngredientItem, Step } from "@/sanity.types";
+import type { Recipe, RecipeSlug, IngredientGroup } from "@/sanity.types";
 // Option B: keep alias after tsconfig fix
 // import type { Recipe, RecipeSlug, IngredientGroup } from "@/sanity.types";
 
@@ -54,20 +53,6 @@ function portableToPlainText(blocks: unknown): string {
 function hasNutrition(n?: { calories?: number; protein?: number; fat?: number; carbs?: number }) {
   if (!n) return false;
   return ["calories", "protein", "fat", "carbs"].some((k) => n[k as keyof typeof n] != null);
-}
-
-function ingredientLines(groups: IngredientGroup[] | undefined) {
-  if (!groups) return [];
-  const out: string[] = [];
-  for (const group of groups) {
-    for (const item of group.items || []) {
-      const name = item.ingredientText || item.ingredientRef?.name || "Ingredient";
-      const qtyUnit = [item.quantity, item.unit].filter(Boolean).join(" ");
-      const label = [qtyUnit, name, item.notes].filter(Boolean).join(" ");
-      out.push(label);
-    }
-  }
-  return out;
 }
 
 function toPlainIngredients(groups: IngredientGroup[] = []): string[] {
@@ -185,7 +170,7 @@ export default async function RecipePage({ params }: { params: Promise<{ slug: s
 
   const {
     title, description, heroImage, servings, prepMin, cookMin,
-    introText, brandContext, ingredients, steps, tips, faqs, nutrition, categories
+    introText, brandContext, steps, tips, faqs, nutrition, categories
   } = recipe;
 
   const totalMin = (prepMin || 0) + (cookMin || 0);

@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
     // ignore — some webhooks send empty bodies but include query params
   }
 
-  let recipeId: string | undefined =
+  const recipeId: string | undefined =
     body?.recipeId || body?._id || (Array.isArray(body?.ids) ? body.ids[0] : undefined);
 
   if (!recipeId) return bad(400, "Missing recipeId / _id");

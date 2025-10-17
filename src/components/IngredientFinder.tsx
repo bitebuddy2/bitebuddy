@@ -255,8 +255,6 @@ export default function IngredientFinder() {
   const [isSavingLast, setIsSavingLast] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [userId, setUserId] = useState<string>("");
-  const [isPublished, setIsPublished] = useState(false);
-  const [publishedSlug, setPublishedSlug] = useState<string | null>(null);
   const [nearMatchRecipe, setNearMatchRecipe] = useState<{ recipe: Recipe; missing: string[] } | null>(null);
   const [showAllMatches, setShowAllMatches] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");

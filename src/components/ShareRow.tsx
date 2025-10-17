@@ -33,7 +33,7 @@ export default function ShareRow({ title, url }: ShareRowProps) {
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
+    } catch {
       alert("Failed to copy link");
     }
   }
@@ -43,7 +43,7 @@ export default function ShareRow({ title, url }: ShareRowProps) {
       try {
         await navigator.share({ title, url });
         setShowShareMenu(false);
-      } catch (err) {
+      } catch {
         // User cancelled or error occurred
       }
     }

@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
     return bad(400, "Invalid JSON body");
   }
 
-  let ingredientId: string | undefined =
+  const ingredientId: string | undefined =
     body?.ingredientId || body?._id || (Array.isArray(body?.ids) ? body.ids[0] : undefined);
 
   if (!ingredientId) return bad(400, "Missing ingredientId / _id");

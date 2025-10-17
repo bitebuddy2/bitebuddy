@@ -14,7 +14,6 @@ interface Collection {
 }
 
 export default function CollectionsPage() {
-  const [user, setUser] = useState<any>(null);
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -30,7 +29,6 @@ export default function CollectionsPage() {
 
   async function fetchCollections() {
     const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
 
     if (!user) {
       window.location.href = "/account";
