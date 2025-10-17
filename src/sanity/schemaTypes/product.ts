@@ -26,7 +26,8 @@ export const product = defineType({
       title: "Description",
       type: "text",
       rows: 3,
-      validation: (Rule) => Rule.required(),
+      description: "Keep under 200 characters for optimal display on product cards",
+      validation: (Rule) => Rule.required().max(200).warning("Description should be under 200 characters for best display"),
     }),
     defineField({
       name: "image",
