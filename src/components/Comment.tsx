@@ -32,19 +32,38 @@ export default function Comment({ comment, currentUserId, onEdit, onDelete }: Co
   const isOwner = currentUserId === comment.user_id;
   const isEdited = comment.updated_at !== comment.created_at;
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        alert("Image must be less than 5MB");
-        return;
-      }
       if (!file.type.startsWith("image/")) {
         alert("File must be an image");
         return;
       }
-      setEditImage(file);
-      setImagePreview(URL.createObjectURL(file));
+
+      // Validate file size (max 10MB before compression)
+      if (file.size > 10 * 1024 * 1024) {
+        alert("Image must be less than 10MB");
+        return;
+      }
+
+      try {
+        // Import compression utility
+        const { compressImage } = await import("@/lib/imageCompression");
+
+        // Compress image for comments (larger than avatars but still optimized)
+        const compressedFile = await compressImage(file, {
+          maxWidth: 1200,
+          maxHeight: 1200,
+          quality: 0.85,
+          maxSizeMB: 2, // Target 2MB for comment images
+        });
+
+        setEditImage(compressedFile);
+        setImagePreview(URL.createObjectURL(compressedFile));
+      } catch (error) {
+        console.error("Image compression error:", error);
+        alert("Failed to process image. Please try a different image.");
+      }
     }
   };
 
