@@ -20,7 +20,7 @@ body.cooking-mode .ingredients-method-container {
   }
 }
 
-/* Hide non-essential elements in cooking mode */
+/* Hide non-essential elements in cooking mode - ONLY show ingredients and method */
 body.cooking-mode nav,
 body.cooking-mode footer,
 body.cooking-mode aside,
@@ -33,7 +33,46 @@ body.cooking-mode .exit-intent-prompt,
 body.cooking-mode .recipe-view-prompt,
 body.cooking-mode .rounded-lg.bg-gradient-to-r,
 body.cooking-mode [class*="gradient"],
-body.cooking-mode .rating-widget {
+body.cooking-mode .rating-widget,
+body.cooking-mode .tips-section,
+body.cooking-mode .faqs-section,
+body.cooking-mode .nutrition-section,
+body.cooking-mode .brand-context-section,
+body.cooking-mode .sticky-recipe-header,
+body.cooking-mode .mobile-recipe-actions,
+body.cooking-mode .save-button,
+body.cooking-mode .print-button,
+body.cooking-mode .add-to-collection-button,
+body.cooking-mode .shopping-list-button {
+  display: none !important;
+}
+
+/* Hide hero image in cooking mode */
+body.cooking-mode .relative.aspect-\[4\/3\],
+body.cooking-mode .relative.aspect-\[16\/9\] {
+  display: none !important;
+}
+
+/* Hide recipe description/intro */
+body.cooking-mode main > p {
+  display: none !important;
+}
+
+/* Hide metadata badges (AI generated, save count, categories, allergens) */
+body.cooking-mode .inline-flex.items-center.gap-1\.5.rounded-full,
+body.cooking-mode .inline-block.rounded-full,
+body.cooking-mode .flex.flex-wrap.items-center.gap-2:not(.ingredients-method-container *),
+body.cooking-mode .allergen-badges {
+  display: none !important;
+}
+
+/* Hide recipe timings display at top */
+body.cooking-mode .recipe-timings:not(.ingredients-method-container .recipe-timings) {
+  display: none !important;
+}
+
+/* Hide action buttons row but keep cooking mode toggle */
+body.cooking-mode .mt-5.flex.flex-wrap.items-center > *:not(.cooking-mode-toggle) {
   display: none !important;
 }
 

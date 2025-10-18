@@ -33,7 +33,7 @@ export default function CookingModeToggle({ onToggle }: CookingModeToggleProps) 
   return (
     <button
       onClick={() => setCookingMode(!cookingMode)}
-      className={`flex items-center gap-2 rounded-lg border-2 px-4 py-3 min-h-[44px] text-sm font-medium transition-all ${
+      className={`cooking-mode-toggle flex items-center gap-2 rounded-lg border-2 px-4 py-3 min-h-[44px] text-sm font-medium transition-all ${
         cookingMode
           ? "bg-emerald-600 border-emerald-600 text-white"
           : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
