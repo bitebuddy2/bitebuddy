@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 
 import { client } from "@/sanity/client";
 import { articleBySlugQuery, articleSlugsQuery, relatedArticlesQuery } from "@/sanity/queries";
+import { urlForImage } from "@/sanity/image";
 import ShareRow from "@/components/ShareRow";
 import ArticleCard from "@/components/ArticleCard";
 import AdPlaceholder from "@/components/AdPlaceholder";
@@ -316,20 +317,34 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               ),
             },
             types: {
-              image: ({ value }: any) => (
-                <div className="relative my-8 rounded-lg overflow-hidden shadow-md">
-                  <Image
-                    src={value.asset.url}
-                    alt={value.alt || "Article image"}
-                    width={value.asset.metadata?.dimensions?.width || 1200}
-                    height={value.asset.metadata?.dimensions?.height || 800}
-                    className="w-full"
-                  />
-                  {value.caption && (
-                    <p className="text-center text-sm text-gray-600 mt-3 italic">{value.caption}</p>
-                  )}
-                </div>
-              ),
+              image: ({ value }: any) => {
+                if (!value?.asset) return null;
+
+                // Get image URL - try direct URL first, fallback to urlForImage helper
+                const imageUrl = value.asset.url || urlForImage(value.asset).url();
+                const lqip = value.asset.metadata?.lqip;
+                const width = value.asset.metadata?.dimensions?.width || 1200;
+                const height = value.asset.metadata?.dimensions?.height || 800;
+
+                return (
+                  <div className="relative my-8 rounded-xl overflow-hidden shadow-lg">
+                    <Image
+                      src={imageUrl}
+                      alt={value.alt || value.caption || "Article image"}
+                      width={width}
+                      height={height}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                      placeholder={lqip ? "blur" : "empty"}
+                      blurDataURL={lqip}
+                      className="w-full h-auto"
+                      quality={90}
+                    />
+                    {value.caption && (
+                      <p className="text-center text-sm text-gray-600 mt-4 italic px-4">{value.caption}</p>
+                    )}
+                  </div>
+                );
+              },
               table: ({ value }: any) => (
                 <div className="my-8 overflow-x-auto">
                   {value.caption && (

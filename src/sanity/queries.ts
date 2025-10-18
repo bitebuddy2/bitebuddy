@@ -607,7 +607,20 @@ export const guideBySlugQuery = groq/* groq */ `
     },
     alt
   },
-  content,
+  content[]{
+    ...,
+    _type == "image" => {
+      ...,
+      asset->{
+        _id,
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
+      }
+    }
+  },
   steps[]{
     title,
     description,
@@ -689,7 +702,20 @@ export const articleBySlugQuery = groq/* groq */ `
   category,
   tags,
   publishedAt,
-  content,
+  content[]{
+    ...,
+    _type == "image" => {
+      ...,
+      asset->{
+        _id,
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
+      }
+    }
+  },
   heroImage{
     asset->{
       _id,

@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 
 import { client } from "@/sanity/client";
 import { guideBySlugQuery, guideSlugsQuery } from "@/sanity/queries";
+import { urlForImage } from "@/sanity/image";
 import RecipeCard from "@/components/RecipeCard";
 import GuideViewTracker from "@/components/GuideViewTracker";
 
@@ -116,8 +117,42 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
 
       {/* Main content */}
       {guide.content && (
-        <div className="mt-8 prose prose-neutral max-w-none">
-          <PortableText value={guide.content} />
+        <div className="mt-8 prose prose-lg prose-neutral max-w-none">
+          <PortableText
+            value={guide.content}
+            components={{
+              types: {
+                image: ({ value }: any) => {
+                  if (!value?.asset) return null;
+
+                  // Get image URL - try direct URL first, fallback to urlForImage helper
+                  const imageUrl = value.asset.url || urlForImage(value.asset).url();
+                  const lqip = value.asset.metadata?.lqip;
+                  const width = value.asset.metadata?.dimensions?.width || 1200;
+                  const height = value.asset.metadata?.dimensions?.height || 800;
+
+                  return (
+                    <div className="relative my-8 rounded-xl overflow-hidden shadow-lg">
+                      <Image
+                        src={imageUrl}
+                        alt={value.alt || value.caption || "Guide image"}
+                        width={width}
+                        height={height}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                        placeholder={lqip ? "blur" : "empty"}
+                        blurDataURL={lqip}
+                        className="w-full h-auto"
+                        quality={90}
+                      />
+                      {value.caption && (
+                        <p className="text-center text-sm text-gray-600 mt-4 italic px-4">{value.caption}</p>
+                      )}
+                    </div>
+                  );
+                },
+              },
+            }}
+          />
         </div>
       )}
 
