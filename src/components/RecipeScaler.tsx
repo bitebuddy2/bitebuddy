@@ -22,23 +22,25 @@ export default function RecipeScaler({ originalServings, onServingsChange }: Rec
 
   return (
     <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg">
-      <div className="flex-1">
-        <label htmlFor="servings" className="block text-sm font-medium text-gray-700 mb-1">
-          Adjust Servings
-        </label>
-        <p className="text-xs text-gray-600">
-          Original recipe serves {originalServings}
-        </p>
-      </div>
+      <div className="flex-1 flex items-center gap-3">
+        <div>
+          <label htmlFor="servings" className="block text-sm font-medium text-gray-700 mb-1">
+            Adjust Servings
+          </label>
+          <p className="text-xs text-gray-600">
+            Original recipe serves {originalServings}
+          </p>
+        </div>
 
-      <button
-        onClick={() => handleServingsChange(originalServings)}
-        disabled={servings === originalServings}
-        className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-white border border-emerald-300 rounded-lg hover:bg-emerald-50 hover:text-emerald-800 disabled:opacity-0 disabled:pointer-events-none transition-opacity whitespace-nowrap"
-        aria-label="Reset to original servings"
-      >
-        Reset
-      </button>
+        <button
+          onClick={() => handleServingsChange(originalServings)}
+          disabled={servings === originalServings}
+          className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-white border border-emerald-300 rounded-lg hover:bg-emerald-50 hover:text-emerald-800 disabled:opacity-0 disabled:pointer-events-none transition-opacity whitespace-nowrap"
+          aria-label="Reset to original servings"
+        >
+          Reset
+        </button>
+      </div>
 
       <div className="flex items-center gap-2">
         <button
