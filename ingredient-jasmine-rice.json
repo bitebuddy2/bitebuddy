@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.jasmine-rice",
+  "name": "Jasmine Rice",
+  "allergens": [],
+  "kcal100": 130,
+  "protein100": 2.7,
+  "fat100": 0.3,
+  "carbs100": 28,
+  "density_g_per_ml": 0.75
+}

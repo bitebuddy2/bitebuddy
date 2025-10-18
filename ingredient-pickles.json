@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.pickles",
+  "name": "Pickles",
+  "allergens": [],
+  "kcal100": 11,
+  "protein100": 0.3,
+  "fat100": 0.1,
+  "carbs100": 2.4,
+  "gramsPerPiece": 15
+}

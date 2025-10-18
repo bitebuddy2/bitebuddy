@@ -1,0 +1,326 @@
+{
+  "_type": "recipe",
+  "title": "Bill's BBQ Bourbon Beef Burger",
+  "slug": {
+    "_type": "slug",
+    "current": "bills-bbq-bourbon-beef-burger"
+  },
+  "description": "Juicy beef burger with smoky bourbon BBQ sauce, crispy bacon, and melted cheddar. Bill's signature burger that's bold, indulgent, and packed with flavour.",
+  "seoTitle": "Bill's BBQ Bourbon Beef Burger | Smoky & Indulgent",
+  "seoDescription": "Recreate Bill's famous BBQ bourbon burger at home. Juicy beef patty, crispy bacon, melted cheddar, and smoky bourbon BBQ sauce. Pure burger perfection.",
+  "introText": "Bill's BBQ Bourbon Beef Burger is the ultimate indulgence for burger lovers who want big, bold flavours. This isn't your standard burger – it's a towering masterpiece featuring a thick, juicy beef patty made from quality mince, topped with crispy streaky bacon, melted mature cheddar, and Bill's signature bourbon-spiked BBQ sauce. The bourbon adds a subtle warmth and complexity to the sweet, tangy BBQ sauce, while the bacon provides that essential salty crunch. Served in a soft brioche bun with crisp lettuce, ripe tomato, and red onion, every bite delivers the perfect balance of textures and flavours. It's become one of Bill's most popular burgers for good reason – it's comfort food elevated to an art form.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Bill's burger menu has evolved over the years, but the BBQ Bourbon Beef Burger remains a constant favourite. Inspired by American BBQ culture but with British sensibilities, this burger showcases Bill's philosophy of taking classic dishes and adding their own twist. The bourbon BBQ sauce was developed in-house to create something unique – not too sweet, with just enough smoky depth and a hint of warmth from the bourbon. Paired with quality British beef and proper bacon, it's a burger that satisfies even the heartiest appetites while maintaining the quality Bill's is known for."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 15,
+  "brand": {
+    "_type": "reference",
+    "_ref": "d47606b7-f9a9-4d70-a528-050c3bc358ac"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ],
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Burgers",
+      "items": [
+        {
+          "quantity": "800",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMm0b"
+          },
+          "notes": "20% fat"
+        },
+        {
+          "quantity": "1",
+          "unit": "tsp",
+          "ingredientText": "Salt"
+        },
+        {
+          "quantity": "1/2",
+          "unit": "tsp",
+          "ingredientText": "Black Pepper"
+        },
+        {
+          "quantity": "1",
+          "unit": "tsp",
+          "ingredientText": "Garlic Powder"
+        },
+        {
+          "quantity": "8",
+          "unit": "slice",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "e0b86c31-b04f-4f82-88b8-8c1e0d26c808"
+          },
+          "notes": "streaky"
+        },
+        {
+          "quantity": "4",
+          "unit": "slice",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmBF"
+          },
+          "notes": "mature"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Bourbon BBQ Sauce",
+      "items": [
+        {
+          "quantity": "150",
+          "unit": "ml",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.bbq-sauce"
+          }
+        },
+        {
+          "quantity": "2",
+          "unit": "tbsp",
+          "ingredientText": "Bourbon Whiskey"
+        },
+        {
+          "quantity": "1",
+          "unit": "tbsp",
+          "ingredientText": "Brown Sugar"
+        },
+        {
+          "quantity": "1",
+          "unit": "tsp",
+          "ingredientText": "Worcestershire Sauce"
+        },
+        {
+          "quantity": "1/2",
+          "unit": "tsp",
+          "ingredientText": "Smoked Paprika"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "To Assemble",
+      "items": [
+        {
+          "quantity": "4",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.brioche-buns"
+          }
+        },
+        {
+          "quantity": "4",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.lettuce"
+          },
+          "notes": "leaves"
+        },
+        {
+          "quantity": "2",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "f3QR1jtfT8MwlhtCVSLvFc"
+          },
+          "notes": "sliced"
+        },
+        {
+          "quantity": "1",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "m6nSyVU6lqC08JIviZKkmx"
+          },
+          "notes": "sliced into rings"
+        },
+        {
+          "quantity": "8",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.pickles"
+          },
+          "notes": "optional"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Make the bourbon BBQ sauce by combining all sauce ingredients in a small saucepan. Simmer over low heat for 5-7 minutes until slightly thickened. Set aside to cool."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "In a large bowl, gently mix the beef mince with salt, pepper, and garlic powder. Don't overwork the meat or the burgers will be tough. Divide into 4 equal portions (about 200g each) and shape into patties slightly larger than your buns as they'll shrink during cooking. Make a small indent in the centre of each patty with your thumb to prevent doming."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Fry or grill the bacon until crispy, then drain on kitchen paper and keep warm. Wipe out the pan if using for the burgers."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Heat a large griddle pan or heavy frying pan over high heat. Once smoking hot, cook the burger patties for 3-4 minutes on the first side without moving them. Flip and cook for another 3-4 minutes for medium (adjust timing for your preference). In the last minute of cooking, place a slice of cheddar on each patty and cover the pan briefly to melt the cheese."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "While the burgers cook, toast the cut sides of the brioche buns in a dry pan or under the grill until lightly golden."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "To assemble, spread bourbon BBQ sauce on the bottom bun. Add lettuce, then the cheesy burger patty. Top with 2 slices of crispy bacon, tomato slices, red onion rings, and pickles if using. Drizzle with more BBQ sauce, then crown with the top bun."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Serve immediately with chips or fries, extra BBQ sauce on the side, and plenty of napkins!"
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Use beef mince with 20% fat for the juiciest burgers – lean mince makes dry burgers",
+    "Don't press down on the burgers while cooking – this squeezes out all the juices",
+    "Let the meat come to room temperature for 20 minutes before cooking for more even results",
+    "For extra flavour, add finely diced onions or Worcestershire sauce to the beef mixture",
+    "If you don't have bourbon, use a splash of whisky or leave it out – the BBQ sauce is still delicious",
+    "Double or triple the bourbon BBQ sauce recipe – it keeps for 2 weeks in the fridge and is great on ribs, chicken, or pulled pork"
+  ],
+  "faqs": [
+    {
+      "question": "How do I know when my burger is cooked to the right level?",
+      "answer": "For medium burgers, cook for 3-4 minutes each side – they should feel springy with some give when pressed. For medium-well, add another minute per side. Use a meat thermometer for accuracy: 60°C for medium, 65°C for medium-well, 70°C for well-done. Remember, the burger continues cooking slightly after you remove it from heat."
+    },
+    {
+      "question": "Can I make the burgers ahead of time?",
+      "answer": "Yes! Shape the patties up to 24 hours ahead, place on a tray with baking paper between each one, cover, and refrigerate. The bourbon BBQ sauce can be made up to 2 weeks ahead and stored in the fridge. Bring burgers to room temperature 20 minutes before cooking."
+    },
+    {
+      "question": "Why do my homemade burgers fall apart?",
+      "answer": "This usually happens if the meat is too lean (use 20% fat mince), if the meat is overworked (mix gently), or if you flip the burgers too early. Make sure your pan is very hot before adding the burgers, and resist the urge to move them for the first 3-4 minutes – a crust will form that holds everything together."
+    },
+    {
+      "question": "Can I cook these burgers on the BBQ?",
+      "answer": "Absolutely! These burgers are perfect for the BBQ. Cook over direct high heat for the same timings. Oil the grill grates well to prevent sticking. The bacon can also be cooked on the BBQ – use a grill basket or lay the rashers across the grates perpendicular to the bars."
+    },
+    {
+      "question": "Is the alcohol in the bourbon sauce safe for children?",
+      "answer": "Most of the alcohol burns off during cooking, but a small amount may remain. If serving to children or those avoiding alcohol, simply omit the bourbon – the sauce is still delicious with just the BBQ sauce, brown sugar, and spices."
+    }
+  ],
+  "nutrition": {
+    "calories": 745,
+    "protein": 48,
+    "fat": 42,
+    "carbs": 45
+  }
+}

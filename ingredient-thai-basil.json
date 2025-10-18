@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.thai-basil",
+  "name": "Thai Basil",
+  "allergens": [],
+  "kcal100": 23,
+  "protein100": 3.2,
+  "fat100": 0.6,
+  "carbs100": 2.7,
+  "gramsPerPiece": 5
+}

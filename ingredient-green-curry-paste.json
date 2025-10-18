@@ -1,0 +1,12 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.green-curry-paste",
+  "name": "Green Curry Paste",
+  "allergens": ["Fish", "Soya"],
+  "kcal100": 120,
+  "protein100": 2.5,
+  "fat100": 8,
+  "carbs100": 10,
+  "density_g_per_ml": 1.1,
+  "gramsPerPiece": 15
+}

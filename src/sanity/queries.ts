@@ -351,10 +351,19 @@ export const productsByCategoryQuery = groq/* groq */ `
 }
 `;
 
+// ✅ Get all product slugs for generateStaticParams
+export const productSlugsQuery = groq/* groq */ `
+*[_type == "product" && defined(slug.current)][]{
+  "slug": slug.current
+}
+`;
+
 // ✅ Get single product by slug
 export const productBySlugQuery = groq/* groq */ `
 *[_type == "product" && slug.current == $slug][0]{
   _id,
+  _createdAt,
+  _updatedAt,
   title,
   "slug": slug.current,
   description,
@@ -374,15 +383,30 @@ export const productBySlugQuery = groq/* groq */ `
   rating,
   relatedRecipes[]->{
     _id,
+    _type,
     title,
     "slug": slug.current,
+    description,
+    introText,
+    servings,
+    prepMin,
+    cookMin,
+    ratingSum,
+    ratingCount,
     heroImage{
-      asset->{
-        url,
-        metadata { lqip }
-      },
+      asset->{ url, metadata{ lqip, dimensions } },
       alt
-    }
+    },
+    brand->{
+      _id,
+      title,
+      "slug": slug.current,
+      logo{
+        asset->{ url, metadata{ lqip } },
+        alt
+      }
+    },
+    createdBy
   }
 }
 `;

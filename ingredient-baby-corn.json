@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.baby-corn",
+  "name": "Baby Corn",
+  "allergens": [],
+  "kcal100": 23,
+  "protein100": 2.9,
+  "fat100": 0.1,
+  "carbs100": 4.5,
+  "gramsPerPiece": 8
+}

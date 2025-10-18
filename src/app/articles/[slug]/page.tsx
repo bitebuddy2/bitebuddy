@@ -213,7 +213,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       {/* Share Row */}
       <div className="mb-6">
-        <ShareRow title={article.title} url={`${SITE_URL}/articles/${article.slug}`} />
+        <ShareRow title={article.title} url={`${SITE_URL}/articles/${article.slug}`} buttonText="Share" />
       </div>
 
       {/* Top Ad - After Share Row */}

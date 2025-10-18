@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.brioche-buns",
+  "name": "Brioche Burger Buns",
+  "allergens": ["Gluten (wheat)", "Eggs", "Milk"],
+  "kcal100": 330,
+  "protein100": 8,
+  "fat100": 7,
+  "carbs100": 56,
+  "gramsPerPiece": 85
+}

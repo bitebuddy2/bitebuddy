@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.fish-sauce",
+  "name": "Fish Sauce",
+  "allergens": ["Fish"],
+  "kcal100": 35,
+  "protein100": 5,
+  "fat100": 0,
+  "carbs100": 4,
+  "density_g_per_ml": 1.2
+}

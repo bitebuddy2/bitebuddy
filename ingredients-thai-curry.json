@@ -1,0 +1,102 @@
+[
+  {
+    "_type": "ingredient",
+    "_id": "ingredient.green-curry-paste",
+    "name": "Green Curry Paste",
+    "allergens": ["Fish", "Soya"],
+    "kcal100": 120,
+    "protein100": 2.5,
+    "fat100": 8,
+    "carbs100": 10,
+    "density_g_per_ml": 1.1,
+    "gramsPerPiece": 15
+  },
+  {
+    "_type": "ingredient",
+    "_id": "ingredient.fish-sauce",
+    "name": "Fish Sauce",
+    "allergens": ["Fish"],
+    "kcal100": 35,
+    "protein100": 5,
+    "fat100": 0,
+    "carbs100": 4,
+    "density_g_per_ml": 1.2
+  },
+  {
+    "_type": "ingredient",
+    "_id": "ingredient.jasmine-rice",
+    "name": "Jasmine Rice",
+    "allergens": [],
+    "kcal100": 130,
+    "protein100": 2.7,
+    "fat100": 0.3,
+    "carbs100": 28,
+    "density_g_per_ml": 0.75
+  },
+  {
+    "_type": "ingredient",
+    "_id": "ingredient.green-beans",
+    "name": "Green Beans",
+    "allergens": [],
+    "kcal100": 31,
+    "protein100": 1.8,
+    "fat100": 0.1,
+    "carbs100": 7,
+    "density_g_per_ml": 0.6
+  },
+  {
+    "_type": "ingredient",
+    "_id": "ingredient.baby-corn",
+    "name": "Baby Corn",
+    "allergens": [],
+    "kcal100": 23,
+    "protein100": 2.9,
+    "fat100": 0.1,
+    "carbs100": 4.5,
+    "gramsPerPiece": 8
+  },
+  {
+    "_type": "ingredient",
+    "_id": "ingredient.bamboo-shoots",
+    "name": "Bamboo Shoots",
+    "allergens": [],
+    "kcal100": 27,
+    "protein100": 2.6,
+    "fat100": 0.3,
+    "carbs100": 5.2,
+    "density_g_per_ml": 0.9
+  },
+  {
+    "_type": "ingredient",
+    "_id": "ingredient.thai-basil",
+    "name": "Thai Basil",
+    "allergens": [],
+    "kcal100": 23,
+    "protein100": 3.2,
+    "fat100": 0.6,
+    "carbs100": 2.7,
+    "gramsPerPiece": 5
+  },
+  {
+    "_type": "ingredient",
+    "_id": "ingredient.kaffir-lime-leaves",
+    "name": "Kaffir Lime Leaves",
+    "allergens": [],
+    "kcal100": 0,
+    "protein100": 0,
+    "fat100": 0,
+    "carbs100": 0,
+    "gramsPerPiece": 1
+  },
+  {
+    "_type": "ingredient",
+    "_id": "ingredient.palm-sugar",
+    "name": "Palm Sugar",
+    "allergens": [],
+    "kcal100": 375,
+    "protein100": 0.3,
+    "fat100": 0,
+    "carbs100": 94,
+    "density_g_per_ml": 1.4
+  }
+]

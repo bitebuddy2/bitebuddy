@@ -1,0 +1,310 @@
+{
+  "_type": "recipe",
+  "title": "Bill's Thai Green Chicken Curry",
+  "slug": {
+    "_type": "slug",
+    "current": "bills-thai-green-chicken-curry"
+  },
+  "description": "Fragrant Thai green curry with tender chicken, vegetables, and creamy coconut milk. A Bill's restaurant favourite packed with authentic flavours.",
+  "seoTitle": "Bill's Thai Green Chicken Curry Recipe | Authentic",
+  "seoDescription": "Make Bill's famous Thai green chicken curry at home with this easy recipe. Creamy coconut milk, aromatic spices, fresh vegetables. Ready in 35 minutes.",
+  "introText": "Bill's Thai Green Chicken Curry is a customer favourite that brings the vibrant flavours of Thailand to your table. This aromatic curry combines tender chicken pieces with a fragrant green curry paste, rich coconut milk, and an array of crisp vegetables including green beans and baby corn. The balance of heat from the curry paste, sweetness from palm sugar, and umami depth from fish sauce creates a complex, restaurant-quality dish that's surprisingly easy to make at home. Served with fluffy jasmine rice, it's comfort food with a Thai twist that never fails to satisfy.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Bill's has long been known for bringing global flavours to their eclectic menu, and their Thai Green Curry is a testament to their commitment to quality and authenticity. Inspired by the bustling street food markets of Bangkok, this curry captures the essence of Thai cuisine with its perfect balance of spicy, sweet, salty, and sour. It's become one of the most ordered dishes on their menu, loved for its warming comfort and vibrant taste that transports diners straight to Southeast Asia."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 20,
+  "brand": {
+    "_type": "reference",
+    "_ref": "d47606b7-f9a9-4d70-a528-050c3bc358ac"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "dbbb051c-6610-4f42-8959-cbe7da379cfa"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ],
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "items": [
+        {
+          "quantity": "1",
+          "unit": "tbsp",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "83203c84-261d-4411-93b8-461a42075990"
+          }
+        },
+        {
+          "quantity": "3",
+          "unit": "tbsp",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.green-curry-paste"
+          }
+        },
+        {
+          "quantity": "400",
+          "unit": "ml",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "db88bf63-a3ea-4a57-bc21-63ed9279ad33"
+          }
+        },
+        {
+          "quantity": "125",
+          "unit": "ml",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "85e29e1f-da5a-4b55-bfe0-c8be1bfcf3db"
+          }
+        },
+        {
+          "quantity": "500",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlvH"
+          },
+          "notes": "cut into 2cm chunks"
+        },
+        {
+          "quantity": "150",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.green-beans"
+          },
+          "notes": "trimmed and halved"
+        },
+        {
+          "quantity": "100",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.baby-corn"
+          },
+          "notes": "halved lengthways"
+        },
+        {
+          "quantity": "4",
+          "unit": "piece",
+          "ingredientText": "Kaffir Lime Leaves",
+          "notes": "torn"
+        },
+        {
+          "quantity": "1",
+          "unit": "tbsp",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.fish-sauce"
+          }
+        },
+        {
+          "quantity": "1",
+          "unit": "tbsp",
+          "ingredientText": "Palm Sugar",
+          "notes": "or brown sugar"
+        },
+        {
+          "quantity": "1",
+          "unit": "tbsp",
+          "ingredientText": "Lime Juice"
+        },
+        {
+          "quantity": "1",
+          "unit": "bunch",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.thai-basil"
+          },
+          "notes": "leaves picked"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "To Serve",
+      "items": [
+        {
+          "quantity": "300",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.jasmine-rice"
+          }
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Cook the jasmine rice according to package instructions and keep warm. Meanwhile, heat the vegetable oil in a large wok or deep frying pan over medium-high heat."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Add the green curry paste to the hot oil and fry for 1-2 minutes until fragrant, stirring constantly to prevent burning. The paste should become aromatic and slightly darkened."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Pour in the coconut milk and chicken stock, stirring to combine with the curry paste. Add the kaffir lime leaves and bring to a gentle simmer."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Add the chicken pieces to the curry and cook for 8-10 minutes, stirring occasionally, until the chicken is cooked through with no pink remaining."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Add the green beans and baby corn to the curry. Simmer for 3-4 minutes until the vegetables are tender-crisp but still have some bite."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Stir in the fish sauce, palm sugar, and lime juice. Taste and adjust the seasoning - add more fish sauce for saltiness, sugar for sweetness, or lime for acidity."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Remove from heat and stir through the Thai basil leaves. Serve immediately over fluffy jasmine rice, garnished with extra basil if desired."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "For a richer curry, use full-fat coconut milk rather than light. The creaminess is part of what makes this dish so good",
+    "If you can't find Thai basil, regular basil works but won't have quite the same anise-like flavour",
+    "Add bamboo shoots, aubergine, or courgette for extra vegetables - just add them with the green beans",
+    "The curry tastes even better the next day as the flavours develop, so it's perfect for meal prep",
+    "For extra heat, add sliced red chillies or increase the amount of curry paste",
+    "Fresh kaffir lime leaves make a huge difference, but dried ones work in a pinch (use half the amount)"
+  ],
+  "faqs": [
+    {
+      "question": "Can I make this curry vegetarian or vegan?",
+      "answer": "Absolutely! Replace the chicken with tofu, mushrooms, or extra vegetables like aubergine and courgette. Use vegetarian green curry paste (check the label as some contain shrimp paste) and swap fish sauce for soy sauce or tamari. The rest of the recipe stays the same."
+    },
+    {
+      "question": "How spicy is Thai green curry?",
+      "answer": "Green curry is typically medium-hot, but the spice level depends on the curry paste brand. Start with 2 tablespoons if you're sensitive to heat and add more to taste. The coconut milk and sugar help balance the heat."
+    },
+    {
+      "question": "Can I freeze Thai green curry?",
+      "answer": "Yes, this curry freezes brilliantly for up to 3 months. Cool completely, portion into airtight containers, and freeze. Defrost overnight in the fridge and reheat gently on the hob, adding a splash of coconut milk if needed."
+    },
+    {
+      "question": "What's the difference between green, red, and yellow Thai curry?",
+      "answer": "The main difference is the type of chillies used in the paste. Green curry uses green chillies and is typically the hottest and most herbaceous. Red curry uses red chillies and is slightly milder with an earthier flavour. Yellow curry is the mildest, containing turmeric for its golden colour."
+    },
+    {
+      "question": "Do I need special ingredients I can't find in supermarkets?",
+      "answer": "Most UK supermarkets now stock Thai curry paste, coconut milk, and fish sauce in their world foods aisle. Kaffir lime leaves can be harder to find but are available in Asian supermarkets or online - they're worth seeking out for authentic flavour, though lime zest can substitute in a pinch."
+    }
+  ],
+  "nutrition": {
+    "calories": 485,
+    "protein": 38,
+    "fat": 22,
+    "carbs": 35
+  }
+}

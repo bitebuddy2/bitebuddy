@@ -1,0 +1,244 @@
+{
+  "_type": "recipe",
+  "title": "Bill's Chicken Schnitzel",
+  "slug": {
+    "_type": "slug",
+    "current": "bills-chicken-schnitzel"
+  },
+  "description": "Crispy golden chicken schnitzel served with a fresh lemon wedge. A Bill's restaurant classic that's perfect for lunch or dinner.",
+  "seoTitle": "Bill's Chicken Schnitzel Recipe | Crispy & Golden",
+  "seoDescription": "Recreate Bill's famous crispy chicken schnitzel at home. Golden breadcrumb coating, tender chicken breast, and a squeeze of lemon. Ready in 30 minutes.",
+  "introText": "Bill's Chicken Schnitzel is one of their most popular menu items, featuring tender chicken breast pounded thin and coated in golden, crispy breadcrumbs. This restaurant-style dish delivers that perfect crunch on the outside while keeping the chicken juicy and tender inside. Served simply with a lemon wedge, it's a crowd-pleaser that works beautifully for a quick weeknight dinner or a weekend treat. The key is getting that breadcrumb coating extra crispy by using the classic three-step breading process.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Bill's restaurant has been serving up their famous chicken schnitzel since the brand's early days. Known for their relaxed all-day dining atmosphere, Bill's takes inspiration from classic European and British comfort food, and their schnitzel is no exception. The dish showcases their commitment to quality ingredients and simple, delicious cooking techniques that let the food speak for itself."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 15,
+  "brand": {
+    "_type": "reference",
+    "_ref": "d47606b7-f9a9-4d70-a528-050c3bc358ac"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ],
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "items": [
+        {
+          "quantity": "4",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMlvH"
+          }
+        },
+        {
+          "quantity": "100",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmJE"
+          }
+        },
+        {
+          "quantity": "2",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "TYzLq1jkpxBbhvXHhm5IFr"
+          },
+          "notes": "beaten"
+        },
+        {
+          "quantity": "150",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.breadcrumbs"
+          }
+        },
+        {
+          "quantity": "1",
+          "unit": "tsp",
+          "ingredientText": "Salt"
+        },
+        {
+          "quantity": "1/2",
+          "unit": "tsp",
+          "ingredientText": "Black Pepper"
+        },
+        {
+          "quantity": "1",
+          "unit": "tsp",
+          "ingredientText": "Paprika"
+        },
+        {
+          "quantity": "100",
+          "unit": "ml",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "83203c84-261d-4411-93b8-461a42075990"
+          },
+          "notes": "for frying"
+        },
+        {
+          "quantity": "1",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "5e0ab28b-5fef-4156-a5ff-45e0e40bc6c7"
+          },
+          "notes": "cut into wedges"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Place each chicken breast between two sheets of cling film or baking paper. Using a rolling pin or meat mallet, pound the chicken to about 1cm thickness. This ensures even cooking and a tender result."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Set up your breading station: place the flour in one shallow dish, beaten eggs in a second dish, and breadcrumbs mixed with salt, pepper, and paprika in a third dish."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Coat each chicken breast first in flour (shake off excess), then dip in the beaten egg, and finally press firmly into the breadcrumb mixture, ensuring even coverage on both sides."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Heat the vegetable oil in a large frying pan over medium-high heat. The oil should be about 5mm deep and hot enough that a breadcrumb sizzles when dropped in."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Fry the schnitzels for 3-4 minutes on each side until golden brown and cooked through. The internal temperature should reach 75°C. Work in batches if necessary to avoid overcrowding the pan."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Transfer to a plate lined with kitchen paper to drain excess oil. Serve immediately with lemon wedges for squeezing over the top."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "For extra crispy schnitzel, use panko breadcrumbs instead of regular breadcrumbs",
+    "Make sure your oil is at the right temperature - too cool and the coating will be soggy, too hot and it will burn before the chicken cooks",
+    "Let the breaded chicken rest for 5-10 minutes before frying to help the coating adhere better",
+    "Serve with chunky chips and a fresh green salad for the full Bill's experience",
+    "You can prepare the breaded chicken up to 2 hours in advance and keep covered in the fridge until ready to fry"
+  ],
+  "faqs": [
+    {
+      "question": "Can I use chicken thighs instead of breasts?",
+      "answer": "Yes, you can use boneless, skinless chicken thighs. Pound them to an even thickness just like the breasts. They'll be slightly more flavourful and harder to overcook."
+    },
+    {
+      "question": "How do I know when the schnitzel is cooked through?",
+      "answer": "The breadcrumb coating should be golden brown and crispy, and the chicken should feel firm when pressed. Use a meat thermometer to check it's reached 75°C internally, or cut into the thickest part to ensure there's no pink meat remaining."
+    },
+    {
+      "question": "Can I bake these instead of frying?",
+      "answer": "Yes, place the breaded chicken on a wire rack over a baking tray and spray lightly with oil. Bake at 200°C for 20-25 minutes, flipping halfway through. It won't be quite as crispy as fried, but it's a healthier alternative."
+    },
+    {
+      "question": "What should I serve with chicken schnitzel?",
+      "answer": "Bill's typically serves their schnitzel with chunky chips and salad. Other great options include mashed potatoes, buttered vegetables, coleslaw, or German-style potato salad."
+    }
+  ],
+  "nutrition": {
+    "calories": 420,
+    "protein": 45,
+    "fat": 18,
+    "carbs": 22
+  }
+}

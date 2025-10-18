@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.lettuce",
+  "name": "Lettuce",
+  "allergens": [],
+  "kcal100": 15,
+  "protein100": 1.4,
+  "fat100": 0.2,
+  "carbs100": 2.9,
+  "gramsPerPiece": 20
+}

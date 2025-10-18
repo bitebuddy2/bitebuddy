@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.parmesan",
+  "name": "Parmesan Cheese",
+  "allergens": ["Milk"],
+  "kcal100": 431,
+  "protein100": 38,
+  "fat100": 29,
+  "carbs100": 4.1,
+  "density_g_per_ml": 0.8
+}

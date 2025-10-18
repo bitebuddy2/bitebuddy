@@ -1,0 +1,315 @@
+{
+  "_type": "recipe",
+  "title": "Bill's Mac & Cheese",
+  "slug": {
+    "_type": "slug",
+    "current": "bills-mac-and-cheese"
+  },
+  "description": "Creamy, indulgent macaroni cheese with a crispy golden topping. Bill's ultimate comfort food that's rich, cheesy, and utterly irresistible.",
+  "seoTitle": "Bill's Mac & Cheese Recipe | Ultimate Comfort Food",
+  "seoDescription": "Make Bill's famous creamy mac & cheese at home. Three-cheese sauce, perfectly cooked macaroni, and a crispy breadcrumb topping. Pure comfort in a dish.",
+  "introText": "Bill's Mac & Cheese is the definition of comfort food done right. This isn't your average macaroni cheese – it's a luxurious, triple-cheese masterpiece featuring a velvety sauce made with mature cheddar, creamy mozzarella, and sharp Parmesan. The macaroni is cooked until just tender, then smothered in the rich cheese sauce and topped with golden, crispy breadcrumbs for the perfect textural contrast. Whether you're ordering it as a side dish or making it the star of your meal, this mac & cheese delivers pure, unapologetic comfort with every forkful. It's become a menu staple for good reason – sometimes nothing else will do.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Mac & cheese has been on Bill's menu since the beginning, evolving from a simple side dish to a customer favourite that people order as a main course. Bill's version takes inspiration from classic American mac & cheese while adding British sensibilities with mature cheddar and proper seasoning. It's the kind of dish that brings people back time and again – creamy, cheesy, and with just the right amount of crispy topping to make every bite interesting. Perfect for kids and adults alike, it's comfort food that never goes out of style."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 30,
+  "brand": {
+    "_type": "reference",
+    "_ref": "d47606b7-f9a9-4d70-a528-050c3bc358ac"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "f42c344d-2114-4e20-9331-ba0a99eda367"
+    }
+  ],
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "items": [
+        {
+          "quantity": "400",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.macaroni"
+          }
+        },
+        {
+          "quantity": "50",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.butter"
+          }
+        },
+        {
+          "quantity": "50",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmJE"
+          }
+        },
+        {
+          "quantity": "500",
+          "unit": "ml",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.milk"
+          }
+        },
+        {
+          "quantity": "100",
+          "unit": "ml",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.double-cream"
+          }
+        },
+        {
+          "quantity": "200",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmBF"
+          },
+          "notes": "grated"
+        },
+        {
+          "quantity": "100",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "TYzLq1jkpxBbhvXHhm5lCR"
+          },
+          "notes": "grated"
+        },
+        {
+          "quantity": "50",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.parmesan"
+          },
+          "notes": "finely grated"
+        },
+        {
+          "quantity": "1",
+          "unit": "tsp",
+          "ingredientText": "English Mustard"
+        },
+        {
+          "quantity": "1/2",
+          "unit": "tsp",
+          "ingredientText": "Nutmeg",
+          "notes": "freshly grated"
+        },
+        {
+          "quantity": "1",
+          "unit": "tsp",
+          "ingredientText": "Salt"
+        },
+        {
+          "quantity": "1/2",
+          "unit": "tsp",
+          "ingredientText": "Black Pepper"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Topping",
+      "items": [
+        {
+          "quantity": "50",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.breadcrumbs"
+          }
+        },
+        {
+          "quantity": "25",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.parmesan"
+          },
+          "notes": "finely grated"
+        },
+        {
+          "quantity": "1",
+          "unit": "tbsp",
+          "ingredientText": "Olive Oil"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Preheat your oven to 200°C (180°C fan)/Gas Mark 6. Bring a large pan of salted water to the boil and cook the macaroni according to package instructions until al dente. Drain well and set aside."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "While the pasta cooks, make the cheese sauce. Melt the butter in a large saucepan over medium heat. Add the flour and whisk continuously for 2 minutes to make a roux – it should be pale golden and smell slightly nutty."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Gradually add the milk, whisking constantly to prevent lumps. Keep whisking until the sauce thickens and coats the back of a spoon, about 5-7 minutes. Stir in the double cream."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Remove from heat and stir in the cheddar, mozzarella, and half the Parmesan until melted and smooth. Add the mustard, nutmeg, salt, and pepper. Taste and adjust seasoning – it should be well-seasoned as the pasta will dilute the flavour."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Add the cooked macaroni to the cheese sauce and stir well to coat every piece. Transfer to a large ovenproof dish (approximately 30cm x 20cm)."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Mix together the breadcrumbs, remaining Parmesan, and olive oil in a small bowl. Sprinkle evenly over the mac & cheese."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Bake for 20-25 minutes until the top is golden brown and crispy, and the sauce is bubbling around the edges. Let it rest for 5 minutes before serving to allow the sauce to thicken slightly."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Use a mix of cheeses for the best flavour – mature cheddar for depth, mozzarella for stretchiness, and Parmesan for a salty kick",
+    "Don't overcook the pasta – it will continue cooking in the oven, so aim for al dente",
+    "Make the sauce well-seasoned as pasta absorbs a lot of salt. Taste before baking and adjust",
+    "For extra indulgence, add crispy bacon pieces or caramelised onions to the cheese sauce",
+    "Panko breadcrumbs make an extra-crispy topping compared to regular breadcrumbs",
+    "This can be assembled ahead of time and refrigerated for up to 24 hours before baking – just add 5-10 minutes to the cooking time"
+  ],
+  "faqs": [
+    {
+      "question": "Can I make mac & cheese ahead of time?",
+      "answer": "Yes! Prepare the entire dish up to the point of baking, cover tightly, and refrigerate for up to 24 hours. When ready to bake, let it sit at room temperature for 20 minutes, then add 5-10 extra minutes to the baking time to ensure it's heated through."
+    },
+    {
+      "question": "How do I stop my cheese sauce from going lumpy?",
+      "answer": "The key is to add the milk gradually while whisking constantly. Make sure your roux (butter and flour mixture) is smooth before adding any liquid. If you do get lumps, strain the sauce through a fine sieve or blend it with a stick blender."
+    },
+    {
+      "question": "Can I freeze mac & cheese?",
+      "answer": "Yes, mac & cheese freezes well for up to 3 months. Freeze it before baking in a freezer-safe dish. Defrost overnight in the fridge, then bake as directed, adding 10-15 minutes to ensure it's heated through. The texture may be slightly different but it's still delicious."
+    },
+    {
+      "question": "What can I add to make it more interesting?",
+      "answer": "Try mixing in crispy bacon, caramelised onions, roasted cherry tomatoes, or sautéed mushrooms. You can also stir through cooked broccoli or peas for extra veg. For a spicy kick, add a pinch of cayenne pepper or some jalapeños to the cheese sauce."
+    },
+    {
+      "question": "Why is my mac & cheese dry?",
+      "answer": "This usually happens if the pasta is overcooked initially or if there's not enough sauce. Make sure your cheese sauce is quite loose before mixing with the pasta – it should coat a spoon thickly but still pour. The sauce will thicken as it bakes. If it looks dry before baking, stir in a splash more milk or cream."
+    }
+  ],
+  "nutrition": {
+    "calories": 685,
+    "protein": 28,
+    "fat": 36,
+    "carbs": 58
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.macaroni",
+  "name": "Macaroni Pasta",
+  "allergens": ["Gluten (wheat)", "Eggs"],
+  "kcal100": 371,
+  "protein100": 13,
+  "fat100": 1.5,
+  "carbs100": 75,
+  "density_g_per_ml": 0.65
+}

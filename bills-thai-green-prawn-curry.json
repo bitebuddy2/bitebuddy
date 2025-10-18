@@ -1,0 +1,317 @@
+{
+  "_type": "recipe",
+  "title": "Bill's Thai Green Prawn Curry",
+  "slug": {
+    "_type": "slug",
+    "current": "bills-thai-green-prawn-curry"
+  },
+  "description": "Aromatic Thai green curry with succulent prawns, fresh vegetables, and coconut milk. A seafood twist on Bill's classic curry that's light yet satisfying.",
+  "seoTitle": "Bill's Thai Green Prawn Curry Recipe | Fresh Seafood",
+  "seoDescription": "Bill's fragrant Thai green prawn curry with coconut milk, aromatic spices, and crisp vegetables. A lighter seafood option ready in just 30 minutes.",
+  "introText": "Bill's Thai Green Prawn Curry offers a lighter, seafood-focused take on their popular Thai curry. Plump, juicy prawns are cooked quickly in a vibrant green curry sauce made with coconut milk, aromatic curry paste, and fresh vegetables. The prawns require less cooking time than chicken, making this an even quicker weeknight dinner option that doesn't compromise on flavour. The sweet prawns pair beautifully with the spicy curry paste and creamy coconut milk, while crisp vegetables add texture and freshness. Served over fluffy jasmine rice, it's a restaurant-quality dish that brings a taste of Thailand to your table in under 30 minutes.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Bill's seafood curry has become increasingly popular among customers looking for a lighter alternative to their meat-based curries. Using fresh, sustainably sourced prawns, this dish showcases Bill's commitment to quality ingredients and accessible cooking. The prawn curry maintains all the aromatic complexity and rich flavours of the original while offering a delicate sweetness that seafood lovers adore. It's become a go-to choice for lunch or a lighter dinner option that still delivers on taste and satisfaction."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 15,
+  "brand": {
+    "_type": "reference",
+    "_ref": "d47606b7-f9a9-4d70-a528-050c3bc358ac"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "dbbb051c-6610-4f42-8959-cbe7da379cfa"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ],
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "items": [
+        {
+          "quantity": "1",
+          "unit": "tbsp",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "83203c84-261d-4411-93b8-461a42075990"
+          }
+        },
+        {
+          "quantity": "3",
+          "unit": "tbsp",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.green-curry-paste"
+          }
+        },
+        {
+          "quantity": "400",
+          "unit": "ml",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "db88bf63-a3ea-4a57-bc21-63ed9279ad33"
+          }
+        },
+        {
+          "quantity": "125",
+          "unit": "ml",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "85e29e1f-da5a-4b55-bfe0-c8be1bfcf3db"
+          },
+          "notes": "or fish stock"
+        },
+        {
+          "quantity": "500",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.prawns"
+          },
+          "notes": "raw, peeled and deveined"
+        },
+        {
+          "quantity": "150",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.green-beans"
+          },
+          "notes": "trimmed and halved"
+        },
+        {
+          "quantity": "100",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.baby-corn"
+          },
+          "notes": "halved lengthways"
+        },
+        {
+          "quantity": "1",
+          "unit": "piece",
+          "ingredientText": "Red Pepper",
+          "notes": "sliced"
+        },
+        {
+          "quantity": "4",
+          "unit": "piece",
+          "ingredientText": "Kaffir Lime Leaves",
+          "notes": "torn"
+        },
+        {
+          "quantity": "2",
+          "unit": "tbsp",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.fish-sauce"
+          }
+        },
+        {
+          "quantity": "1",
+          "unit": "tbsp",
+          "ingredientText": "Palm Sugar",
+          "notes": "or brown sugar"
+        },
+        {
+          "quantity": "2",
+          "unit": "tbsp",
+          "ingredientText": "Lime Juice"
+        },
+        {
+          "quantity": "1",
+          "unit": "bunch",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.thai-basil"
+          },
+          "notes": "leaves picked"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "To Serve",
+      "items": [
+        {
+          "quantity": "300",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.jasmine-rice"
+          }
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Cook the jasmine rice according to package instructions and keep warm. Ensure your prawns are fully thawed if using frozen, and pat dry with kitchen paper."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Heat the vegetable oil in a large wok or deep frying pan over medium-high heat. Add the green curry paste and fry for 1-2 minutes until fragrant and slightly darkened, stirring constantly."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Pour in the coconut milk and stock, stirring well to combine with the curry paste. Add the kaffir lime leaves and bring to a gentle simmer. Let it bubble gently for 2-3 minutes to develop the flavours."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Add the green beans, baby corn, and red pepper to the curry. Simmer for 3-4 minutes until the vegetables are just tender but still have a slight crunch."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Add the prawns to the curry and cook for 3-4 minutes until they turn pink and are just cooked through. Be careful not to overcook as prawns can become rubbery."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Stir in the fish sauce, palm sugar, and lime juice. Taste and adjust seasoning as needed. The curry should have a balance of spicy, salty, sweet, and sour flavours."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Remove from heat and stir through the Thai basil leaves. Serve immediately over fluffy jasmine rice, with extra lime wedges on the side."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Don't overcook the prawns - they cook very quickly and should be removed from heat as soon as they turn pink",
+    "For the best flavour, use raw prawns rather than pre-cooked. Frozen raw prawns work perfectly if thawed properly",
+    "Add cherry tomatoes for extra colour and a slight tang - they pair beautifully with prawns",
+    "If you prefer a thicker curry sauce, simmer for a few extra minutes to reduce before adding the prawns",
+    "Prawns release liquid as they cook, so don't worry if the curry seems slightly thinner after adding them",
+    "For an extra special touch, serve with Thai sticky rice instead of jasmine rice"
+  ],
+  "faqs": [
+    {
+      "question": "Can I use frozen prawns for this recipe?",
+      "answer": "Yes, frozen prawns work perfectly! Make sure to fully thaw them first (overnight in the fridge is best), then pat them completely dry with kitchen paper before cooking. Excess moisture can make the curry watery and prevent the prawns from cooking properly."
+    },
+    {
+      "question": "What's the difference between prawns and shrimp?",
+      "answer": "In the UK, we typically use the term 'prawns' for all sizes, while in the US they distinguish between shrimp (smaller) and prawns (larger). For this recipe, use large or king prawns for the best texture and flavour. The cooking time is the same regardless of what you call them!"
+    },
+    {
+      "question": "My curry sauce split when I added the prawns - what happened?",
+      "answer": "This usually happens if the heat is too high or the prawns weren't fully thawed and patted dry. The excess moisture and cold temperature can shock the coconut milk. To fix it, lower the heat and stir gently - the sauce should come back together. Next time, ensure prawns are room temperature and completely dry."
+    },
+    {
+      "question": "Can I add other seafood to this curry?",
+      "answer": "Absolutely! This curry works brilliantly with mixed seafood. Try adding squid rings, mussels, or chunks of firm white fish along with the prawns. Just remember that different seafood has different cooking times - add fish first (4-5 minutes), then prawns (3-4 minutes), and squid last (2 minutes) to prevent overcooking."
+    },
+    {
+      "question": "How do I know when prawns are cooked?",
+      "answer": "Perfectly cooked prawns will be pink/coral in colour, opaque (not translucent), and form a loose C-shape. If they're tightly curled into an O-shape, they're overcooked. They should feel just firm to the touch but still slightly springy, not tough or rubbery."
+    }
+  ],
+  "nutrition": {
+    "calories": 395,
+    "protein": 32,
+    "fat": 18,
+    "carbs": 32
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.double-cream",
+  "name": "Double Cream",
+  "allergens": ["Milk"],
+  "kcal100": 449,
+  "protein100": 1.7,
+  "fat100": 48,
+  "carbs100": 2.7,
+  "density_g_per_ml": 1.01
+}

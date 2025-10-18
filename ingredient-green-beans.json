@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.green-beans",
+  "name": "Green Beans",
+  "allergens": [],
+  "kcal100": 31,
+  "protein100": 1.8,
+  "fat100": 0.1,
+  "carbs100": 7,
+  "density_g_per_ml": 0.6
+}

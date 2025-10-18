@@ -1,0 +1,11 @@
+{
+  "_type": "ingredient",
+  "_id": "ingredient.bbq-sauce",
+  "name": "BBQ Sauce",
+  "allergens": [],
+  "kcal100": 172,
+  "protein100": 1.5,
+  "fat100": 0.5,
+  "carbs100": 40,
+  "density_g_per_ml": 1.15
+}

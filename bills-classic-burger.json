@@ -1,0 +1,317 @@
+{
+  "_type": "recipe",
+  "title": "Bill's Classic Burger",
+  "slug": {
+    "_type": "slug",
+    "current": "bills-classic-burger"
+  },
+  "description": "Bill's signature beef burger with melted cheese, crisp lettuce, tomato, and special burger sauce. Simple, classic, and perfectly executed every time.",
+  "seoTitle": "Bill's Classic Burger Recipe | Perfect Every Time",
+  "seoDescription": "Master Bill's classic beef burger at home. Juicy patty, melted cheese, fresh toppings, and secret burger sauce. A timeless favourite done right.",
+  "introText": "Bill's Classic Burger is proof that sometimes the simplest things are the best. This is burger-making stripped back to its essentials and executed to perfection – a thick, juicy beef patty cooked until beautifully caramelised, topped with melted cheese, and dressed with crisp lettuce, ripe tomato, pickles, and Bill's special burger sauce. No gimmicks, no unnecessary additions, just quality ingredients handled with care. The secret is in the details: using proper beef mince with the right fat content, not overworking the meat, cooking at high heat for that essential crust, and assembling everything while it's hot. This is the burger that converts people, the one you'll make again and again, and the benchmark by which all other burgers are measured.",
+  "brandContext": [
+    {
+      "_type": "block",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Bill's Classic Burger has been on the menu from day one and remains their best-seller year after year. In a restaurant known for creative twists and global influences, this burger stands out for its honest simplicity. It's Bill's answer to the age-old question: what makes the perfect burger? The answer, they've found, isn't about piling on toppings or creating something outrageous – it's about sourcing quality British beef, cooking it properly, and letting the flavours speak for themselves. The special burger sauce, developed in-house, is the only 'secret' ingredient, adding a tangy creaminess that ties everything together without overpowering the beef."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 10,
+  "brand": {
+    "_type": "reference",
+    "_ref": "d47606b7-f9a9-4d70-a528-050c3bc358ac"
+  },
+  "categories": [
+    {
+      "_type": "reference",
+      "_ref": "a75059bf-6a51-45a7-932c-228c9c8765a1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "1a43cb40-4025-4cd5-a788-5442eb2af5f5"
+    }
+  ],
+  "ingredients": [
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Burgers",
+      "items": [
+        {
+          "quantity": "800",
+          "unit": "g",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMm0b"
+          },
+          "notes": "20% fat"
+        },
+        {
+          "quantity": "1",
+          "unit": "tsp",
+          "ingredientText": "Salt"
+        },
+        {
+          "quantity": "1/2",
+          "unit": "tsp",
+          "ingredientText": "Black Pepper"
+        },
+        {
+          "quantity": "4",
+          "unit": "slice",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "czv5QnE4jWWmyJTFssMmBF"
+          }
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "For the Special Burger Sauce",
+      "items": [
+        {
+          "quantity": "4",
+          "unit": "tbsp",
+          "ingredientText": "Mayonnaise"
+        },
+        {
+          "quantity": "2",
+          "unit": "tbsp",
+          "ingredientText": "Tomato Ketchup"
+        },
+        {
+          "quantity": "1",
+          "unit": "tbsp",
+          "ingredientText": "American Mustard"
+        },
+        {
+          "quantity": "1",
+          "unit": "tsp",
+          "ingredientText": "White Wine Vinegar"
+        },
+        {
+          "quantity": "1/2",
+          "unit": "tsp",
+          "ingredientText": "Garlic Powder"
+        },
+        {
+          "quantity": "1/2",
+          "unit": "tsp",
+          "ingredientText": "Onion Powder"
+        },
+        {
+          "quantity": "1/2",
+          "unit": "tsp",
+          "ingredientText": "Smoked Paprika"
+        }
+      ]
+    },
+    {
+      "_type": "ingredientGroup",
+      "heading": "To Assemble",
+      "items": [
+        {
+          "quantity": "4",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.brioche-buns"
+          }
+        },
+        {
+          "quantity": "4",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.lettuce"
+          },
+          "notes": "leaves"
+        },
+        {
+          "quantity": "2",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "f3QR1jtfT8MwlhtCVSLvFc"
+          },
+          "notes": "sliced"
+        },
+        {
+          "quantity": "1",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "m6nSyVU6lqC08JIviZKkmx"
+          },
+          "notes": "sliced into rings"
+        },
+        {
+          "quantity": "8",
+          "unit": "piece",
+          "ingredientRef": {
+            "_type": "reference",
+            "_ref": "ingredient.pickles"
+          }
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Make the special burger sauce by whisking together all sauce ingredients in a small bowl. Taste and adjust seasoning. Cover and refrigerate until needed – it's even better made a few hours ahead."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "In a bowl, gently mix the beef mince with salt and pepper. Handle the meat as little as possible – overworking makes tough burgers. Divide into 4 equal portions (about 200g each) and shape into patties slightly larger than your buns. Make a small indent in the centre of each with your thumb."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Heat a large griddle pan or heavy frying pan over high heat until smoking hot. This is crucial for getting a good crust on your burgers."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Place the burgers in the hot pan and cook for 3-4 minutes on the first side without moving them. Resist the urge to press down or fiddle with them – leave them alone to develop a crust. Flip and cook for another 3-4 minutes for medium burgers."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "In the last minute of cooking, place a slice of cheddar on each patty. Cover the pan briefly with a lid or baking tray to help the cheese melt. Remove burgers and let rest for 2 minutes."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "While burgers rest, toast the cut sides of the brioche buns in the same pan or under the grill until lightly golden."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    },
+    {
+      "_type": "object",
+      "step": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "To assemble, spread burger sauce on both bun halves. On the bottom, layer lettuce, then the cheesy burger patty. Top with tomato slices, red onion rings, and pickles. Add the top bun and press down gently. Serve immediately with chips or fries."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "The secret to juicy burgers is using mince with 20% fat – don't use extra lean or they'll be dry",
+    "Season generously with salt and pepper – beef needs proper seasoning to shine",
+    "Make sure your pan is properly hot before adding the burgers – you should see immediate sizzling",
+    "Only flip once! Constant flipping prevents a good crust from forming",
+    "The burger sauce can be made up to a week ahead and keeps in the fridge – it also makes a great dip for chips",
+    "For restaurant-style burgers, let the cooked patties rest for 2 minutes before assembling – this helps retain juices"
+  ],
+  "faqs": [
+    {
+      "question": "What's the best beef mince to use for burgers?",
+      "answer": "Use beef mince with 20% fat content for the juiciest results. The fat keeps the burger moist and adds flavour. Extra-lean mince (5% fat) makes dry, tough burgers. Buy from a butcher if possible – supermarket mince works fine but butcher's mince often has better texture and flavour."
+    },
+    {
+      "question": "Can I cook these burgers in the oven?",
+      "answer": "While you can bake burgers at 200°C for about 15-20 minutes, they won't have the same caramelised crust that makes burgers so special. If you can't use a pan or grill, at least finish them under a hot grill for 2 minutes each side to get some colour."
+    },
+    {
+      "question": "How do I prevent my burgers from shrinking?",
+      "answer": "Make your raw patties slightly larger than your buns and create a small indent in the centre with your thumb. This prevents doming and shrinkage. Also, don't press down on the burgers while cooking – this squeezes out fat and causes more shrinkage."
+    },
+    {
+      "question": "Can I freeze the burger patties?",
+      "answer": "Yes! Shape the patties, place on a tray lined with baking paper (with paper between each), and freeze until solid. Transfer to a freezer bag for up to 3 months. Cook from frozen, adding 2-3 minutes to each side. Don't defrost and refreeze – this affects texture and isn't food safe."
+    },
+    {
+      "question": "What makes Bill's burger sauce special?",
+      "answer": "It's a variation of classic burger sauce (similar to Big Mac sauce) but with added smoked paprika for depth. The combination of mayo for creaminess, ketchup for sweetness, mustard for tang, and spices for complexity creates a sauce that's greater than the sum of its parts. Make it at least an hour ahead for the flavours to meld."
+    }
+  ],
+  "nutrition": {
+    "calories": 650,
+    "protein": 45,
+    "fat": 36,
+    "carbs": 42
+  }
+}
