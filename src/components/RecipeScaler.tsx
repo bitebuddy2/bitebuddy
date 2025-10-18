@@ -21,8 +21,8 @@ export default function RecipeScaler({ originalServings, onServingsChange }: Rec
   const decrement = () => handleServingsChange(Math.max(1, servings - 1));
 
   return (
-    <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg">
-      <div className="flex-1 flex items-center gap-3">
+    <div className="flex items-center justify-between gap-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg">
+      <div className="flex items-center gap-3">
         <div>
           <label htmlFor="servings" className="block text-sm font-medium text-gray-700 mb-1">
             Adjust Servings
