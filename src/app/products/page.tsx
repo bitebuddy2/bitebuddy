@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { client } from "@/sanity/client";
 import { allProductsQuery } from "@/sanity/queries";
 import AffiliateButton from "@/components/AffiliateButton";
@@ -164,68 +165,76 @@ export default async function ProductsPage() {
 
 function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="rounded-lg border bg-white p-6 shadow-sm transition hover:shadow-md">
-      {/* Product Image */}
-      <div className="mb-4 h-48 rounded bg-gray-100 flex items-center justify-center overflow-hidden">
-        {product.image?.asset?.url ? (
-          <Image
-            src={product.image.asset.url}
-            alt={product.image.alt || product.title}
-            width={400}
-            height={192}
-            className="object-cover w-full h-full"
-            placeholder={product.image.asset.metadata?.lqip ? "blur" : "empty"}
-            blurDataURL={product.image.asset.metadata?.lqip}
-          />
-        ) : (
-          <div className="flex items-center justify-center h-full w-full bg-gray-200 text-gray-400">
-            <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-        )}
-      </div>
+    <article className="group rounded-lg border bg-white shadow-sm transition hover:shadow-md overflow-hidden">
+      <Link href={`/products/${product.slug}`} className="block">
+        {/* Product Image */}
+        <div className="mb-4 h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+          {product.image?.asset?.url ? (
+            <Image
+              src={product.image.asset.url}
+              alt={product.image.alt || product.title}
+              width={400}
+              height={192}
+              className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+              placeholder={product.image.asset.metadata?.lqip ? "blur" : "empty"}
+              blurDataURL={product.image.asset.metadata?.lqip}
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full w-full bg-gray-200 text-gray-400">
+              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          )}
+        </div>
+      </Link>
 
       {/* Product Info */}
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold line-clamp-2">{product.title}</h3>
-        <p className="mt-2 text-sm text-gray-600 line-clamp-3">{product.description}</p>
-      </div>
+      <div className="p-6 pt-0">
+        <Link href={`/products/${product.slug}`}>
+          <h3 className="text-lg font-semibold line-clamp-2 mb-2 group-hover:text-emerald-600 transition-colors">
+            {product.title}
+          </h3>
+        </Link>
+        <p className="text-sm text-gray-600 line-clamp-3 mb-4">{product.description}</p>
 
-      {/* Rating */}
-      {product.rating && (
-        <div className="mb-3 flex items-center gap-1">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <svg
-              key={i}
-              className={`w-4 h-4 ${
-                i < Math.floor(product.rating || 0) ? "text-yellow-400" : "text-gray-300"
-              }`}
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        {/* Rating */}
+        {product.rating && (
+          <div className="mb-3 flex items-center gap-1">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <svg
+                key={i}
+                className={`w-4 h-4 ${
+                  i < Math.floor(product.rating || 0) ? "text-yellow-400" : "text-gray-300"
+                }`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            ))}
+            <span className="ml-1 text-sm text-gray-600">({product.rating})</span>
+          </div>
+        )}
+
+        {/* Price and CTA */}
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-xl font-bold text-emerald-600">£{product.price.toFixed(2)}</span>
+          <Link
+            href={`/products/${product.slug}`}
+            className="inline-flex items-center gap-1 text-emerald-600 hover:text-emerald-700 font-medium text-sm transition-colors"
+          >
+            View Details
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          ))}
-          <span className="ml-1 text-sm text-gray-600">({product.rating})</span>
+          </Link>
         </div>
-      )}
-
-      {/* Price and CTA */}
-      <div className="flex items-center justify-between">
-        <span className="text-xl font-bold text-emerald-600">£{product.price.toFixed(2)}</span>
-        <AffiliateButton
-          url={product.affiliateLink}
-          retailer={product.retailer}
-          ingredient={product.title}
-          recipe="Product Page"
-          label="View on Amazon"
-        />
       </div>
-    </div>
+    </article>
   );
 }

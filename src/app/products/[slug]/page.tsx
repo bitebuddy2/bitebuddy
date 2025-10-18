@@ -112,10 +112,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Product Details Section */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
-          <div className="grid md:grid-cols-2 gap-8 p-8">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 p-4 sm:p-6 md:p-8">
             {/* Product Image */}
             <div className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden">
               {product.image?.asset?.url ? (
@@ -126,7 +126,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                   sizes="(max-width: 768px) 100vw, 50vw"
                   placeholder={product.image.asset.metadata?.lqip ? "blur" : "empty"}
                   blurDataURL={product.image.asset.metadata?.lqip}
-                  className="object-contain p-8"
+                  className="object-contain p-4 sm:p-8"
                   priority
                 />
               ) : (
@@ -140,24 +140,24 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             <div className="flex flex-col">
               {/* Category Badge */}
               {categoryLabel && (
-                <span className="inline-block w-fit text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full mb-4">
+                <span className="inline-block w-fit text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full mb-3 sm:mb-4">
                   {categoryLabel}
                 </span>
               )}
 
               {/* Title */}
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
                 {product.title}
               </h1>
 
               {/* Rating */}
               {product.rating && (
-                <div className="flex items-center gap-2 mb-6">
+                <div className="flex items-center gap-2 mb-4 sm:mb-6">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
                       <svg
                         key={i}
-                        className={`w-6 h-6 ${i < Math.floor(product.rating) ? 'text-yellow-500' : 'text-gray-300'}`}
+                        className={`w-5 h-5 sm:w-6 sm:h-6 ${i < Math.floor(product.rating) ? 'text-yellow-500' : 'text-gray-300'}`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -165,49 +165,51 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                       </svg>
                     ))}
                   </div>
-                  <span className="text-lg font-semibold text-gray-700">{product.rating.toFixed(1)}</span>
+                  <span className="text-base sm:text-lg font-semibold text-gray-700">{product.rating.toFixed(1)}</span>
                 </div>
               )}
 
               {/* Description */}
               {product.description && (
-                <p className="text-gray-700 text-lg leading-relaxed mb-6">
+                <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-4 sm:mb-6">
                   {product.description}
                 </p>
               )}
 
               {/* Price */}
               {product.price && (
-                <div className="mb-6">
-                  <span className="text-5xl font-bold text-emerald-600">
+                <div className="mb-4 sm:mb-6">
+                  <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-600">
                     £{product.price.toFixed(2)}
                   </span>
                 </div>
               )}
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <div className="flex flex-col gap-3 sm:gap-4 mb-4 sm:mb-6">
                 {product.affiliateLink && (
                   <a
                     href={product.affiliateLink}
                     target="_blank"
                     rel="nofollow noopener noreferrer sponsored"
-                    className="flex-1 inline-flex items-center justify-center gap-2 bg-emerald-600 text-white font-bold text-lg px-8 py-4 rounded-lg hover:bg-emerald-700 transition-colors"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 text-white font-bold text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-emerald-700 transition-colors"
                   >
                     Buy on {retailerLabel}
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
                 )}
 
-                <ShareRow title={product.title} url={`${SITE_URL}/products/${product.slug}`} buttonText="Share" />
+                <div className="w-full">
+                  <ShareRow title={product.title} url={`${SITE_URL}/products/${product.slug}`} buttonText="Share" />
+                </div>
               </div>
 
               {/* Affiliate Disclosure */}
               {product.affiliateLink && (
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                  <p className="text-sm text-amber-800 leading-relaxed">
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 sm:p-4">
+                  <p className="text-xs sm:text-sm text-amber-800 leading-relaxed">
                     <strong>Affiliate Disclosure:</strong> As an affiliate, we may earn a commission from qualifying purchases made through the link above. This helps support our site at no extra cost to you.
                   </p>
                 </div>
