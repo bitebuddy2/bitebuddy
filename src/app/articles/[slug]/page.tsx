@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: { canonical: `/articles/${article.slug}` },
     openGraph: {
       title,
       description,
@@ -471,6 +471,39 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           }),
         }}
       />
+
+      {/* JSON-LD: Product Schema for Affiliate Products */}
+      {article.affiliateProducts && article.affiliateProducts.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              article.affiliateProducts.map((product: any) => ({
+                "@context": "https://schema.org",
+                "@type": "Product",
+                name: product.title,
+                description: product.description,
+                image: product.image?.asset?.url,
+                brand: {
+                  "@type": "Brand",
+                  name: product.retailer || "Partner Retailer",
+                },
+                offers: {
+                  "@type": "Offer",
+                  url: product.affiliateLink,
+                  priceCurrency: "GBP",
+                  price: product.price,
+                  availability: "https://schema.org/InStock",
+                  seller: {
+                    "@type": "Organization",
+                    name: product.retailer || "Partner Retailer",
+                  },
+                },
+              }))
+            ),
+          }}
+        />
+      )}
     </main>
   );
 }

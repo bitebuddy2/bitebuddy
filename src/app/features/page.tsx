@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Features | Bite Buddy",
   description: "Discover all the features that make Bite Buddy the best place for UK copycat recipes, AI-generated meal ideas, and meal planning.",
+  alternates: {
+    canonical: "/features",
+  },
 };
 
 export default function FeaturesPage() {

@@ -34,6 +34,7 @@ export default function BrandBar({ brands }: { brands: Brand[] }) {
                     fill
                     className="object-cover"
                     sizes="48px"
+                    loading="lazy"
                   />
                 </div>
               ) : (

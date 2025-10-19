@@ -126,6 +126,7 @@ export default function RecipeCard({ r, isCommunity = false }: { r: CardRecipe; 
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               placeholder={lqip ? "blur" : "empty"}
               blurDataURL={lqip}
+              loading="lazy"
               className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
           ) : (
@@ -169,6 +170,7 @@ export default function RecipeCard({ r, isCommunity = false }: { r: CardRecipe; 
                     alt={r.brand.logo.alt || r.brand.title}
                     width={24}
                     height={24}
+                    loading="lazy"
                     className="object-cover"
                   />
                 ) : (

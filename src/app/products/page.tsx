@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Recommended Kitchen Products | Bite Buddy",
   description: "Discover recommended kitchen tools, ingredients, and cookbooks to help you recreate your favourite recipes.",
   alternates: {
-    canonical: "https://bitebuddy.co.uk/products",
+    canonical: "/products",
   },
 };
 

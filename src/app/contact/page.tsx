@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact Us - Recipe Requests & Support | Bite Buddy",
   description: "Get in touch with Bite Buddy for recipe requests, questions, feedback, or partnership opportunities. We typically respond within 24-48 hours.",
+  alternates: {
+    canonical: "/contact",
+  },
   openGraph: {
     title: "Contact Us - Recipe Requests & Support | Bite Buddy",
     description: "Get in touch with Bite Buddy for recipe requests, questions, feedback, or partnership opportunities. We typically respond within 24-48 hours.",

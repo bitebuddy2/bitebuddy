@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "Explore copycat recipes from your favourite restaurants and brands. Learn how to recreate signature dishes at home with our tested recipes.",
   alternates: {
-    canonical: `${SITE_URL}/recipes/brands`,
+    canonical: "/recipes/brands",
   },
   openGraph: {
     title: "Browse Recipe Brands | Bite Buddy",

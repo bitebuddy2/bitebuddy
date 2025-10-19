@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Bite Buddy - UK Copycat Recipe Creator | Bite Buddy",
   description: "Meet Jonathan, the recipe creator behind Bite Buddy. Learn how we help home cooks recreate their favourite UK restaurant dishes with simple, tested recipes.",
+  alternates: {
+    canonical: "/about",
+  },
   openGraph: {
     title: "About Bite Buddy - UK Copycat Recipe Creator | Bite Buddy",
     description: "Meet Jonathan, the recipe creator behind Bite Buddy. Learn how we help home cooks recreate their favourite UK restaurant dishes with simple, tested recipes.",

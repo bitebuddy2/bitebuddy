@@ -1,3 +1,13 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Work With Us - Partnerships & Collaborations | Bite Buddy",
+  description: "Partner with Bite Buddy for restaurant collaborations, brand partnerships, and content creation opportunities.",
+  alternates: {
+    canonical: "/work-with-us",
+  },
+};
+
 export default function WorkWithUsPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-12">

@@ -8,6 +8,9 @@ import { allGuidesQuery } from "@/sanity/queries";
 export const metadata: Metadata = {
   title: "Cooking Guides & Tips - Learn Kitchen Skills | Bite Buddy",
   description: "Master kitchen techniques and cooking methods with our comprehensive guides. From air fryer basics to knife skills and more.",
+  alternates: {
+    canonical: "/guides",
+  },
   openGraph: {
     title: "Cooking Guides & Tips - Learn Kitchen Skills | Bite Buddy",
     description: "Master kitchen techniques and cooking methods with our comprehensive guides. From air fryer basics to knife skills and more.",
