@@ -36,6 +36,19 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@sanity/client', 'next-sanity', 'lucide-react'],
   },
+  async headers() {
+    return [
+      {
+        source: '/ads.txt',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/plain; charset=utf-8',
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       // Pret falafel recipe redirect (already existed)
