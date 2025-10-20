@@ -75,6 +75,23 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: true, // 301 redirect
       },
+      // Recipe categories index redirect
+      {
+        source: '/recipes/categories',
+        destination: '/recipes',
+        permanent: true, // 301 redirect
+      },
+      // Old recipe slugs that don't exist
+      {
+        source: '/recipes/subway-chipotle-sauce',
+        destination: '/recipes',
+        permanent: true, // 301 redirect
+      },
+      {
+        source: '/recipes/nandos-garlic-bread-recipe',
+        destination: '/recipes/nandos-garlic-bread',
+        permanent: true, // 301 redirect
+      },
     ];
   },
 };
