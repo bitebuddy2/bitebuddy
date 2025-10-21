@@ -70,11 +70,28 @@ export default function TermsPage() {
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">9. Contact Information</h2>
         <p className="text-gray-700 leading-relaxed mb-4">
-          If you have any questions about these Terms of Service, please contact us at{' '}
-          <a href="mailto:hello@bitebuddy.co.uk" className="text-emerald-600 hover:underline">
-            hello@bitebuddy.co.uk
-          </a>
+          If you have any questions about these Terms of Service, please contact us:
         </p>
+        <div className="bg-gray-50 p-4 rounded-lg space-y-2 mb-4">
+          <p className="text-gray-700">
+            <strong>General Inquiries:</strong>{" "}
+            <a href="mailto:hello@bitebuddy.co.uk" className="text-emerald-600 hover:underline">
+              hello@bitebuddy.co.uk
+            </a>
+          </p>
+          <p className="text-gray-700">
+            <strong>Support:</strong>{" "}
+            <a href="mailto:support@bitebuddy.co.uk" className="text-emerald-600 hover:underline">
+              support@bitebuddy.co.uk
+            </a>
+          </p>
+          <p className="text-gray-700">
+            <strong>Billing:</strong>{" "}
+            <a href="mailto:billing@bitebuddy.co.uk" className="text-emerald-600 hover:underline">
+              billing@bitebuddy.co.uk
+            </a>
+          </p>
+        </div>
       </div>
     </main>
   );

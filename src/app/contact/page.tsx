@@ -34,16 +34,37 @@ export default function ContactPage() {
 
           <div className="space-y-4">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">📧 Email</h3>
-              <p className="text-gray-700">
-                <a
-                  href="mailto:bitebuddy2@gmail.com"
-                  className="text-emerald-600 hover:underline text-lg"
-                >
-                  bitebuddy2@gmail.com
-                </a>
-              </p>
-              <p className="text-sm text-gray-600 mt-1">
+              <h3 className="font-semibold text-gray-900 mb-3">📧 Email</h3>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm font-medium text-gray-700 mb-1">General Inquiries & Recipe Requests:</p>
+                  <a
+                    href="mailto:hello@bitebuddy.co.uk"
+                    className="text-emerald-600 hover:underline text-lg"
+                  >
+                    hello@bitebuddy.co.uk
+                  </a>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-700 mb-1">Support & Technical Issues:</p>
+                  <a
+                    href="mailto:support@bitebuddy.co.uk"
+                    className="text-emerald-600 hover:underline text-lg"
+                  >
+                    support@bitebuddy.co.uk
+                  </a>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-700 mb-1">Billing & Subscriptions:</p>
+                  <a
+                    href="mailto:billing@bitebuddy.co.uk"
+                    className="text-emerald-600 hover:underline text-lg"
+                  >
+                    billing@bitebuddy.co.uk
+                  </a>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600 mt-3">
                 We typically respond within 24-48 hours
               </p>
             </div>

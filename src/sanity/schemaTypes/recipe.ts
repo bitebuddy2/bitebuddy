@@ -67,16 +67,18 @@ export default defineType({
     defineField({
       name: "introText",
       title: "Intro Text",
-      description: "100–200 words: what the dish is, why it’s great, quick context.",
+      description: "REQUIRED FOR ADSENSE: 150–250 words minimum. Explain what the dish is, why it's great, unique tips, and context. Be detailed and original.",
       type: "text",
-      rows: 4
+      rows: 6,
+      validation: r => r.required().min(150).warning("AdSense requires substantial unique content. Aim for 150-250 words minimum.")
     }),
     defineField({
       name: "brandContext",
       title: "Brand / Copycat Context",
-      description: "1–3 short paragraphs about the restaurant/chain inspiration.",
+      description: "IMPORTANT FOR QUALITY: 200-400 words about the restaurant/chain inspiration, history, and what makes this copycat authentic. Add personal insights.",
       type: "array",
-      of: [{ type: "block" }]
+      of: [{ type: "block" }],
+      validation: r => r.required().warning("This field helps create unique, valuable content that Google rewards. Don't skip it!")
     }),
 
     // Ingredients & Steps
@@ -227,25 +229,35 @@ export default defineType({
     defineField({
       name: "tips",
       title: "Tips & Variations",
+      description: "QUALITY SIGNAL: Add 5-10 detailed tips for success, variations, substitutions, or serving suggestions. Each tip should be 1-3 sentences.",
       type: "array",
-      of: [{ type: "text" }]
+      of: [{ type: "text" }],
+      validation: r => r.required().min(5).warning("Google values comprehensive, helpful content. Aim for at least 5 detailed tips.")
     }),
     defineField({
       name: "faqs",
       title: "FAQs",
+      description: "CRITICAL FOR SEO: Add 5-8 frequently asked questions with detailed answers (50-100 words each). This boosts Google visibility!",
       type: "array",
       of: [
         {
           type: "object",
           fields: [
-            defineField({ name: "question", title: "Question", type: "string", validation: r => r.required() }),
-            defineField({ name: "answer", title: "Answer", type: "text", rows: 3, validation: r => r.required() })
+            defineField({ name: "question", title: "Question", type: "string", validation: r => r.required().min(10) }),
+            defineField({
+              name: "answer",
+              title: "Answer",
+              type: "text",
+              rows: 4,
+              validation: r => r.required().min(50).warning("Detailed answers (50-100 words) help with SEO and user trust")
+            })
           ],
           preview: {
             select: { title: "question", subtitle: "answer" }
           }
         }
-      ]
+      ],
+      validation: r => r.required().min(5).warning("FAQs are crucial for AdSense approval and Google rankings. Add at least 5 Q&As.")
     }),
     defineField({
       name: "nutrition",

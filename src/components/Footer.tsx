@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 export default function Footer() {
@@ -30,8 +32,18 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/contact" className="text-gray-600 hover:text-emerald-600 hover:underline active:text-emerald-700">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
                 <Link href="/work-with-us" className="text-gray-600 hover:text-emerald-600 hover:underline active:text-emerald-700">
                   Work With Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="text-gray-600 hover:text-emerald-600 hover:underline active:text-emerald-700">
+                  Privacy Policy
                 </Link>
               </li>
               <li>
@@ -40,9 +52,20 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-gray-600 hover:text-emerald-600 hover:underline active:text-emerald-700">
-                  EU Privacy Policy
+                <Link href="/disclaimer" className="text-gray-600 hover:text-emerald-600 hover:underline active:text-emerald-700">
+                  Disclaimer
                 </Link>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem('cookie-consent');
+                    window.location.reload();
+                  }}
+                  className="text-gray-600 hover:text-emerald-600 hover:underline active:text-emerald-700 text-left"
+                >
+                  Cookie Preferences
+                </button>
               </li>
             </ul>
           </div>
@@ -50,12 +73,26 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h3 className="font-semibold text-base sm:text-lg text-gray-900 mb-4">Contact</h3>
-            <a
-              href="mailto:hello@bitebuddy.co.uk"
-              className="text-sm sm:text-base text-gray-600 hover:text-emerald-600 hover:underline active:text-emerald-700"
-            >
-              hello@bitebuddy.co.uk
-            </a>
+            <div className="space-y-2 text-sm sm:text-base">
+              <div>
+                <p className="text-gray-500 text-xs mb-1">General Inquiries:</p>
+                <a
+                  href="mailto:hello@bitebuddy.co.uk"
+                  className="text-gray-600 hover:text-emerald-600 hover:underline active:text-emerald-700"
+                >
+                  hello@bitebuddy.co.uk
+                </a>
+              </div>
+              <div>
+                <p className="text-gray-500 text-xs mb-1">Support:</p>
+                <a
+                  href="mailto:support@bitebuddy.co.uk"
+                  className="text-gray-600 hover:text-emerald-600 hover:underline active:text-emerald-700"
+                >
+                  support@bitebuddy.co.uk
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 

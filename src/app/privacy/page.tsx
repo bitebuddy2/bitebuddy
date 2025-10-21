@@ -289,9 +289,31 @@ export default function PrivacyPage() {
           <p className="text-gray-700 leading-relaxed mb-4">
             If you have any questions about this Privacy Policy or wish to exercise your rights, please contact us:
           </p>
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <p className="text-gray-700"><strong>Email:</strong> privacy@bitebuddy.uk</p>
-            <p className="text-gray-700 mt-2"><strong>Website:</strong> <a href="https://bitebuddy.uk" className="text-emerald-600 hover:underline">https://bitebuddy.uk</a></p>
+          <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+            <p className="text-gray-700">
+              <strong>General Inquiries:</strong>{" "}
+              <a href="mailto:hello@bitebuddy.co.uk" className="text-emerald-600 hover:underline">
+                hello@bitebuddy.co.uk
+              </a>
+            </p>
+            <p className="text-gray-700">
+              <strong>Support:</strong>{" "}
+              <a href="mailto:support@bitebuddy.co.uk" className="text-emerald-600 hover:underline">
+                support@bitebuddy.co.uk
+              </a>
+            </p>
+            <p className="text-gray-700">
+              <strong>Billing:</strong>{" "}
+              <a href="mailto:billing@bitebuddy.co.uk" className="text-emerald-600 hover:underline">
+                billing@bitebuddy.co.uk
+              </a>
+            </p>
+            <p className="text-gray-700 mt-3">
+              <strong>Website:</strong>{" "}
+              <a href="https://bitebuddy.co.uk" className="text-emerald-600 hover:underline">
+                https://bitebuddy.co.uk
+              </a>
+            </p>
           </div>
           <p className="text-gray-700 leading-relaxed mt-4">
             We aim to respond to all requests within 30 days.
